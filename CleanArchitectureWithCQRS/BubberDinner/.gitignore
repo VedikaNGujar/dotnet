@@ -1,0 +1,16 @@
+
+/.vs/
+/BubberDinner.Application/bin/
+/BubberDinner.Application/obj/
+
+/BubberDinner.Contracts/bin/
+/BubberDinner.Contracts/obj/
+
+/BubberDinner.Domain/bin/
+/BubberDinner.Domain/obj/
+
+/BubberDinner.Infrastructure/bin/
+/BubberDinner.Infrastructure/obj/
+
+/BubberDinner.Api/bin/
+/BubberDinner.Api/obj/
