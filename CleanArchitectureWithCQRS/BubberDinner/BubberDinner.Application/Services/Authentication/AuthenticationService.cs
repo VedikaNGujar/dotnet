@@ -1,4 +1,5 @@
-﻿using BubberDinner.Application.Common.Interfaces.Authentication;
+﻿using BubberDinner.Application.Common.Errors;
+using BubberDinner.Application.Common.Interfaces.Authentication;
 using BubberDinner.Application.Common.Interfaces.Persistence;
 using BubberDinner.Domain.Entities;
 using System;
@@ -44,7 +45,7 @@ namespace BubberDinner.Application.Services.Authentication
             //validate if user doesnot exists
             if (_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new Exception("User with email already exists.");
+                throw new DuplicateEmailException();
             }
             //create new user and persist to database
             var user = new User
