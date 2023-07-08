@@ -23,7 +23,13 @@ namespace BubberDinner.Api.Controllers
                                                           request.LastName,
                                                           request.Email,
                                                           request.Password);
-            var response = new AuthenticationResponse(authResult.Id, authResult.FirstName, authResult.LastName, authResult.Email, authResult.Token);
+            var response = new AuthenticationResponse(
+                authResult.User.Id,
+                authResult.User.FirstName,
+                authResult.User.LastName,
+                authResult.User.Email,
+                authResult.Token);
+
             return Ok(response);
         }
 
@@ -32,7 +38,13 @@ namespace BubberDinner.Api.Controllers
         {
             var authResult = _authenticationService.Login(request.Email,
                                                          request.Password);
-            var response = new AuthenticationResponse(authResult.Id, authResult.FirstName, authResult.LastName, authResult.Email, authResult.Token);
+            var response = new AuthenticationResponse(
+               authResult.User.Id,
+               authResult.User.FirstName,
+               authResult.User.LastName,
+               authResult.User.Email,
+               authResult.Token);
+
             return Ok(response);
         }
     }
