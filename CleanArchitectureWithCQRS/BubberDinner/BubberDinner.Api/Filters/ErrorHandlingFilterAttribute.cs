@@ -16,6 +16,7 @@ namespace BubberDinner.Api.Filters
                 Title = Constants.ErrorOccured,
                 Detail = exception.Message,
                 Status = (int)HttpStatusCode.InternalServerError,
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             };
 
 
