@@ -19,5 +19,5 @@ JwtSettings:Secret = super-secret-key-from-user-secrets
 Global Error Handling
 
 ------------------------------
-1. Create Error handling midddlewear and register that in program.cs
-2.
+1. Create Error handling midddlewear and register that in Program.cs
+2. Create Error Handling Filter and either add on top of all Controller or register that in Program.cs

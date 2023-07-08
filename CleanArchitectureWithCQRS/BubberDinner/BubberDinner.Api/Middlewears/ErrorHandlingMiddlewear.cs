@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using BubberDinner.Api.Helper;
+using System.Net;
 using System.Text.Json;
 
 namespace BubberDinner.Api.Middlewear
@@ -28,7 +29,7 @@ namespace BubberDinner.Api.Middlewear
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
-            var result = JsonSerializer.Serialize(new { error = "An error occured while processing your request." });
+            var result = JsonSerializer.Serialize(new { error = Constants.ErrorOccured });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);
