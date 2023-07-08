@@ -11,10 +11,15 @@ namespace BubberDinner.Api.Filters
         {
             var exception = context.Exception;
 
-            context.Result = new ObjectResult(new { error = Constants.ErrorOccured })
+            var problemDetails = new ProblemDetails()
             {
-                StatusCode = (int)HttpStatusCode.InternalServerError
+                Title = Constants.ErrorOccured,
+                Detail = exception.Message,
+                Status = (int)HttpStatusCode.InternalServerError,
             };
+
+
+            context.Result = new ObjectResult(problemDetails);
             context.ExceptionHandled = true;
         }
     }
