@@ -13,3 +13,11 @@ PM> dotnet user-secrets set --project '.\BubberDinner.Api' "JwtSettings:Secret" 
 Successfully saved JwtSettings:Secret = super-secret-key-from-user-secrets to the secret store.
 PM> dotnet user-secrets list --project '.\BubberDinner.Api';
 JwtSettings:Secret = super-secret-key-from-user-secrets
+
+
+
+Global Error Handling
+
+------------------------------
+1. Create Error handling midddlewear and register that in program.cs
+2.
