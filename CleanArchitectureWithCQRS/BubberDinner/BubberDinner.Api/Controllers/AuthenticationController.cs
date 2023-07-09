@@ -1,5 +1,8 @@
-﻿using BubberDinner.Application.Services.Authentication;
+﻿using BubberDinner.Application.Common;
+using BubberDinner.Application.Common.Errors;
+using BubberDinner.Application.Services.Authentication;
 using BubberDinner.Contracts.Authentication;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,18 +22,34 @@ namespace BubberDinner.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            var authResult = _authenticationService.Register(request.FirstName,
+            Result<AuthenticationResult> registerResult = _authenticationService.Register(request.FirstName,
                                                           request.LastName,
                                                           request.Email,
                                                           request.Password);
-            var response = new AuthenticationResponse(
-                authResult.User.Id,
-                authResult.User.FirstName,
-                authResult.User.LastName,
-                authResult.User.Email,
-                authResult.Token);
+            if (registerResult.IsSuccess)
+            {
+                return Ok(MapAuthResult(registerResult.Value));
+            }
+            else
+            {
+                var firstError = registerResult.Errors.First();
+                if (firstError is DuplicateEmailError)
+                {
+                    return Problem(statusCode: StatusCodes.Status409Conflict, title: Constants.DuplicateEmailExists);
+                }
+            }
+            return Problem();
 
-            return Ok(response);
+        }
+
+        private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+        {
+            return new AuthenticationResponse(
+                                authResult.User.Id,
+                                authResult.User.FirstName,
+                                authResult.User.LastName,
+                                authResult.User.Email,
+                                authResult.Token);
         }
 
         [HttpPost("login")]
