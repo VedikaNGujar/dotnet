@@ -1,7 +1,10 @@
-﻿using BubberDinner.Application.Services.Authentication;
+﻿using BubberDinner.Application.Common;
+using BubberDinner.Application.Common.Errors;
+using BubberDinner.Application.Services.Authentication;
 using BubberDinner.Contracts.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 namespace BubberDinner.Api.Controllers
 {
@@ -19,18 +22,24 @@ namespace BubberDinner.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            var authResult = _authenticationService.Register(request.FirstName,
+            OneOf<AuthenticationResult, DuplicateEmailError> registerResult = _authenticationService.Register(request.FirstName,
                                                           request.LastName,
                                                           request.Email,
                                                           request.Password);
-            var response = new AuthenticationResponse(
+
+            return registerResult.Match(
+                authResult => Ok(MapAuthResult(authResult)),
+                _ => Problem(statusCode: StatusCodes.Status409Conflict, title: Constants.DuplicateEmailExists));
+        }
+
+        private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+        {
+            return new AuthenticationResponse(
                 authResult.User.Id,
                 authResult.User.FirstName,
                 authResult.User.LastName,
                 authResult.User.Email,
                 authResult.Token);
-
-            return Ok(response);
         }
 
         [HttpPost("login")]

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BubberDinner.Application.Common.Errors;
+using OneOf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,6 @@ namespace BubberDinner.Application.Services.Authentication
     public interface IAuthenticationService
     {
         AuthenticationResult Login(string email, string password);
-        AuthenticationResult Register(string firstName, string lastName, string email, string password);
+        OneOf<AuthenticationResult, DuplicateEmailError> Register(string firstName, string lastName, string email, string password);
     }
 }
