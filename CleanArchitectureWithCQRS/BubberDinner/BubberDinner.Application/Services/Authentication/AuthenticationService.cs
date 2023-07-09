@@ -1,7 +1,9 @@
 ﻿using BubberDinner.Application.Common.Errors;
 using BubberDinner.Application.Common.Interfaces.Authentication;
 using BubberDinner.Application.Common.Interfaces.Persistence;
+using BubberDinner.Domain.Common.Errors;
 using BubberDinner.Domain.Entities;
+using ErrorOr;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +23,18 @@ namespace BubberDinner.Application.Services.Authentication
             _userRepository = userRepository;
         }
 
-        public AuthenticationResult Login(string email, string password)
+        public ErrorOr<AuthenticationResult> Login(string email, string password)
         {
             // validate if user exists
             if (_userRepository.GetUserByEmail(email) is not User user)
             {
-                throw new Exception("Invalid credentials.");
+                return Errors.Authentication.InvalidCredentials;
             }
 
             // validate password
             if (user.Password != password)
             {
-                throw new Exception("Invalid credentials.");
+                return Errors.Authentication.InvalidCredentials;
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);
@@ -40,12 +42,12 @@ namespace BubberDinner.Application.Services.Authentication
             return new AuthenticationResult(user, token);
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             //validate if user doesnot exists
             if (_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new DuplicateEmailException();
+                return Errors.User.DuplicateEmail;
             }
             //create new user and persist to database
             var user = new User
