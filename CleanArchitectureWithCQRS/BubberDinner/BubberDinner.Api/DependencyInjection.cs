@@ -8,6 +8,7 @@ namespace BubberDinner.Api
         {
             services.AddControllers();
             services.AddMappings();
+          
             return services;
         }
     }

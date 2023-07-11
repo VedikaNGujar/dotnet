@@ -26,11 +26,6 @@ namespace BubberDinner.Api.Controllers
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
 
-            //var command = new RegisterCommand(request.FirstName,
-            //                                  request.LastName,
-            //                                  request.Email,
-            //                                  request.Password);
-
             var command = _mapper.Map<RegisterCommand>(request);
 
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
