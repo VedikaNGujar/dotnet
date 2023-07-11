@@ -1,6 +1,4 @@
-using BubberDinner.Api.Filters;
-using BubberDinner.Api.Middlewear;
-using BubberDinner.Application.Services;
+using BubberDinner.Application;
 using BubberDinner.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);

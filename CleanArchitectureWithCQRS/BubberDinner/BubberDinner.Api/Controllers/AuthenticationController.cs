@@ -1,8 +1,9 @@
-﻿using BubberDinner.Application.Services.Authentication.Commands;
-using BubberDinner.Application.Services.Authentication.Common;
-using BubberDinner.Application.Services.Authentication.Queries;
+﻿using BubberDinner.Application.Authentication.Commands.Register;
+using BubberDinner.Application.Authentication.Common;
+using BubberDinner.Application.Authentication.Queries;
 using BubberDinner.Contracts.Authentication;
 using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BubberDinner.Api.Controllers
@@ -11,24 +12,23 @@ namespace BubberDinner.Api.Controllers
     [ApiController]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationCommandService _authenticationCommandService;
-        private readonly IAuthenticationQueryService _authenticationQueryService;
+        private readonly IMediator _mediator;
 
-        public AuthenticationController(
-            IAuthenticationCommandService authenticationService,
-            IAuthenticationQueryService authenticationQueryService)
+        public AuthenticationController(IMediator mediator)
         {
-            _authenticationCommandService = authenticationService;
-            _authenticationQueryService = authenticationQueryService;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationCommandService.Register(request.FirstName,
-                                                          request.LastName,
-                                                          request.Email,
-                                                          request.Password);
+
+            var command = new RegisterCommand(request.FirstName,
+                                              request.LastName,
+                                              request.Email,
+                                              request.Password);
+
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
                authResult => Ok(MapAuthResult(authResult)),
@@ -47,10 +47,11 @@ namespace BubberDinner.Api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationQueryService.Login(request.Email,
-                                                         request.Password);
+            var query = new LoginQuery(request.Email, request.Password);
+
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
             return authResult.Match(
                 authResult => Ok(MapAuthResult(authResult)),

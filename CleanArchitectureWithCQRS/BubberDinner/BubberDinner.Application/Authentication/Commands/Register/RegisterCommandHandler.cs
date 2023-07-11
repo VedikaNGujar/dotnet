@@ -1,37 +1,45 @@
 ﻿using BubberDinner.Application.Common.Interfaces.Authentication;
 using BubberDinner.Application.Common.Interfaces.Persistence;
-using BubberDinner.Application.Services.Authentication.Common;
+using ErrorOr;
+using MediatR;
 using BubberDinner.Domain.Common.Errors;
 using BubberDinner.Domain.Entities;
-using ErrorOr;
+using BubberDinner.Application.Authentication.Common;
 
-namespace BubberDinner.Application.Services.Authentication.Commands
+namespace BubberDinner.Application.Authentication.Commands.Register
 {
-    public class AuthenticationCommandService : IAuthenticationCommandService
+    public class RegisterCommandHandler
+        : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+    //this is taking RegisterCommand as input
+    //and ErrorOr<AuthenticationResult> as output
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
 
-        public AuthenticationCommandService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+
+        public RegisterCommandHandler(
+            IJwtTokenGenerator jwtTokenGenerator,
+            IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
         }
 
-        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
+
+        public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             //validate if user doesnot exists
-            if (_userRepository.GetUserByEmail(email) is not null)
+            if (_userRepository.GetUserByEmail(request.Email) is not null)
             {
                 return Errors.User.DuplicateEmail;
             }
             //create new user and persist to database
             var user = new User
             {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                Password = password
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Password = request.Password
             };
             _userRepository.Add(user);
 
@@ -39,7 +47,6 @@ namespace BubberDinner.Application.Services.Authentication.Commands
             var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(user, token);
-
         }
     }
 }
