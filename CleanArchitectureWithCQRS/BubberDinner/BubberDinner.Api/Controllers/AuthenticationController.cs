@@ -1,7 +1,8 @@
-﻿using BubberDinner.Application.Services.Authentication;
+﻿using BubberDinner.Application.Services.Authentication.Commands;
+using BubberDinner.Application.Services.Authentication.Common;
+using BubberDinner.Application.Services.Authentication.Queries;
 using BubberDinner.Contracts.Authentication;
 using ErrorOr;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BubberDinner.Api.Controllers
@@ -10,17 +11,21 @@ namespace BubberDinner.Api.Controllers
     [ApiController]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationCommandService _authenticationCommandService;
+        private readonly IAuthenticationQueryService _authenticationQueryService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(
+            IAuthenticationCommandService authenticationService,
+            IAuthenticationQueryService authenticationQueryService)
         {
-            _authenticationService = authenticationService;
+            _authenticationCommandService = authenticationService;
+            _authenticationQueryService = authenticationQueryService;
         }
 
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationService.Register(request.FirstName,
+            ErrorOr<AuthenticationResult> authResult = _authenticationCommandService.Register(request.FirstName,
                                                           request.LastName,
                                                           request.Email,
                                                           request.Password);
@@ -44,7 +49,7 @@ namespace BubberDinner.Api.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
-            ErrorOr<AuthenticationResult> authResult = _authenticationService.Login(request.Email,
+            ErrorOr<AuthenticationResult> authResult = _authenticationQueryService.Login(request.Email,
                                                          request.Password);
 
             return authResult.Match(

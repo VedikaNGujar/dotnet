@@ -1,10 +1,6 @@
-﻿using BubberDinner.Application.Services.Authentication;
+﻿using BubberDinner.Application.Services.Authentication.Commands;
+using BubberDinner.Application.Services.Authentication.Queries;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BubberDinner.Application.Services
 {
@@ -12,7 +8,8 @@ namespace BubberDinner.Application.Services
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
+            services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
             return services;
         }
     }
