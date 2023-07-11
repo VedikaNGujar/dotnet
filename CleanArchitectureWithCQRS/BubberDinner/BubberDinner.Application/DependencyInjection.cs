@@ -1,7 +1,4 @@
-﻿using BubberDinner.Application.Authentication.Commands.Register;
-using BubberDinner.Application.Authentication.Common;
-using BubberDinner.Application.Common.Behaviors;
-using ErrorOr;
+﻿using BubberDinner.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
