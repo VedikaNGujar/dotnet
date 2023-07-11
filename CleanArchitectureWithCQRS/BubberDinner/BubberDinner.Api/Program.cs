@@ -1,3 +1,4 @@
+using BubberDinner.Api;
 using BubberDinner.Application;
 using BubberDinner.Infrastructure;
 
@@ -5,10 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
+    .AddPresentation()
     .AddApplication()
     .AddInfrastructure(builder.Configuration);//added by us
 
-builder.Services.AddControllers();
 
 // 2nd approach of ErrorHandling
 //builder.Services.AddControllers(

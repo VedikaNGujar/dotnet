@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BubberDinner.Application.Authentication.Commands.Register;
+using BubberDinner.Application.Authentication.Common;
+using BubberDinner.Application.Common.Behaviors;
+using ErrorOr;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace BubberDinner.Application
@@ -7,7 +13,16 @@ namespace BubberDinner.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidateBehavior<,>));
+            });
+
+
+            //services.AddScoped<IValidator<RegisterCommand>, RegisterCommandValidator>();
+            //after adding FluentValidation.AspNetCore library
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             return services;
         }
     }

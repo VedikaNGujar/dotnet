@@ -3,6 +3,7 @@ using BubberDinner.Application.Authentication.Common;
 using BubberDinner.Application.Authentication.Queries;
 using BubberDinner.Contracts.Authentication;
 using ErrorOr;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,48 +14,38 @@ namespace BubberDinner.Api.Controllers
     public class AuthenticationController : ApiController
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthenticationController(IMediator mediator)
+        public AuthenticationController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
 
-            var command = new RegisterCommand(request.FirstName,
-                                              request.LastName,
-                                              request.Email,
-                                              request.Password);
+            var command = _mapper.Map<RegisterCommand>(request);
 
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
-               authResult => Ok(MapAuthResult(authResult)),
+               authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                errors => Problem(errors));
 
-        }
-
-        private AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-        {
-            return new AuthenticationResponse(
-                 authResult.User.Id,
-                 authResult.User.FirstName,
-                 authResult.User.LastName,
-                 authResult.User.Email,
-                 authResult.Token);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
-            var query = new LoginQuery(request.Email, request.Password);
+            //var query = new LoginQuery(request.Email, request.Password);
+            var query = _mapper.Map<LoginQuery>(request);
 
             ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
             return authResult.Match(
-                authResult => Ok(MapAuthResult(authResult)),
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors));
         }
     }

@@ -1,7 +1,8 @@
 .Net 6.0
 
 CQRS Implementation with DDD approach with Mediatr
-
+added mapster library, similar to AutoMapper
+This also has FluentValidation 
 
 
 User-secrets in package console
