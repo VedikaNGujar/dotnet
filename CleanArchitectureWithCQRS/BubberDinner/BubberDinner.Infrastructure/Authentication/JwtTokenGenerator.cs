@@ -20,10 +20,10 @@ namespace BubberDinner.Infrastructure.Authentication
 
         public JwtTokenGenerator(
             IDateTimeProvider dateTimeProvider,
-            IOptions<JwtSettings> jwtOptions)
+            JwtSettings jwtSettings)
         {
             _dateTimeProvider = dateTimeProvider;
-            _jwtSettings = jwtOptions.Value;
+            _jwtSettings = jwtSettings;
         }
 
         public string GenerateToken(User user)

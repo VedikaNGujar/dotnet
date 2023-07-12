@@ -3,6 +3,7 @@
 CQRS Implementation with DDD approach with Mediatr
 added mapster library, similar to AutoMapper
 This also has FluentValidation 
+This is with Authorise attribute
 
 
 User-secrets in package console
