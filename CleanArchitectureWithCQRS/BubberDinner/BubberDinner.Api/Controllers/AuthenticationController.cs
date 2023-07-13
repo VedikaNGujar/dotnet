@@ -5,6 +5,7 @@ using BubberDinner.Contracts.Authentication;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BubberDinner.Api.Controllers
@@ -23,6 +24,7 @@ namespace BubberDinner.Api.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
 
@@ -37,6 +39,7 @@ namespace BubberDinner.Api.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
             //var query = new LoginQuery(request.Email, request.Password);
