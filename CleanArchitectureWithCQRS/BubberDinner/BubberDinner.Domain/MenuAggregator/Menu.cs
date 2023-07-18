@@ -2,6 +2,7 @@
 using BubberDinner.Domain.DinnerAggregator.ValueObjects;
 using BubberDinner.Domain.HostAggregator.ValueObjects;
 using BubberDinner.Domain.MenuAggregator.Entities;
+using BubberDinner.Domain.MenuAggregator.Events;
 using BubberDinner.Domain.MenuAggregator.ValueObjects;
 using BubberDinner.Domain.MenuReviewAggregator.ValueObjects;
 using BubberDinner.Domain.Models;
@@ -57,6 +58,8 @@ namespace BubberDinner.Domain.MenuAggregator
                 description,
                 AverageRating.CreateNew(0),
                 sections ?? new());
+
+            menu.AddDomainEvent(new MenuCreated(menu));
 
             return menu;
         }

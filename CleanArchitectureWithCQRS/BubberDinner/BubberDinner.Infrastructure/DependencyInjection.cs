@@ -3,6 +3,7 @@ using BubberDinner.Application.Common.Interfaces.Persistence;
 using BubberDinner.Application.Common.Services;
 using BubberDinner.Infrastructure.Authentication;
 using BubberDinner.Infrastructure.Persistence;
+using BubberDinner.Infrastructure.Persistence.Interceptors;
 using BubberDinner.Infrastructure.Persistence.Repositories;
 using BubberDinner.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,7 @@ namespace BubberDinner.Infrastructure
                 options =>
                     options.UseSqlServer("Server=localhost;Database=BuberDinner;User Id=sa1;Password=VedGuj@1234;TrustServerCertificate=True"));
 
+            services.AddScoped<PublishDomainEventsInterceptors>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             return services;
