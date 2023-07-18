@@ -2,10 +2,14 @@
 
 namespace BubberDinner.Domain.HostAggregator.ValueObjects
 {
-    public sealed class HostId : ValueObject
+    public sealed class HostId : AggregateRootId<Guid>
     {
-        public Guid Value { get; }
+        public override Guid Value
+        {
+            get; protected set;
+        }
 
+        private HostId() { }
         private HostId(Guid value)
         {
             Value = value;

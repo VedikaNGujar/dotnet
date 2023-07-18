@@ -3,8 +3,10 @@ using BubberDinner.Application.Common.Interfaces.Persistence;
 using BubberDinner.Application.Common.Services;
 using BubberDinner.Infrastructure.Authentication;
 using BubberDinner.Infrastructure.Persistence;
+using BubberDinner.Infrastructure.Persistence.Repositories;
 using BubberDinner.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -20,13 +22,15 @@ namespace BubberDinner.Infrastructure
         {
             services.AddAuth(configuration)
                 .AddPersistence();
-            
+
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             return services;
         }
 
         private static IServiceCollection AddPersistence(this IServiceCollection services)
         {
+            services.AddDbContext<BubberDinnerDbContext>(options =>
+            options.UseSqlServer("Server=localhost;Database=BuberDinner;User Id=sa1;Password=VedGuj@1234;TrustServerCertificate=True"));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             return services;

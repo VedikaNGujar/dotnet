@@ -3,7 +3,7 @@ using BubberDinner.Domain.Users.ValueObjects;
 
 namespace BubberDinner.Domain.UsersAggregator
 {
-    public sealed class User : AggregateRoot<UserId>
+    public sealed class User : AggregateRoot<UserId, Guid>
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -22,6 +22,8 @@ namespace BubberDinner.Domain.UsersAggregator
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
         }
+
+        private User() { }
 
         public static User Create(
         string firstName,

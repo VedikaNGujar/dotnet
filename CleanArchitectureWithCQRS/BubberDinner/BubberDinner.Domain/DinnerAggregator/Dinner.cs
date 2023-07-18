@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace BubberDinner.Domain.DinnerAggregator
 {
-    public sealed class Dinner : AggregateRoot<DinnerId>
+    public sealed class Dinner : AggregateRoot<DinnerId, Guid>
     {
         private readonly List<Reservation> _reservations = new();
 
@@ -26,11 +26,17 @@ namespace BubberDinner.Domain.DinnerAggregator
         public MenuId MenuId { get; }
         public string ImageUrl { get; }
         public Location Location { get; }
+        public DateTime CreatedDateTime { get; private set; }
+        public DateTime UpdatedDateTime { get; private set; }
+
+
 
         public IReadOnlyList<Reservation> Reservations => _reservations.AsReadOnly();
 
-        public DateTime CreatedDateTime { get; }
-        public DateTime UpdatedDateTime { get; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        private Dinner() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private Dinner(
             DinnerId id,

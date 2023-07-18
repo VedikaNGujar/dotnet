@@ -6,6 +6,8 @@ namespace BubberDinner.Domain.MenuAggregator.ValueObjects
     {
         public Guid Value { get; }
 
+        private MenuSectionId() { }
+
         private MenuSectionId(Guid value)
         {
             Value = value;
@@ -19,6 +21,11 @@ namespace BubberDinner.Domain.MenuAggregator.ValueObjects
         public override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
+        }
+
+        public static MenuSectionId Create(Guid value)
+        {
+            return new MenuSectionId(value);
         }
     }
 }

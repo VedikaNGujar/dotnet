@@ -6,7 +6,7 @@ using BubberDinner.Domain.Models;
 
 namespace BubberDinner.Domain.BillAggregator
 {
-    public sealed class Bill : AggregateRoot<BillId>
+    public sealed class Bill : AggregateRoot<BillId, Guid>
     {
         public DinnerId DinnerId { get; }
         public GuestId GuestId { get; }
@@ -44,5 +44,12 @@ namespace BubberDinner.Domain.BillAggregator
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
+
+#pragma warning disable CS8618
+        private Bill() { }
+#pragma warning restore CS8618
+
     }
+
+
 }

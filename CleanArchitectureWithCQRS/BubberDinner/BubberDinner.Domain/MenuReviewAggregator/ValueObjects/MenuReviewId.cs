@@ -1,10 +1,13 @@
 ﻿using BubberDinner.Domain.Models;
 
+
 namespace BubberDinner.Domain.MenuReviewAggregator.ValueObjects
 {
-    public sealed class MenuReviewId : ValueObject
+    public sealed class MenuReviewId : AggregateRootId<Guid>
     {
-        public Guid Value { get; }
+        public override Guid Value { get; protected set; }
+
+        public MenuReviewId() { }
 
         private MenuReviewId(Guid value)
         {

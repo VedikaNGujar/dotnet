@@ -24,8 +24,8 @@ namespace BubberDinner.Api.Controllers
         public async Task<IActionResult> CreateMenuAsync(CreateMenuRequest request, string hostId)
         {
             Guid guid = Guid.NewGuid();
-            hostId = guid.ToString();
-            var createMenuCommand = _mapper.Map<CreateMenuCommand>((request, hostId));
+            //hostId = guid;
+            var createMenuCommand = _mapper.Map<CreateMenuCommand>((request, guid));
             ErrorOr<Menu> createMenuResult = await _mediator.Send(createMenuCommand);
 
             return createMenuResult.Match(

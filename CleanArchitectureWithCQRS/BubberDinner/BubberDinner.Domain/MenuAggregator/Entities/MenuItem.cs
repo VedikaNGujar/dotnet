@@ -8,6 +8,8 @@ namespace BubberDinner.Domain.MenuAggregator.Entities
         public string Name { get; }
         public string Description { get; }
 
+        private MenuItem() { }
+
         private MenuItem(MenuItemId id, string name, string description) : base(id)
         {
             Name = name;

@@ -6,7 +6,7 @@
         string Description,
         float? AverageRating,
         string HostId,
-        List<MenuSectionResponse> MenuSections,
+        List<MenuSectionResponse> Sections,
         List<string> DinnerIds,
         List<string> MenuReviewIds,
         DateTime CreatedDatetTime,

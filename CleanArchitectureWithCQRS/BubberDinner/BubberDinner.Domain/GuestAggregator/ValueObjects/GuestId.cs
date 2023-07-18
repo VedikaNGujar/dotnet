@@ -1,11 +1,12 @@
-﻿using BubberDinner.Domain.DinnerAggregator.ValueObjects;
-using BubberDinner.Domain.Models;
+﻿using BubberDinner.Domain.Models;
 
 namespace BubberDinner.Domain.GuestAggregator.ValueObjects
 {
-    public sealed class GuestId : ValueObject
+    public sealed class GuestId : AggregateRootId<Guid>
     {
-        public Guid Value { get; }
+        public override Guid Value { get; protected set; }
+
+        public GuestId() { }
 
         private GuestId(Guid value)
         {
