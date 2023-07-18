@@ -15,6 +15,8 @@ namespace BubberDinner.Domain.DinnerAggregator.Entities
         public DateTime CreatedDateTime { get; }
         public DateTime UpdatedDateTime { get; }
 
+        private Reservation() { }
+
         private Reservation(
         ReservationId reservationId,
         int guestCount,

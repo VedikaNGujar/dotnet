@@ -4,6 +4,7 @@ using BubberDinner.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BubberDinner.Infrastructure.Migrations
 {
     [DbContext(typeof(BubberDinnerDbContext))]
-    partial class BubberDinnerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718085902_BillMigration")]
+    partial class BillMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,75 +41,6 @@ namespace BubberDinner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bills", (string)null);
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.DinnerAggregator.Dinner", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("EndDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EndedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("HostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MaxGuests")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("StartedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Dinners", (string)null);
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.GuestAggregator.Guest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Guests", (string)null);
                 });
 
             modelBuilder.Entity("BubberDinner.Domain.HostAggregator.Host", b =>
@@ -172,74 +105,6 @@ namespace BubberDinner.Infrastructure.Migrations
                     b.ToTable("Menus", (string)null);
                 });
 
-            modelBuilder.Entity("BubberDinner.Domain.MenuReviewAggregator.MenuReview", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DinnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GuestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MenuReviews", (string)null);
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.UsersAggregator.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-                });
-
             modelBuilder.Entity("BubberDinner.Domain.BillAggregator.Bill", b =>
                 {
                     b.OwnsOne("BubberDinner.Domain.BillAggregator.ValueObjects.Price", "Price", b1 =>
@@ -264,96 +129,6 @@ namespace BubberDinner.Infrastructure.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.DinnerAggregator.Dinner", b =>
-                {
-                    b.OwnsOne("BubberDinner.Domain.BillAggregator.ValueObjects.Price", "Price", b1 =>
-                        {
-                            b1.Property<Guid>("DinnerId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("DinnerId");
-
-                            b1.ToTable("Dinners");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DinnerId");
-                        });
-
-                    b.OwnsMany("BubberDinner.Domain.DinnerAggregator.Entities.Reservation", "Reservations", b1 =>
-                        {
-                            b1.Property<Guid>("DinnerId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<DateTime?>("ArrivalDateTime")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<Guid>("BillId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<int>("GuestCount")
-                                .HasColumnType("int");
-
-                            b1.Property<Guid>("GuestId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("ReservationStatus")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("DinnerId", "Id");
-
-                            b1.ToTable("Reservations", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("DinnerId");
-                        });
-
-                    b.OwnsOne("BubberDinner.Domain.DinnerAggregator.ValueObjects.Location", "Location", b1 =>
-                        {
-                            b1.Property<Guid>("DinnerId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<double>("Latitude")
-                                .HasColumnType("float");
-
-                            b1.Property<double>("Longitude")
-                                .HasColumnType("float");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("DinnerId");
-
-                            b1.ToTable("Dinners");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DinnerId");
-                        });
-
-                    b.Navigation("Location")
-                        .IsRequired();
-
-                    b.Navigation("Price")
-                        .IsRequired();
-
-                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("BubberDinner.Domain.HostAggregator.Host", b =>
@@ -577,25 +352,6 @@ namespace BubberDinner.Infrastructure.Migrations
                     b.Navigation("MenuReviewIds");
 
                     b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.MenuReviewAggregator.MenuReview", b =>
-                {
-                    b.OwnsOne("BubberDinner.Domain.Common.ValueObjects.Rating", "Rating", b1 =>
-                        {
-                            b1.Property<Guid>("MenuReviewId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.HasKey("MenuReviewId");
-
-                            b1.ToTable("MenuReviews");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MenuReviewId");
-                        });
-
-                    b.Navigation("Rating")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

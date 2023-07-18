@@ -22,5 +22,11 @@ namespace BubberDinner.Domain.Users.ValueObjects
         {
             yield return Value;
         }
+
+        public static UserId Create(Guid value)
+        {
+            return new UserId(value);
+
+        }
     }
 }

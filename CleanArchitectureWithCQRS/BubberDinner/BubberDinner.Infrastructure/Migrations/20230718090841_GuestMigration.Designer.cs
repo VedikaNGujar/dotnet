@@ -4,6 +4,7 @@ using BubberDinner.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BubberDinner.Infrastructure.Migrations
 {
     [DbContext(typeof(BubberDinnerDbContext))]
-    partial class BubberDinnerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718090841_GuestMigration")]
+    partial class GuestMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,74 +172,6 @@ namespace BubberDinner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Menus", (string)null);
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.MenuReviewAggregator.MenuReview", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DinnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GuestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MenuReviews", (string)null);
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.UsersAggregator.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BubberDinner.Domain.BillAggregator.Bill", b =>
@@ -577,25 +511,6 @@ namespace BubberDinner.Infrastructure.Migrations
                     b.Navigation("MenuReviewIds");
 
                     b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("BubberDinner.Domain.MenuReviewAggregator.MenuReview", b =>
-                {
-                    b.OwnsOne("BubberDinner.Domain.Common.ValueObjects.Rating", "Rating", b1 =>
-                        {
-                            b1.Property<Guid>("MenuReviewId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.HasKey("MenuReviewId");
-
-                            b1.ToTable("MenuReviews");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MenuReviewId");
-                        });
-
-                    b.Navigation("Rating")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

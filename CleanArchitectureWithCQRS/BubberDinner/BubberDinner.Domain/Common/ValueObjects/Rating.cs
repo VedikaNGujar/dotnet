@@ -5,7 +5,7 @@ namespace BubberDinner.Domain.Common.ValueObjects
     public sealed class Rating : ValueObject
     {
         public double Value { get; }
-
+        private Rating() { }
         private Rating(double value)
         {
             Value = value;

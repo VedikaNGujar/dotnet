@@ -22,5 +22,11 @@ namespace BubberDinner.Domain.DinnerAggregator.ValueObjects
         {
             yield return Value;
         }
+
+        public static ReservationId Create(Guid value)
+        {
+            return new(value);
+
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace BubberDinner.Domain.BillAggregator.ValueObjects
         {
             yield return Value;
         }
+
+        public static BillId Create(Guid value)
+        {
+            return new BillId(value);
+        }
     }
 }

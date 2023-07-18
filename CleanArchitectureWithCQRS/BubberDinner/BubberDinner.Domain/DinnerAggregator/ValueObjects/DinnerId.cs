@@ -1,4 +1,5 @@
-﻿using BubberDinner.Domain.Models;
+﻿using BubberDinner.Domain.BillAggregator.ValueObjects;
+using BubberDinner.Domain.Models;
 
 namespace BubberDinner.Domain.DinnerAggregator.ValueObjects
 {
@@ -25,5 +26,9 @@ namespace BubberDinner.Domain.DinnerAggregator.ValueObjects
             yield return Value;
         }
 
+        public static DinnerId Create(Guid value)
+        {
+            return new DinnerId(value);
+        }
     }
 }
