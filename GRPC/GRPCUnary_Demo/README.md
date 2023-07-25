@@ -1,4 +1,9 @@
-A very basic JWT authentication method.
-.Net 6.0
+GRPC
+-----------------
+youtube link
 
-Added Authorise button code for Swagger.
+https://www.youtube.com/watch?v=x-ktwMTN0Yw&list=PLzewa6pjbr3IOa6POjAMM0xiPZ-shjoem
+
+-----------------
+1. Unary Type
+
