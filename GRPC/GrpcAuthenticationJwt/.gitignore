@@ -1,0 +1,7 @@
+
+/.vs/
+/GrpcClient/bin/
+/GrpcClient/obj/
+
+/GrpcService/bin/
+/GrpcService/obj/
