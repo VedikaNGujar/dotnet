@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService";
+
+package StreamDemo;
+
+// The greeting service definition.
+service StreamDemo {
+  // Sends a greeting
+  rpc BiDirectionalStreaming (stream Test) returns (stream Test);
+}
+
+message Test {
+  string TestMessage = 1;
+}
+
