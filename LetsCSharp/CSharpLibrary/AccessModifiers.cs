@@ -11,7 +11,9 @@ namespace CSharpLibrary
         private DateOnly BirthDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         protected double Salary { get; set; } = 120000;
         internal string Address { get; set; } = "Raviwar peth";
+
     }
+
     //public class InternalEmployeeWithAdditionalDetails : InternalEmployee //will throw error 
     //{ 
     //}

@@ -1,7 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using CSharp;
+using LetsCSharp.Abstract;
 using LetsCSharp.AccessModifiers;
+using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
+using LetsCSharp.Generics;
+using LetsCSharp.Interface;
 using LetsCSharp.IsAndAsExample;
 using LetsCSharp.List;
 using LetsCSharp.PropertiesExample;
@@ -21,7 +26,7 @@ internal class Program
         //TyepCasting_Conversion_ParsingExample.TypeConversion();
         //TypeCasting_Conversion_ParsingExample.TypeCasting();
         //TypeCasting_Conversion_Parsing.ParseAndTryParse();
-        AccessModifier.AccessModifierExample();
+        //AccessModifier.AccessModifierExample();
 
 
 
@@ -91,6 +96,68 @@ internal class Program
         //    ((CSharp.Polymorphism.MethodHiding.FullTimeEmployee)employee2).PrintName());
 
 
-        //Helper.WriteLine("Hello World!");
+
+
+        //Interfaces();
+        //Abstracts();
+        //Delegates();
+        Generics();
+    }
+
+    private static void Generics()
+    {
+        Console.WriteLine(Generic.AreEqual(10, 20));
+        Console.WriteLine(Generic.AreEqual(20, 20));
+
+        GenericExample ge = new();
+        ge.Test();
+    }
+
+    private static void Delegates()
+    {
+        DelegateEx d = new DelegateEx();
+        //d.TestDelegate();
+        d.TestDelegateMulticast();
+
+        Covariance c = new Covariance();
+        c.Test();
+
+        Contravariance c1 = new Contravariance();
+        c1.Test();
+    }
+
+    private static void Abstracts()
+    {
+        //Abstract o = new Abstract();//error we cannot create instance of abstract
+    }
+
+    private static void Interfaces()
+    {
+        ClassInterface1 classInterface1 = new ClassInterface1();
+        classInterface1.GetName();
+
+        I1 i1 = new ClassInterface1();
+        i1.GetName();
+        I2 i2 = new ClassInterface1();
+        i2.GetName();
+
+
+
+        i1 = new ClassInterfaceExplicit();
+        i1.GetName();
+        i2 = new ClassInterfaceExplicit();
+        i2.GetName();
+        var classInterfaceExplicit = new ClassInterfaceExplicit();
+        classInterfaceExplicit.GetName();
+
+
+        i1 = new ClassInterfaceExplicit1();
+        i1.GetName();
+        i2 = new ClassInterfaceExplicit1();
+        i2.GetName();
+        var classInterfaceExplicit1 = new ClassInterfaceExplicit1();
+        //classInterfaceExplicit1.GetName(); // this will give error
+
+
     }
 }
