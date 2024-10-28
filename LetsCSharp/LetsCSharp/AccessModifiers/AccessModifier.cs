@@ -19,7 +19,7 @@ namespace LetsCSharp.AccessModifiers
             Console.WriteLine($"Salary = {Salary}");//can access as protected
             //Console.WriteLine($"Address = {Address}");//can't access as internal as outside DLL
             Console.WriteLine($"Department = {Department}");//can access as protected internal
-            Console.WriteLine($"Age = {Age}");//can access as private protected 
+            //Console.WriteLine($"Age = {Age}");//can access as private protected 
 
         }
     }

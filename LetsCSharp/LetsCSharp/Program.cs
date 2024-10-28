@@ -3,6 +3,7 @@
 using LetsCSharp.AccessModifiers;
 using LetsCSharp.Enums;
 using LetsCSharp.IsAndAsExample;
+using LetsCSharp.List;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.TyepCasting_Conversion_Parsing;
@@ -21,5 +22,75 @@ internal class Program
         //TypeCasting_Conversion_ParsingExample.TypeCasting();
         //TypeCasting_Conversion_Parsing.ParseAndTryParse();
         AccessModifier.AccessModifierExample();
+
+
+
+        //List.ListTest();
+        //Helper.WriteLine("/**Constructors**/");
+        //Example example = new Example();// will call default constructor
+        //Example example1 = new Example(1);// will call paramterised constructor
+
+        //Helper.WriteLine("/**Static Constructors**/");
+        //StaticExample staticExample = new StaticExample();// will call default constructor
+        //StaticExample staticExample1 = new StaticExample(1);// will call paramterised constructor
+
+        //Helper.WriteLine("/**Error Constructors**/");
+        ////ErrorExample errorExample = new ErrorExample();// will THROW error as there is no default constructor
+        //ErrorExample errorExample1 = new ErrorExample(1);// will call paramterised constructor
+
+        //Helper.WriteLine("/**Polymorphism**/");
+        //Helper.WriteLine("/****Method Hiding****/");
+        //CSharp.Polymorphism.MethodHiding.Employee employee
+        //    = new CSharp.Polymorphism.MethodHiding.Employee()
+        //    //will always call base class method
+        //    {
+        //        FirstName = "FirstName",
+        //        LastName = "LastName"
+        //    };
+        //Helper.WriteLineWithTab(employee.PrintName());
+
+        //CSharp.Polymorphism.MethodHiding.PartTimeEmployee employee4
+        //   = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+        //   //will always call PartTimeEmployee class method
+        //   {
+        //       FirstName = "FirstName",
+        //       LastName = "LastName"
+        //   };
+        //Helper.WriteLineWithTab(employee4.PrintName());
+
+        //CSharp.Polymorphism.MethodHiding.PartTimeEmployee employee5
+        //  = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+        //  //will always call Employee class method
+        //  {
+        //      FirstName = "FirstName",
+        //      LastName = "LastName"
+        //  };
+        ////typecasting
+        //Helper.WriteLineWithTab(
+        //    ((CSharp.Polymorphism.MethodHiding.Employee)employee5).PrintName());
+
+        //CSharp.Polymorphism.MethodHiding.Employee employee1
+        //    = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+        //    //will always call base class method
+        //    {
+        //        FirstName = "FirstName",
+        //        LastName = "LastName"
+        //    };
+        //Helper.WriteLineWithTab(employee1.PrintName());
+
+        //CSharp.Polymorphism.MethodHiding.Employee employee2
+        //    = new CSharp.Polymorphism.MethodHiding.FullTimeEmployee()
+        //    //will always call base class method
+        //    {
+        //        FirstName = "FirstName",
+        //        LastName = "LastName"
+        //    };
+        //Helper.WriteLineWithTab(employee2.PrintName());
+        ////typecasting
+        //Helper.WriteLineWithTab(
+        //    ((CSharp.Polymorphism.MethodHiding.FullTimeEmployee)employee2).PrintName());
+
+
+        //Helper.WriteLine("Hello World!");
     }
 }
