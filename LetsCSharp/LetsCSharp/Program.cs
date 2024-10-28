@@ -6,6 +6,7 @@ using LetsCSharp.AccessModifiers;
 using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
 using LetsCSharp.Generics;
+using LetsCSharp.Indexer;
 using LetsCSharp.Interface;
 using LetsCSharp.IsAndAsExample;
 using LetsCSharp.List;
@@ -101,7 +102,14 @@ internal class Program
         //Interfaces();
         //Abstracts();
         //Delegates();
-        Generics();
+        //Generics();
+        Indexers();
+    }
+
+    private static void Indexers()
+    {
+        IndexerTest indexerTest = new IndexerTest();
+        indexerTest.Test();
     }
 
     private static void Generics()
