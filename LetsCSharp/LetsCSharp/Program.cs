@@ -13,7 +13,10 @@ using LetsCSharp.IsAndAsExample;
 using LetsCSharp.List;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
+using LetsCSharp.ShallowDeepCopy;
+using LetsCSharp.Throw;
 using LetsCSharp.TyepCasting_Conversion_Parsing;
+using static LetsCSharp.ShallowDeepCopy.ShallowDeepCopy;
 
 internal class Program
 {
@@ -105,7 +108,22 @@ internal class Program
         //Delegates();
         //Generics();
         //Indexers();
-        Comparisions();
+        //Comparisions();
+        //ShallowDeepCopyCheck();
+        ThrowCheck();
+    }
+
+    private static void ThrowCheck()
+    {
+        Throw t = new Throw();
+        t.TestThrow();
+        t.TestThrowEx();
+    }
+
+    private static void ShallowDeepCopyCheck()
+    {
+        StudentShallowDeepCheck s = new StudentShallowDeepCheck();
+        s.Test();
     }
 
     private static void Comparisions()
