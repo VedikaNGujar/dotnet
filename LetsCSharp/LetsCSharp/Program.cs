@@ -3,6 +3,7 @@
 using CSharp;
 using LetsCSharp.Abstract;
 using LetsCSharp.AccessModifiers;
+using LetsCSharp.Comparison;
 using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
 using LetsCSharp.Generics;
@@ -103,7 +104,14 @@ internal class Program
         //Abstracts();
         //Delegates();
         //Generics();
-        Indexers();
+        //Indexers();
+        Comparisions();
+    }
+
+    private static void Comparisions()
+    {
+        CustomerComparisionTest customerComparisionTest = new CustomerComparisionTest();
+        customerComparisionTest.Test();
     }
 
     private static void Indexers()
