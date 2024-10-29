@@ -3,6 +3,7 @@
 using CSharp;
 using LetsCSharp.Abstract;
 using LetsCSharp.AccessModifiers;
+using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
@@ -110,7 +111,14 @@ internal class Program
         //Indexers();
         //Comparisions();
         //ShallowDeepCopyCheck();
-        ThrowCheck();
+        //ThrowCheck();
+        CloneAndCopyCheck();
+    }
+
+    private static void CloneAndCopyCheck()
+    {
+        CloneAndCopy c = new CloneAndCopy();
+        c.Test();
     }
 
     private static void ThrowCheck()
