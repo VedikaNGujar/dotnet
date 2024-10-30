@@ -11,6 +11,7 @@ using LetsCSharp.Generics;
 using LetsCSharp.Indexer;
 using LetsCSharp.Interface;
 using LetsCSharp.IsAndAsExample;
+using LetsCSharp.LinQ;
 using LetsCSharp.List;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
@@ -114,6 +115,15 @@ internal class Program
         //ThrowCheck();
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
+        LinqTest();
+    }
+
+    private static void LinqTest()
+    {
+        //Aggregate.Test();
+        //Restriction.Test();
+        //Projection.Test();
+        Ordering.Test();
     }
 
     private static void GenericDelegateCheck()
