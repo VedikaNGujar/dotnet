@@ -14,6 +14,13 @@ namespace LetsCSharp.Delegates
 
     public class TextBox
     {
+
+        public void PrintText(string text)
+        {
+            if (text.Equals("hey"))
+                KeyDown?.Invoke(this, new KeyEventArgs());
+        }
+
         public delegate void KeyEventHandler(object sender, KeyEventArgs e);
         public event KeyEventHandler? KeyDown;
 
@@ -37,9 +44,13 @@ namespace LetsCSharp.Delegates
             // although the event expects the KeyEventArgs parameter.  
             textBox.KeyDown += this.MultiHandler;
 
+
             // You can use the same method
             // for an event that expects the MouseEventArgs parameter.  
             textBox.MouseClick += this.MultiHandler;
+
+            textBox.PrintText("hey");
+            textBox.PrintText("hey1");
 
 
         }

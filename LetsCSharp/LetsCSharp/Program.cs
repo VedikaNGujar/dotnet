@@ -106,13 +106,26 @@ internal class Program
 
         //Interfaces();
         //Abstracts();
-        //Delegates();
+        // Delegates();
         //Generics();
         //Indexers();
         //Comparisions();
         //ShallowDeepCopyCheck();
         //ThrowCheck();
-        CloneAndCopyCheck();
+        //CloneAndCopyCheck();
+        //GenericDelegateCheck();
+    }
+
+    private static void GenericDelegateCheck()
+    {
+        PredicateTest p = new PredicateTest();
+        p.CheckPredicate();
+
+        ActionTest a = new ActionTest();
+        a.CheckAction();
+
+        FunctionTest f = new FunctionTest();
+        f.CheckFunction();
     }
 
     private static void CloneAndCopyCheck()
