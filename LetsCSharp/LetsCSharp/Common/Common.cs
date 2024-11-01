@@ -19,6 +19,14 @@ namespace LetsCSharp.Common
         public int Id { get; set; }
         public string Name { get; set; }
         public Department Department { get; set; }
+        public override bool Equals(object? obj)
+        {
+            return this.Id == ((Employee)obj).Id;
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode() ^ this.Name.GetHashCode();
+        }
     }
 
 
@@ -47,8 +55,8 @@ namespace LetsCSharp.Common
         public static List<Student> Students { get; set; }
            = new List<Student>();
 
-        //public static List<Department> Departments { get; set; }
-        //   = new List<Department>();
+        public static List<Department> Departments { get; set; }
+           = new List<Department>();
 
 
         public static List<Employee> Employees { get; set; }
@@ -118,8 +126,9 @@ namespace LetsCSharp.Common
 
             Department department1 = new() { Id = 1, Name = "Computer Science" };
             Department department2 = new() { Id = 2, Name = "HR" };
-            Department department3 = new() { Id = 2, Name = "Accounts" };
+            Department department3 = new() { Id = 3, Name = "Accounts" };
 
+            Departments.AddRange(new List<Department>() { department1, department2, department3 });
 
             Employees.AddRange(
                 new List<Employee>() {

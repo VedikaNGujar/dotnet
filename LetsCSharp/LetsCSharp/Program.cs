@@ -7,6 +7,7 @@ using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
+using LetsCSharp.EqualityComparer;
 using LetsCSharp.Generics;
 using LetsCSharp.Indexer;
 using LetsCSharp.Interface;
@@ -115,7 +116,13 @@ internal class Program
         //ThrowCheck();
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
-        LinqTest();
+        //LinqTest();
+        EqualityComparerTest();
+    }
+
+    private static void EqualityComparerTest()
+    {
+        EqualityComparerCheck.Test();
     }
 
     private static void LinqTest()
@@ -127,7 +134,8 @@ internal class Program
         //Partitioning.Test();
         //DictionaryAndLookupAndGroupBy.Test();
         //CastAndOfType.Test();
-        ElementsOperator.Test();
+        //ElementsOperator.Test();
+        Joins.Test();
 
     }
 
