@@ -49,6 +49,16 @@ namespace LetsCSharp.Common
             });
             Students.Add(new Student()
             {
+                GiftMoney = 2000,
+                Gender = "Female",
+                Id = 22,
+                Name = "Nidhi Gujar",
+                Fees = 3000,
+                Subjects = new() { new() { Title = "Science" }, new() { Title = "English" } }
+
+            });
+            Students.Add(new Student()
+            {
                 GiftMoney = 200,
                 Gender = "Female",
                 Id = 3,

@@ -123,7 +123,8 @@ internal class Program
         //Aggregate.Test();
         //Restriction.Test();
         //Projection.Test();
-        Ordering.Test();
+        //Ordering.Test();
+        Partitioning.Test();
     }
 
     private static void GenericDelegateCheck()
