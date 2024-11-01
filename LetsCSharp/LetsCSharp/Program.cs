@@ -124,7 +124,11 @@ internal class Program
         //Restriction.Test();
         //Projection.Test();
         //Ordering.Test();
-        Partitioning.Test();
+        //Partitioning.Test();
+        //DictionaryAndLookupAndGroupBy.Test();
+        //CastAndOfType.Test();
+        ElementsOperator.Test();
+
     }
 
     private static void GenericDelegateCheck()
