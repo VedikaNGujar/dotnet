@@ -3,6 +3,7 @@
 using CSharp;
 using LetsCSharp.Abstract;
 using LetsCSharp.AccessModifiers;
+using LetsCSharp.AsyncAwait;
 using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Delegates;
@@ -14,6 +15,7 @@ using LetsCSharp.Interface;
 using LetsCSharp.IsAndAsExample;
 using LetsCSharp.LinQ;
 using LetsCSharp.List;
+using LetsCSharp.NameOf;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
@@ -117,7 +119,19 @@ internal class Program
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
         //LinqTest();
-        EqualityComparerTest();
+        //EqualityComparerTest();
+        //AsyncAwaitTest();
+        NameOfTest();
+    }
+
+    private static void NameOfTest()
+    {
+        NameOf.Test();
+    }
+
+    private static void AsyncAwaitTest()
+    {
+        AsyncAwait.Test();
     }
 
     private static void EqualityComparerTest()

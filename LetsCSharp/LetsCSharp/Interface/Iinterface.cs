@@ -26,6 +26,7 @@ namespace LetsCSharp.Interface
     internal interface I1
     {
         public string GetName();
+        public string GetSalary() { return ""; } //allowed after c# 8.0
     }
 
     internal interface I2
@@ -63,6 +64,7 @@ namespace LetsCSharp.Interface
         {
             Console.WriteLine("I1 Getname called");
             return "Getname called";
+
         }
 
         string I2.GetName()
