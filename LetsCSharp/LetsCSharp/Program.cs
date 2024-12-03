@@ -19,14 +19,21 @@ using LetsCSharp.NameOf;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
+using LetsCSharp.Struct;
 using LetsCSharp.Throw;
 using LetsCSharp.TyepCasting_Conversion_Parsing;
 using static LetsCSharp.ShallowDeepCopy.ShallowDeepCopy;
 
 internal class Program
 {
+    record Point(int X, int Y);
     private static void Main(string[] args)
     {
+
+        var original = new Point(1, 2);
+        var shifted = original with { X = original.X + 3, Y = original.Y - 1 };
+        Console.WriteLine(shifted);
+
         //CompareRecordAndClass.Compare();
         //EnumsExample.PrintEnums();
         //EnumsExample.PrintEnumsMembers();
@@ -121,7 +128,15 @@ internal class Program
         //LinqTest();
         //EqualityComparerTest();
         //AsyncAwaitTest();
-        NameOfTest();
+        //NameOfTest();
+        StructTest();
+    }
+
+    private static void StructTest()
+    {
+        var bar = new Bar { foo = new Foo() };
+        bar.foo.Change(5);
+        Console.Write(bar.foo.Value);
     }
 
     private static void NameOfTest()

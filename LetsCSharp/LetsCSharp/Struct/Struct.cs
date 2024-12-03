@@ -42,4 +42,18 @@ namespace LetsCSharp.Struct
     {
 
     }
+
+    public struct Foo
+    {
+        public int Value;
+        public void Change(int value)
+        {
+            Value = value;
+        }
+    }
+
+    public class Bar
+    {
+        public Foo foo { get; set; }
+    }
 }
