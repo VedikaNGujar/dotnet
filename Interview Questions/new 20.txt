@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+					
+public class Program
+{
+	public static void Main()
+	{
+		int count = 3;
+		int[] array2 = [1, 2, 3, 4, 5, 6];
+		int[][] jaggedArray = new int[count][];
+		
+		var firstArray = array2.Take((array2.Length + 1) / 3).ToArray();
+		var secondArray = array2.Skip((array2.Length + 1) / 3).Take((array2.Length + 1) / 3).ToArray();
+		var thirdArray = array2.Skip((array2.Length + 1) / 2).Take((array2.Length + 1) / 3).ToArray();
+		
+		for (int i = 0; i < firstArray.Length; i++)
+		{
+			Console.WriteLine(firstArray[i]);
+		}
+		Console.WriteLine("*****");
+		for (int i = 0; i < secondArray.Length; i++)
+		{
+			Console.WriteLine(secondArray[i]);
+		}
+		Console.WriteLine("*****");
+		for (int i = 0; i < thirdArray.Length; i++)
+		{
+			Console.WriteLine(thirdArray[i]);
+		}
+	}
+}

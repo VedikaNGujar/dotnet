@@ -1,0 +1,31 @@
+str = abbcccddee
+
+strArray = str.ToCharArray();
+StringBuilder sb= new StringBuilder();
+for(int i=0; i<strArray.Length; i++)
+{
+	int count=1;
+	for(int j=0; j<strArray.Length; j++)
+	{
+		if(i==j)
+		{
+			continue;
+		}
+		if(strArray[i] == strArray[j])
+		{
+			count++;
+		}
+	}
+	sb.Append(strArray[i]);
+	sb.Append(count++);
+}
+
+
+
+
+from tblEmployee AS emp
+JOIN tblDepartment dept
+on emp.emplyeeId = dept.EmployeeId
+select
+
+tblEmployee.Skip(pagesize*pageCount).Take(pagesize).ToList();

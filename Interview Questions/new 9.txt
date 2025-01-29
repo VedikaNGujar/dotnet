@@ -1,0 +1,18 @@
+GC, 
+Interface and Abstract , 
+caching, 
+stack overflow, 
+array list vs list, 
+MVC life cycles, 
+action result and action filter, 
+Java script and Jquery, 
+SQL, 
+Purpose of interface, 
+Static vs non static, 
+extension menthod, 
+application pool, 
+OOPS, 
+Design Parttern, 
+Azure, 
+
+ajax and without ajax api call & promise - 

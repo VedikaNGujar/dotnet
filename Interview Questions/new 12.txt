@@ -1,0 +1,69 @@
+public class Base 
+{
+Public int Count;
+ 
+	Base()
+	{
+		Console.WriteLine("Base Class  Constructor");
+	}	
+	Base(int cnt)
+	{
+		Count = cnt;
+				Console.WriteLine(" Class Base Parameterized Constructor");
+ 
+	}
+    public void MethodB()
+    {
+      Console.WriteLine("Base Class  MethodB");
+    }
+}
+ 
+public class Derived: Base
+{
+ 
+Public int Count;
+ 
+	Derived()
+	{
+		Console.WriteLine(" Class Derived Constructor");
+	}	
+	Derived(int cnt)
+	{
+		Count = cnt;
+		Console.WriteLine(" Class Derived Parameterized Constructor");
+ 
+	}	
+ 
+    public void MethodA()
+    {
+      Console.WriteLine(" Class Derived MethodA");
+    }
+}
+ 
+static void Main()
+{
+  Derived obj = new Derived();
+  obj.MethodA();
+  Derived obj1 = new Derived(12);
+  obj1.MethodA();
+  Derived obj2 = obj1;
+  obj2.Count =20;
+  Console.WriteLine(obj.Count + " " obj1.Count + " " obj2.Count);
+}
+
+Base Class  Constructor
+Class Derived Constructor
+Class Derived MethodA
+
+Base Class  Constructor
+//Class Derived Constructor
+//Class Base Parameterized Constructor
+Class Derived Parameterized Constructor
+Class Derived MethodA
+
+//Base Class  Constructor
+//Class Derived Constructor
+//Class Base Parameterized Constructor
+//Class Derived Parameterized Constructor
+
+0 20  20

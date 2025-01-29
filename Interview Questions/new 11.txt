@@ -1,0 +1,23 @@
+var emplyeeDetailsList = employeelist.Select(x=> 
+											new EmployeeDepartmentModel
+											{
+											EmployeeName = x.EmployeeName,
+											DeparmentName = x.deartmentId == null ? "No Deparment" : (departmentList(d=>d.deartmentId == x.deartmentId)).Name
+											}
+											).toList();
+											
+List<Person> people = new List<Person>
+            {
+               new Person { Id = 1, Name = "Alice", Age = 28, City = "New York" },
+               new Person { Id = 2, Name = "Bob", Age = 35, City = "New York" },
+               new Person { Id = 3, Name = "Charlie", Age = 22, City = "Los Angeles" },
+               new Person { Id = 4, Name = "David", Age = 30, City = "Chicago" },
+               new Person { Id = 5, Name = "Eva", Age = 25, City = "Los Angeles" }
+            };
+			
+			people.Select(x=>x.City).Avg(x=>x.Age).GroupBy(x=>x.City).ToList();
+			
+Select Name, Avg(Marks) as AverageMarks
+From Student
+GroupBy Id
+having Avg(Marks)>80

@@ -1,0 +1,39 @@
+ with CTE_Duplicate AS 
+ (
+	select EmployeeId, EmployeeName, Row_Number() over (Partition By EmployeeName order by desc) as RowNum
+ )
+ 
+ delete from CTE_Duplicate where RowNum > 1;
+ 
+ 
+ const [counter, setCounter] = useState(0);
+ 
+ setInterval( () => {
+	let newCount = counter +1;
+	setCounter(newCount);
+	Console.Log(counter);
+ }, 1000);
+ 
+ 
+ 
+ str="gurunath";
+
+return str.ToCharArray().Reverse();
+
+var arr = str.ToCharArray();
+for(int i=0; i<str.ToCharArray().Lenght; i++)
+{
+	for(int j=0; j<str.ToCharArray().Lenght; j++)
+	{
+		if(i == j)
+		{
+			contine;
+		}
+		
+		if(arr[i] == arr[j])
+		{
+			console.WriteLine("Duplicate Letter " + arr[i])
+		}
+	}
+}
+ 

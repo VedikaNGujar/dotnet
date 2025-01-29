@@ -1,0 +1,97 @@
+With StudentData (
+Select StudentId,Name, Count(Name) as count
+From tblStudent
+Group by Name
+where count =1)
+Select * from StudentData where count = 1;
+
+Select StudentId,Name, Count(Name) as count
+From tblStudent
+Group by Name
+where count =1
+
+select StudentId, Row_Number(partition by )
+(Select StudentId, concate(FirstName, LastName) as Name1, concate(LastName, FirstName) as Name2
+from tblStudent)
+
+select * from 
+(select studentId, Case 
+								if concate(FirstName, LastName) as Name1= concate(LastName, FirstName) as Name2
+								Then ""
+								Else concate(FirstName, LastName) StudentName
+								End
+							from tblStudent) temp
+							
+							where Name != "";
+						
+
+str="text";
+var arr = str.toArray();
+var NewString = String.Empty;
+for (int i=0; i<arr.lenght; i++)
+{
+	var letter = arr[i];
+	arr.Replace(letter, "").toString;
+}
+
+with EmpSalary
+(
+ Select Salary, Dense_rank() over Salary order by salary desc as rank
+)
+
+select salary from EmpSalary where rank = 3
+
+select Name 
+from employee
+group by salary
+having Average(Salary) > 200;
+
+difference between use and run in .net core
+
+Difference between AddTransient and AddScoped.
+
+Returning XML and JSON from web api
+
+Rate limiting in Web Api
+
+listint = [3,2,4,2,1,3,4];
+
+listint.Select(x=> x).Distinct() ;
+
+
+MVC Result Return Types:-
+Action
+View
+PartialView
+Redirect
+Empty
+Json
+JavaScript
+RedirectToAction / RedirectToRoute
+Content
+File
+
+MVC Filter Types:-
+Action Filter
+Authorization Filter
+Result Filter
+Exception Filter
+
+Implement Singleton in .Net core
+Get data from nth record in SQL Server
+
+
+public class A
+{
+  public B 
+  XYZ
+	{
+  	   get;
+	   set;
+	}
+}
+ 
+Public class B
+{
+}
+

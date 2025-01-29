@@ -1,0 +1,47 @@
+public class Student 
+{ 
+	public string Name; 
+	public double Score; 
+	public string Location;	 
+}
+ 
+public class Program { 	
+ 
+	public static void Main()
+	{
+		List<Student> students = new List<Student> { 
+									new Student { Name = "Alice", Score = 85, Location = "Mumbai" },
+									new Student { Name = "Bob", Score = 75, Location = "Pune"},
+									new Student { Name = "Charlie", Score = 90, Location = "Nashik"},
+									new Student { Name = "David", Score = 65, Location = "Kolhapur" },
+									new Student { Name = "Eve", Score = 80, Location = "Pune" } 
+								};
+		students.	Where(x=>x.Location == "Pune").Select(x=>x.Name).OrderByDesceding(x=>x.Score).skip(1).toList();					
+	}
+}
+
+POST
+STOP
+SPOT
+POSTS
+
+
+public bool IsAnagram(string firstString, string secondString)
+{
+	if(firstString.legth != secondString.legth)
+	{
+		return false;
+	}
+	
+	var firstStringArray = firstString.ToCharArray();
+	var secondStringArray = secondString.ToCharArray();
+	
+	foreach(var str in firstStringArray)
+	{
+		if(!secondStringArray.contain(str))
+		{
+			return false;
+		}
+	}
+	return true;
+}
