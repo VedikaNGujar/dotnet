@@ -1,0 +1,28 @@
+topics
+
+
+Serialization.
+Async Await
+.Result, .GetAwaiter().GetResult(), WaitAll(), and WaitAny() (When working with Tasks)
+dependency injection
+design patterns
+
+c# 8.0
+
+
+asp.net
+asp.net core
+asp.net mvc
+auth authori jwt
+session
+events delegates
+parallel, threads
+
+Answer: Different states of a thread are:
+
+Unstarted – Thread is created.
+Running – Thread starts execution.
+WaitSleepJoin – Thread calls sleep, calls wait on another object and calls join on another thread.
+Suspended – Thread has been suspended.
+Aborted – Thread is dead but not changed to state stopped.
+Stopped – Thread has stopped.

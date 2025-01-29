@@ -1,0 +1,47 @@
+https://www.youtube.com/watch?v=DgVjEo3OGBI
+https://www.youtube.com/watch?v=FHx6AGVF_IE
+https://www.c-sharpcorner.com/learn/learn-c-sharp-80/default-interface-implementation
+https://jeremybytes.blogspot.com/2020/10/abstract-classes-vs-interfaces-in-c.html#:~:text=An%20abstract%20class%20may%20contain,have%20implementation%20code%2C%20only%20declarations.&text=Interfaces%20in%20C%23%208%20can,a%20body%20that%20provides%20functionality.
+
+https://www.youtube.com/watch?v=Dorf8i6lCuk
+https://www.youtube.com/watch?v=C8JcGqQdcPI
+
+
+--code evolution
+https://www.youtube.com/watch?v=QFaFIcGhPoM
+
+
+User import
+
+
+A user with this ID already exists as an internally maintained user so will not be updated.  User details: {0}
+
+Duplicate records found during Active directory import with these user Ids. User Details: {0}
+
+
+
+-- jquery
+
+https://www.interviewbit.com/jquery-interview-questions/
+https://www.geeksforgeeks.org/jquery-interview-questions-and-answers/
+https://www.javatpoint.com/jquery-interview-questions
+
+--react
+https://www.youtube.com/watch?v=Dorf8i6lCuk
+
+
+--c#
+https://dotnettutorials.net/lesson/parallel-for-method-csharp/
+https://dotnettutorials.net/lesson/row_number-function-sql-server/
+
+
+--sql-server/
+https://www.youtube.com/watch?v=FNYdBLwZ6cE
+
+https://www.youtube.com/watch?v=DgVjEo3OGBI
+https://dotnettutorials.net/course/asp-dot-net-mvc-tutorials/
+
+
+
+---angular
+https://github.com/sudheerj/angular-interview-questions

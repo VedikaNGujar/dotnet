@@ -1,0 +1,270 @@
+C#
+-------------------
+class Employee(){
+printName(){"Employee name"};
+}
+
+class FullTimeEmployee: Employee(){
+printName(){"FullTimeEmployee"}
+}
+
+Employee object =  new FullTimeEmployee();
+object.printName();
+-------------------
+Class A(){
+A(){"A's constructor"}
+}
+
+Class B: A(){
+B(){"B's constructor"}
+}
+
+class C: B(){
+C(){"C's constructor"}
+}
+
+C obj = new C();
+-------------------
+
+class A{
+static A(){"a's static constructor"}
+public A() {"a constructor"}
+}
+
+
+A obj = new A();
+A obj1 = new A();
+-------------------
+ interface I1
+    {
+        void printName();
+    }
+
+    interface I2
+    {
+        void printName();
+    }
+
+    class C : I1, I2
+    {
+       public  void printName() { }
+    }
+-------------------
+Print Even and odd numbers from 1-30 (using linq)
+-------------------
+What is the difference between “constant” and “readonly” variables in C#?
+What is the difference between “dispose” and “finalize” variables in C#?
+What is a singleton?
+What is boxing?
+What are dynamic type variables in C#?
+Explain Generics in C#?
+explin async and await
+What is a singleton?
+
+44) What are the three types of Generic delegates in C#?
+Below are the three types of generic delegates in C# -
+Func
+Action
+Predicate
+
+Anonymous type in C#?
+
+Partial Class
+---
+class Student{
+int Id;
+string Name;
+string Address;
+}
+
+Print all student in following way
+
+Hi My name is "NAME" Roll Number "ID" and I live at "ADDRESS"
+---
+List<int> arr = new List<int>(){1,2,3,4,5};
+print odd 
+print even numbers
+find if 5 is present in array
+---
+
+class Program {
+  static String location;
+  static DateTime time;
+ 
+  static void Main() {
+    Console.WriteLine(location == null ? "location is null" : location);
+    Console.WriteLine(time == null ? "time is null" : time.ToString());
+  }
+}
+
+---
+private string name ;
+
+public String ModifiedName
+{ set {
+	name = value;
+}
+get {
+	return name ;
+}
+}
+
+---
+
+
+try
+{
+	Console.WriteLine("Hello");
+}
+catch (ArgumentNullException)
+{
+	Console.WriteLine("A");
+}
+catch (Exception)
+{
+	Console.WriteLine("B");
+}
+finally
+{
+	Console.WriteLine("C");
+}
+Console.ReadKey();
+
+
+-----
+
+   IList<string> stringList = new List<string>() {   
+            "Java Developer",  
+            ".Net Developer",  
+            "Graphics Designer",  
+            "Mean Stack Developer" ,  
+            "Java"   
+        };  
+          
+
+---
+SQL Server :
+
+Merge_Add_TemplateOperationsNotifications_to_AccountSettings -ignorechanges
+
+
+
+-----
+
+https://www.toptal.com/c-sharp/interview-questions
+
+
+---
+Asp.net
+
+How many web.config files can I have in an application?
+Explain what is the difference between View and Partial View?
+What is an ORM, and why would you use one instead of plain old ADO.NET?
+
+---
+
+React 
+
+--- 
+difference between functional and class componenets
+24. What are the significant differences between state and props?
+
+----------------------
+
+core concepts of .net
+oops
+what have you used in your project
+how have you SOLID principles used
+mvc filters
+exception logging
+filter me exception aya
+
+
+
+https://tutorials.eu/50-interview-questions-for-your-csharp-interview/
+
+https://www.c-sharpcorner.com/UploadFile/puranindia/ASP-NET-MVC-Interview-Questions/
+
+https://www.interviewbit.com/mvc-interview-questions/
+
+https://www.fullstack.cafe/blog/c-sharp-interview-questions
+
+https://www.qfles.com/interview-question/csharp-design-patterns-interview-questions
+https://www.fullstack.cafe/blog/design-patterns-interview-questions
+
+
+https://theitsmreview.com/2013/07/review-biomni/
+https://nebumax.com/Products/overview/M008312813
+
+https://www.c-sharpcorner.com/article/basic-interview-questions-for-net-full-stack-developer/
+https://mindmajix.com/full-stack-developer-interview-questions
+https://www.edureka.co/blog/interview-questions/dot-net-interview-questions/
+https://codersera.com/blog/top-25-full-stack-developer-interview-questions-and-answers/
+
+
+
+-----
+what is open id 
+
+--
+https://www.youtube.com/watch?v=lm0sdkylqvs
+
+https://www.c-sharpcorner.com/UploadFile/bd5be5/design-patterns-in-net/
+
+
+https://www.tutorialsteacher.com/articles/difference-between-design-principle-and-design-pattern
+
+
+https://www.youtube.com/playlist?list=PL6n9fhu94yhVkdrusLaQsfERmL_Jh4XmU
+
+
+----
+
+https://www.c-sharpcorner.com/UploadFile/puranindia/C-Sharp-interview-questions/
+
+https://www.c-sharpcorner.com/UploadFile/puranindia/ASP-NET-MVC-Interview-Questions/
+https://exceptionnotfound.net/attribute-routing-vs-convention-routing/
+
+https://www.c-sharpcorner.com/learn/learn-c-sharp-80/default-interface-implementation
+
+https://dotnettutorials.net/lesson/local-functions-csharp/
+
+
+https://mithunvp.com/difference-between-asp-net-mvc6-asp-net-mvc5/
+https://www.webtrainingroom.com/aspnetmvc/dependency-injection
+
+https://www.interviewbit.com/jquery-interview-questions/
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+1. Dependency injection in ASP.NET
+2. .net framework vs .net standard vs .net core
+3. what is code coverage
+4. nuget
+5. CI/CD
+
+
+
+Angular
+SOAP / REST difference
+Web APIs
+Dependency injection
+
+authenticat/auth in angular
+.net standard library
+
+
+https://www.qfles.com/interview-question/asp-net-core-interview-questions

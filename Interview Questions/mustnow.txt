@@ -1,0 +1,21 @@
+open id
+oauth
+single sign on
+.net syandard
+owin
+--
+Question 24. What Are The Various Json Files In Asp.net Core?
+
+Answer :
+
+global.json: can define solution level settings in global.json file 
+launchsettings.json: can define project specific settings associated with each profile Visual Studio is configured to launch the application, including any environment variables that should be used. You can define framework for your project for compliation and debugging for specific profiles. 
+appsettings.json: to store custom application setting, DB connection strings,Logging etc 
+bundleconfig.json: can define the configuration for bundling and minification for the project. 
+project.json: storing all project level configuration settings 
+bower.json: Bower is a package manager for the web. Bower manages components that contain HTML, CSS, JavaScript, fonts or even image files. Bower installs the right versions of the packages you need and their dependencies
+
+
+-----
+
+lifecyclehooks

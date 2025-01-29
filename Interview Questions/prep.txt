@@ -1,0 +1,45 @@
+SQL :
+https://www.youtube.com/watch?v=kVogo0AbatM&list=PL08903FB7ACA1C2FB&index=92
+
+
+
+c#
+
+1.  What are rest services and how we create one using c#.
+2.  In multithreading how one thread communicates to other thread.
+3.  What is the situation we need to follow singleton pattern for.
+
+https://www.youtube.com/watch?v=VCcXcwsH9G4
+
+
+AspNet MVC
+
+https://www.youtube.com/watch?v=-pzwRwYlXMw&list=PL6n9fhu94yhVm6S8I2xd6nYz2ZORd7X2v
+
+
+
+microservicess
+https://www.youtube.com/watch?v=DgVjEo3OGBI
+
+
+.NetCore
+
+https://www.youtube.com/playlist?list=PL6n9fhu94yhVkdrusLaQsfERmL_Jh4XmU
+
+
+interview 
+
+https://www.youtube.com/watch?v=If6p8v2LD6Y
+
+
+web API
+
+https://www.youtube.com/watch?v=i1pbLleLmYw&list=PLaFzfwmPR7_IPzBR4AI0eoojmIdTFJmHs&index=9
+
+
+https://www.youtube.com/c/WebGentle/playlists
+
+https://www.youtube.com/watch?v=V8GVKAVkTVc&list=PL6n9fhu94yhXwcl3a6rIfAI7QmGYIkfK5&index=20
+
+
+https://www.simplilearn.com/tutorials/angular-tutorial/angular-interview-questions
