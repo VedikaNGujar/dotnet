@@ -1,3 +1,6 @@
 
 /BubberDinner.Domain/bin
 /BubberDinner.Domain/obj
+/Blob Storage/AzureBlobStorage/.vs
+/Blob Storage/AzureBlobStorage/AzureBlobStorage.WebApi/bin
+/Blob Storage/AzureBlobStorage/AzureBlobStorage.WebApi/obj

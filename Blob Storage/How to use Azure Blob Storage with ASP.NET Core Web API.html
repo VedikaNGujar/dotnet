@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/ -->
+<html lang="en" data-theme="system" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>How to use Azure Blob Storage with ASP.NET Core Web API</title>
+<link rel="preconnect" href="https://fonts.gstatic.com/">
+<link href="./How to use Azure Blob Storage with ASP.NET Core Web API_files/css2" rel="stylesheet"> <link href="./How to use Azure Blob Storage with ASP.NET Core Web API_files/screen.min.css" rel="stylesheet">
+<script>
+    if(typeof(Storage) !== 'undefined') {
+        let themeMode = document.documentElement.getAttribute('data-theme');
+        if (themeMode !== null && themeMode === 'system') {
+            setSysPrefColor();
+        }
+        const theme = localStorage.getItem('selected-theme');
+        if (theme == 'light') {
+            setColorScheme('light');
+        }
+        else if (theme == 'dark') {
+            setColorScheme('dark');
+        }
+    }
+    function setSysPrefColor() {
+        if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+            setColorScheme('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+            if (e.matches) {
+                setColorScheme('dark');
+            } else {
+                setColorScheme('light');
+            }
+        });
+    }
+    function setColorScheme(scheme) {
+        if (scheme=='dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+    }
+</script> <script>
+			document.documentElement.classList.add('js');
+			window.onload = function() {
+				setTimeout(function() {
+					document.body.classList.add('loaded');
+				}, 5000);
+			}
+		</script>
+<meta name="description" content="Learn how to use Azure Blob Storage with ASP.NET Core to upload, download and delete files from your application using a Web API.">
+<link rel="icon" href="https://blog.christian-schou.dk/content/images/size/w256h256/2022/08/cropped-cs-logo-color-retina.png" type="image/png">
+<link rel="canonical" href="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<link rel="amphtml" href="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/amp/">
+<meta property="og:site_name" content="Tech with Christian">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to use Azure Blob Storage with ASP.NET Core Web API">
+<meta property="og:description" content="Learn how to make a simple ASP.NET Core Web API to make CRUD operations against an Azure Storage Container for interacting with Azure Blobs.">
+<meta property="og:url" content="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/">
+<meta property="og:image" content="https://blog.christian-schou.dk/content/images/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png">
+<meta property="article:published_time" content="2022-03-25T23:21:00.000Z">
+<meta property="article:modified_time" content="2022-09-12T21:48:18.000Z">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content="Cloud">
+<meta property="article:tag" content="Azure">
+<meta property="article:publisher" content="https://www.facebook.com/christan.schou">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to use Azure Blob Storage with ASP.NET Core Web API">
+<meta name="twitter:description" content="Learn how to make a simple ASP.NET Core Web API to make CRUD operations against an Azure Storage Container for interacting with Azure Blobs.">
+<meta name="twitter:url" content="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/">
+<meta name="twitter:image" content="https://blog.christian-schou.dk/content/images/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png">
+<meta name="twitter:label1" content="Written by">
+<meta name="twitter:data1" content="Christian Schou">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content=".NET, Cloud, Azure">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="864">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Tech with Christian",
+        "url": "https://blog.christian-schou.dk/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.christian-schou.dk/content/images/2022/09/christian-schou-logo-dark-v1.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Christian Schou",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://blog.christian-schou.dk/content/images/2023/02/christian-summer_1.webp",
+            "width": 2316,
+            "height": 3088
+        },
+        "url": "https://blog.christian-schou.dk/author/christian/",
+        "sameAs": []
+    },
+    "headline": "How to use Azure Blob Storage with ASP.NET Core Web API",
+    "url": "https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/",
+    "datePublished": "2022-03-25T23:21:00.000Z",
+    "dateModified": "2022-09-12T21:48:18.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog.christian-schou.dk/content/images/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png",
+        "width": 1536,
+        "height": 864
+    },
+    "keywords": ".NET, Cloud, Azure",
+    "description": "Learn how to make a simple ASP.NET Core Web API to make CRUD operations against an Azure Storage Container for interacting with Azure Blobs.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.christian-schou.dk/"
+    }
+}
+    </script>
+<meta name="generator" content="Ghost 5.37">
+<link rel="alternate" type="application/rss+xml" title="Tech with Christian" href="https://blog.christian-schou.dk/rss/">
+<script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/portal.min.js.download" data-ghost="https://blog.christian-schou.dk/" data-key="d0c7ceec837325c2faeb16664b" data-api="https://blog.christian-schou.dk/ghost/api/content/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style><script async="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/saved_resource"></script>
+<script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/sodo-search.min.js.download" data-key="d0c7ceec837325c2faeb16664b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://blog.christian-schou.dk/" crossorigin="anonymous"></script>
+<link href="https://blog.christian-schou.dk/webmentions/receive/" rel="webmention">
+<script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/cards.min.js.download"></script>
+<link rel="stylesheet" type="text/css" href="./How to use Azure Blob Storage with ASP.NET Core Web API_files/cards.min.css">
+<script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/comment-counts.min.js.download" data-ghost-comments-counts-api="https://blog.christian-schou.dk/members/api/comments/counts/"></script>
+<script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/member-attribution.min.js.download"></script>
+<script>
+    var apiKey = "69be2bfd128a2f808a67527846";
+    var tweetBtn = true;
+</script>
+<link rel="stylesheet" href="./How to use Azure Blob Storage with ASP.NET Core Web API_files/prism-v1.css">
+<style>
+.content-preview {
+    position: relative;
+}
+.content-preview::after {
+    content: "";
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(180deg,transparent 0,var(--c-body-bg) 100%);
+    position: absolute;
+    bottom: 0;
+}
+</style>
+<style>
+    code[class*=language-], pre[class*=language-] {
+        font-size: 16px !important;
+    }
+</style>
+<style>
+    pre[class*="language-"],
+code[class*="language-"] {
+	color: #d4d4d4;
+	font-size: 13px;
+	text-shadow: none;
+	font-family: Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::selection,
+code[class*="language-"]::selection,
+pre[class*="language-"] *::selection,
+code[class*="language-"] *::selection {
+	text-shadow: none;
+	background: #264F78;
+}
+
+@media print {
+	pre[class*="language-"],
+	code[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	background: #1e1e1e;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: .1em .3em;
+	border-radius: .3em;
+	color: #db4c69;
+	background: #1e1e1e;
+}
+/*********************************************************
+* Tokens
+*/
+.namespace {
+	opacity: .9;
+}
+
+.token.doctype .token.doctype-tag {
+	color: #569CD6;
+}
+
+.token.doctype .token.name {
+	color: #9cdcfe;
+}
+
+.token.comment,
+.token.prolog {
+	color: #6a9955;
+}
+
+.token.punctuation,
+.language-html .language-css .token.punctuation,
+.language-html .language-javascript .token.punctuation {
+	color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.inserted,
+.token.unit {
+	color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.deleted {
+	color: #ce9178;
+}
+
+.language-css .token.string.url {
+	text-decoration: underline;
+}
+
+.token.operator,
+.token.entity {
+	color: #d4d4d4;
+}
+
+.token.operator.arrow {
+	color: #569CD6;
+}
+
+.token.atrule {
+	color: #ce9178;
+}
+
+.token.atrule .token.rule {
+	color: #c586c0;
+}
+
+.token.atrule .token.url {
+	color: #9cdcfe;
+}
+
+.token.atrule .token.url .token.function {
+	color: #dcdcaa;
+}
+
+.token.atrule .token.url .token.punctuation {
+	color: #d4d4d4;
+}
+
+.token.keyword {
+	color: #569CD6;
+}
+
+.token.keyword.module,
+.token.keyword.control-flow {
+	color: #c586c0;
+}
+
+.token.function,
+.token.function .token.maybe-class-name {
+	color: #dcdcaa;
+}
+
+.token.regex {
+	color: #d16969;
+}
+
+.token.important {
+	color: #569cd6;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.constant {
+	color: #9cdcfe;
+}
+
+.token.class-name,
+.token.maybe-class-name {
+	color: #4ec9b0;
+}
+
+.token.console {
+	color: #9cdcfe;
+}
+
+.token.parameter {
+	color: #9cdcfe;
+}
+
+.token.interpolation {
+	color: #9cdcfe;
+}
+
+.token.punctuation.interpolation-punctuation {
+	color: #569cd6;
+}
+
+.token.boolean {
+	color: #569cd6;
+}
+
+.token.property,
+.token.variable,
+.token.imports .token.maybe-class-name,
+.token.exports .token.maybe-class-name {
+	color: #9cdcfe;
+}
+
+.token.selector {
+	color: #d7ba7d;
+}
+
+.token.escape {
+	color: #d7ba7d;
+}
+
+.token.tag {
+	color: #569cd6;
+}
+
+.token.tag .token.punctuation {
+	color: #808080;
+}
+
+.token.cdata {
+	color: #808080;
+}
+
+.token.attr-name {
+	color: #9cdcfe;
+}
+
+.token.attr-value,
+.token.attr-value .token.punctuation {
+	color: #ce9178;
+}
+
+.token.attr-value .token.punctuation.attr-equals {
+	color: #d4d4d4;
+}
+
+.token.entity {
+	color: #569cd6;
+}
+
+.token.namespace {
+	color: #FFFFFF;
+}
+/*********************************************************
+* Language Specific
+*/
+
+pre[class*="language-javascript"],
+code[class*="language-javascript"],
+pre[class*="language-jsx"],
+code[class*="language-jsx"],
+pre[class*="language-typescript"],
+code[class*="language-typescript"],
+pre[class*="language-tsx"],
+code[class*="language-tsx"] {
+	color: #9cdcfe;
+}
+
+pre[class*="language-css"],
+code[class*="language-css"] {
+	color: #ce9178;
+}
+
+pre[class*="language-html"],
+code[class*="language-html"] {
+	color: #d4d4d4;
+}
+
+.language-regex .token.anchor {
+	color: #dcdcaa;
+}
+
+.language-html .token.punctuation {
+	color: #808080;
+}
+/*********************************************************
+* Line highlighting
+*/
+pre[class*="language-"] > code[class*="language-"] {
+	position: relative;
+	z-index: 1;
+}
+
+.line-highlight.line-highlight {
+	background: #404040;
+	box-shadow: inset 5px 0 0 #404040;
+	z-index: 0;
+}
+    
+content-preview {
+    position: relative;
+}
+.content-preview::after {
+    content: "";
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(180deg,transparent 0,var(--c-body-bg) 100%);
+    position: absolute;
+    bottom: 0;
+}
+</style><style>:root {--ghost-accent-color: #0057FF;}</style>
+<style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><style>
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */</style><style>
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */</style><style>.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    -webkit-animation: App-logo-spin infinite 20s linear;
+            animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@-webkit-keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zcmMvQXBwLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLGNBQWM7RUFDZCxvQkFBb0I7QUFDdEI7O0FBRUE7RUFDRTtJQUNFLG9EQUE0QztZQUE1Qyw0Q0FBNEM7RUFDOUM7QUFDRjs7QUFFQTtFQUNFLHlCQUF5QjtFQUN6QixpQkFBaUI7RUFDakIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixtQkFBbUI7RUFDbkIsdUJBQXVCO0VBQ3ZCLDZCQUE2QjtFQUM3QixZQUFZO0FBQ2Q7O0FBRUE7RUFDRSxjQUFjO0FBQ2hCOztBQUVBO0VBQ0U7SUFDRSwrQkFBdUI7WUFBdkIsdUJBQXVCO0VBQ3pCO0VBQ0E7SUFDRSxpQ0FBeUI7WUFBekIseUJBQXlCO0VBQzNCO0FBQ0Y7O0FBUEE7RUFDRTtJQUNFLCtCQUF1QjtZQUF2Qix1QkFBdUI7RUFDekI7RUFDQTtJQUNFLGlDQUF5QjtZQUF6Qix5QkFBeUI7RUFDM0I7QUFDRiIsInNvdXJjZXNDb250ZW50IjpbIi5BcHAge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5BcHAtbG9nbyB7XG4gIGhlaWdodDogNDB2bWluO1xuICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cblxuQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiBuby1wcmVmZXJlbmNlKSB7XG4gIC5BcHAtbG9nbyB7XG4gICAgYW5pbWF0aW9uOiBBcHAtbG9nby1zcGluIGluZmluaXRlIDIwcyBsaW5lYXI7XG4gIH1cbn1cblxuLkFwcC1oZWFkZXIge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjgyYzM0O1xuICBtaW4taGVpZ2h0OiAxMDB2aDtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGZvbnQtc2l6ZTogY2FsYygxMHB4ICsgMnZtaW4pO1xuICBjb2xvcjogd2hpdGU7XG59XG5cbi5BcHAtbGluayB7XG4gIGNvbG9yOiAjNjFkYWZiO1xufVxuXG5Aa2V5ZnJhbWVzIEFwcC1sb2dvLXNwaW4ge1xuICBmcm9tIHtcbiAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTtcbiAgfVxuICB0byB7XG4gICAgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTtcbiAgfVxufVxuIl0sInNvdXJjZVJvb3QiOiIifQ== */</style></head>
+<body class="post-template tag-net tag-cloud tag-azure tag-hash-import-2023-02-21-18-29 line-numbers loaded" data-nav="sticky">
+<div class="site-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="global-icons" style="display:none">
+<symbol id="i-search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.083 17.196l4.526 4.528A1.332 1.332 0 0122.667 24a1.33 1.33 0 01-.943-.39l-4.528-4.527a10.602 10.602 0 01-6.53 2.25C4.787 21.333 0 16.548 0 10.667 0 4.785 4.785 0 10.667 0c5.881 0 10.666 4.785 10.666 10.667 0 2.461-.846 4.724-2.25 6.529zm-8.416-14.53c-4.412 0-8 3.589-8 8 0 4.413 3.588 8 8 8s8-3.587 8-8c0-4.411-3.588-8-8-8z"></path></symbol>
+<symbol id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.036 7.976a.75.75 0 00-1.06 1.06L10.939 12l-2.963 2.963a.75.75 0 101.06 1.06L12 13.06l2.963 2.964a.75.75 0 001.061-1.06L13.061 12l2.963-2.964a.75.75 0 10-1.06-1.06L12 10.939 9.036 7.976z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></symbol>
+<symbol id="i-user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="person"><rect opacity="0"></rect><path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"></path><path d="M18 21a1 1 0 0 0 1-1 7 7 0 0 0-14 0 1 1 0 0 0 1 1z"></path></g></g></symbol>
+<symbol id="i-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.228 23.999l.114.001a12.31 12.31 0 008.762-3.624 12.269 12.269 0 002.803-4.315 1.2 1.2 0 00-1.531-1.557c-3.678 1.339-7.836.426-10.593-2.326a10.078 10.078 0 01-2.33-10.564A1.2 1.2 0 007.899.08a12.271 12.271 0 00-4.792 3.292c-4.24 4.722-4.103 12.278.31 16.843A12.311 12.311 0 0012.227 24zM4.892 4.975a9.882 9.882 0 011.65-1.474c-.475 3.772.797 7.633 3.544 10.376 2.75 2.743 6.62 4.008 10.394 3.538-.32.448-.678.87-1.071 1.262A9.932 9.932 0 0112.34 21.6l-.092-.001a9.928 9.928 0 01-7.109-3.053C1.585 14.868 1.473 8.78 4.892 4.975z"></path></symbol>
+<symbol id="i-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.8 1.2v2.4a1.2 1.2 0 102.4 0V1.2a1.2 1.2 0 10-2.4 0zM18.876 7.028a1.195 1.195 0 01-1.697-.03 1.2 1.2 0 01.029-1.696l1.727-1.668a1.202 1.202 0 011.668 1.728l-1.727 1.666zM12 16.8c2.647 0 4.8-2.153 4.8-4.8S14.647 7.2 12 7.2A4.805 4.805 0 007.2 12c0 2.647 2.153 4.8 4.8 4.8zM5.124 16.972l-1.727 1.666a1.2 1.2 0 001.668 1.728l1.727-1.668a1.2 1.2 0 00-1.668-1.726zM17.18 17.002c.46-.477 1.22-.49 1.696-.03l1.727 1.666a1.2 1.2 0 01-1.668 1.728l-1.727-1.668a1.2 1.2 0 01-.029-1.696zM12 19.2a1.2 1.2 0 00-1.2 1.2v2.4a1.2 1.2 0 102.4 0v-2.4a1.2 1.2 0 00-1.2-1.2zM5.065 3.634a1.2 1.2 0 00-1.668 1.728l1.727 1.666a1.195 1.195 0 001.697-.03 1.2 1.2 0 00-.029-1.696L5.065 3.634zM3.6 10.8a1.2 1.2 0 110 2.4H1.2a1.2 1.2 0 110-2.4h2.4zM22.8 10.8h-2.4a1.2 1.2 0 100 2.4h2.4a1.2 1.2 0 100-2.4z"></path></symbol>
+<symbol id="i-twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></symbol>
+<symbol id="i-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></symbol>
+</svg> <header class="site-header small">
+<div class="container header-inner justify-space-between">
+<div class="header-logo flex">
+<a href="https://blog.christian-schou.dk/" class="logo-img theme-light-logo">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-schou-logo-dark-v1.png" alt="Tech with Christian">
+</a>
+<a href="https://blog.christian-schou.dk/" class="logo-img theme-dark-logo">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-schou-logo-white-v1.png" alt="Tech with Christian">
+</a>
+</div>
+<input id="mobile-menu-toggle" class="mobile-menu-checkbox" type="checkbox">
+<label for="mobile-menu-toggle" class="mobile-menu-icon" aria-label="menu toggle button">
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="sr-only">Menu toggle button</span>
+</label>
+<div class="header-right flex" data-theme-icon="true">
+<nav class="header-nav" role="navigation" aria-label="Main navigation">
+<ul class="header-nav-list no-style-list" role="menu">
+<li class="nav-item" role="menuitem">
+<a href="https://blog.christian-schou.dk/tag/net/">.NET</a>
+</li>
+<li class="nav-item" role="menuitem">
+<a href="https://blog.christian-schou.dk/tag/docker/">Docker</a>
+</li>
+<li class="nav-item" role="menuitem">
+<a href="https://blog.christian-schou.dk/tag/python/">Python</a>
+</li>
+<li class="nav-item" role="menuitem">
+<a href="https://blog.christian-schou.dk/signin/">Sign in</a>
+</li>
+<li class="nav-item" role="menuitem">
+<a class="btn btn-menuitem" href="https://blog.christian-schou.dk/signup/">Sign Up</a>
+</li>
+</ul>
+</nav>
+<div class="icon-items-wrap flex">
+<button href="javascript:;" class="nav-icon search-icon flex js-search-button">
+<span><svg><use xlink:href="#i-search"></use></svg></span>
+</button>
+<a href="javascript:;" class="nav-icon theme-icon flex js-toggle-dark-light" aria-label="Toggle theme">
+<div class="toggle-mode flex">
+<div class="light"><svg><use xlink:href="#i-sun"></use></svg></div>
+<span class="dark"><svg><use xlink:href="#i-moon"></use></svg></span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</header>
+<div class="main">
+<div class="container">
+<div class="row">
+<div class="col-lg-10 offset-lg-1">
+<article class="single-post">
+<header class="post-header">
+<h1 class="post-title">
+How to use Azure Blob Storage in an ASP.NET Core Web API to list, upload, download, and delete files
+</h1>
+<div class="post-meta flex">
+<div class="author-list flex">
+<a class="author-image" href="https://blog.christian-schou.dk/author/christian/" aria-label="Christian Schou">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-summer_1.webp" loading="lazy" alt="Christian Schou">
+</a>
+<a href="https://blog.christian-schou.dk/author/christian/" class="author-name">Christian Schou</a>&nbsp;
+</div>
+<time class="post-date" datetime="2022-03-26">Mar 26, 2022</time>
+<span class="read-time">19 min read</span>
+</div>
+</header>
+<div class="featured-image-wrap">
+<img class="featured-image" loading="lazy" srcset="/content/images/size/w400/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png 400w,
+                                /content/images/size/w600/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png 600w,
+                                /content/images/size/w1000/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png 1000w," sizes="(max-width: 432px) 400px, (max-width: 696px) 600px, 1000px" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png" alt="How to use Azure Blob Storage in an ASP.NET Core Web API to list, upload, download, and delete files">
+</div>
+<div class="post-content">
+<p>In this article, I will show you how to use Azure Blob Storage with ASP.NET Core. Often when working with web applications, APIs, or basically any other application, we are interacting with files in one way or another.</p><p>This article is made because I got a task the other day, where I had to share files between two organizations using Azure. The solution I ended up making contained a database and container with the file service API hosted at Azure and then two web services at each organization consuming the API for new files. Since I often read about others who would like to get started with Azure and work with applications in the cloud, I thought it would be a good idea to share my findings and knowledge about this little project.</p><h2 id="prerequisites">Prerequisites</h2><ul><li>Azure Subscription</li><li>Storage Account</li><li>.NET 6 (LTS)</li><li>Visual Studio 2022</li></ul><h2 id="configure-azure">Configure Azure</h2><p>The first thing we have to do is to create a Storage Account in our Azure Portal. This is used to provide the managed service from Microsoft delivering the cloud storage. Azure cloud storage includes Azure Blobs (objects) that we will use in this article. You can also pick other services like Azure Data Lake, Files, Azure Queues, and Azure Tables. I won’t get in touch with those in this article.</p><h3 id="create-a-new-azure-storage-account">Create a new Azure Storage Account</h3><p>Open up the <a href="https://portal.azure.com/?ref=tech-with-christian" rel="noreferrer noopener" target="_blank">Azure Portal</a> and search for <strong><strong>Storage Accounts</strong></strong> and open that page. You will now be able to create a new storage account, by using the “<strong><strong>Create</strong></strong>” button as seen in the image below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Create-New-Azure-Storage-Account.png" class="kg-image medium-zoom-image" alt="Storage Accounts, Microsoft Azure, Azure Blob, Storage" loading="lazy" width="1283" height="838" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Create-New-Azure-Storage-Account.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Create-New-Azure-Storage-Account.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Create-New-Azure-Storage-Account.png 1283w" sizes="(min-width: 720px) 720px"><figcaption>Storage Accounts – Microsoft Azure</figcaption></figure><p>You will then be presented to a page, where you can select your subscription and the resource group you would like this storage account to appear in.</p><p>Below that, you have to fill in some instance details like:</p><ul><li><strong><strong>Storage Account Name</strong></strong>.</li><li><strong><strong>Select Region </strong></strong>(I’m from Denmark, so I have chosen West Europe).</li><li><strong><strong>Select Performance</strong></strong> (You will be fine with <strong><strong>Standard</strong></strong>).</li><li><strong><strong>Choose Redundancy</strong></strong> (I have switched mine to <strong><strong>LRS </strong></strong>– <strong><strong>Locally Redundant Storage</strong></strong> for this example).</li></ul><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Basics-Create-New-Storage-Account-Azure.png" class="kg-image medium-zoom-image" alt="create storage account, azure storage" loading="lazy" width="1023" height="914" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Basics-Create-New-Storage-Account-Azure.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Basics-Create-New-Storage-Account-Azure.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Basics-Create-New-Storage-Account-Azure.png 1023w" sizes="(min-width: 720px) 720px"><figcaption>Basics – Create a new storage account at Microsoft Azure</figcaption></figure><p>If you want to you can go through all the menus and configure every little detail. I will just continue by clicking <strong><strong>Review + Create</strong></strong> at the bottom of the page.</p><p>When you click the <strong><strong>Review + Create</strong></strong> button, you will be taken to the <strong><strong>Review</strong></strong> page (the storage account has not been created yet). Here you can go through all the details for your new storage account. If you take a look at the top of the page, you will see that the <strong><strong>validation has passed</strong></strong>. If you are happy with the settings, then click the <strong><strong>Create </strong></strong>button at the bottom of the page.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Review-New-Storage-Account-Microsoft-Azure-v1.png" class="kg-image medium-zoom-image" alt="Review new storage account at Microsoft Azure" loading="lazy" width="873" height="1090" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Review-New-Storage-Account-Microsoft-Azure-v1.png 600w, https://blog.christian-schou.dk/content/images/2022/09/Review-New-Storage-Account-Microsoft-Azure-v1.png 873w" sizes="(min-width: 720px) 720px"><figcaption>Review new storage account at Microsoft Azure</figcaption></figure><p>On the overview page of your storage accounts, you now got the option to open up that storage account by clicking it, and configuring it.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/click-storage-account-azure.png" class="kg-image medium-zoom-image" alt="storage account azure, azure" loading="lazy" width="904" height="388" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/click-storage-account-azure.png 600w, https://blog.christian-schou.dk/content/images/2022/09/click-storage-account-azure.png 904w" sizes="(min-width: 720px) 720px"><figcaption>Select newly created Storage Account in Azure</figcaption></figure><p>I changed the name of my storage account to “<strong><strong>webapiazurestorage</strong></strong>” instead of “<strong><strong>testwebapi</strong></strong>“.</p><h3 id="create-a-blob-container-at-the-storage-account">Create a Blob Container at the Storage Account</h3><p><strong><strong>Click </strong></strong>on the <strong><strong>Storage Account </strong></strong>and select <strong><strong>Container </strong></strong>in the menu on your left side.</p><p>For us to store a file/document, we need a blob container inside that same storage account. This means that we have to create a new blob container. Check the image below to get an overview of how to do it.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Create-New-Storage-Container-1536x715.png" class="kg-image medium-zoom-image" alt="create blob container, azure blob container, blob storage" loading="lazy" width="1536" height="715" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Create-New-Storage-Container-1536x715.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Create-New-Storage-Container-1536x715.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Create-New-Storage-Container-1536x715.png 1536w" sizes="(min-width: 720px) 720px"><figcaption>Create a new Blob Container in Storage Account</figcaption></figure><h3 id="get-access-keys-for-azure-storage-account-connection-string">Get Access Keys for Azure Storage Account (Connection String)</h3><p>To gain access to our Azure Storage account and thereby our newly created Blob Container, we need a <strong><strong>connection string</strong></strong>. This is placed under <strong><strong>Access Keys</strong></strong>. You can find that in the menu on your left as well. Click the button “Show Keys” to reveal your connection string. We have to place this key inside our Web API project, leave the page here for now and go back to copy the connection string in a moment.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Get-Connection-String-For-Azure-Storage-Account.png" class="kg-image medium-zoom-image" alt="connection string azure" loading="lazy" width="1151" height="805" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Get-Connection-String-For-Azure-Storage-Account.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Get-Connection-String-For-Azure-Storage-Account.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Get-Connection-String-For-Azure-Storage-Account.png 1151w" sizes="(min-width: 720px) 720px"><figcaption>Get Connection String in Azure</figcaption></figure><p>That’s it for Azure. We are now ready to move on to the implementation of logic inside our Web API to make CRUD operations on our Azure Blob Storage using ASP.NET Core Web API.</p><h2 id="quick-introduction-to-azure-blob-storage">Quick Introduction to Azure Blob Storage</h2><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/quick-introduction-to-azure-blob-storage.png" class="kg-image medium-zoom-image" alt="Azure Blob Storage" loading="lazy" width="506" height="310"><figcaption>Azure Blob Storage</figcaption></figure><p>To give you a brief understanding of how Azure Blob Storage works, I have decided to include this section. Blob storage offers three different types of resources:</p><ul><li>Your Storage Account.</li><li>the container(s) inside the storage account.</li><li>A blob (file/document/video/etc…) inside the container.</li></ul><p>The diagram above shows the relationship between these resources. Inside our API, we could actually check against file type and place the file inside the correct container, if we were to organize the files uploaded to the API.</p><div class="schema-faq-code" itemscope="" itemtype="https://schema.org/FAQPage">
+<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question" class="faq-question">
+<h3 itemprop="name" class="faq-q">What is Azure Blob Storage?</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<p itemprop="text" class="faq-a">Azure Blob Storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data. Unstructured data is data that doesn't adhere to a particular data model or definition, such as text or binary data.</p>
+</div>
+</div>
+<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question" class="faq-question">
+<h3 itemprop="name" class="faq-q">What is Azure Data Lake Storage Gen2?</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<p itemprop="text" class="faq-a">Blob storage supports Azure Data Lake Storage Gen2, Microsoft's enterprise big data analytics solution for the cloud. Azure Data Lake Storage Gen2 offers a hierarchical file system as well as the advantages of Blob storage, including:
+- Low-cost, tiered storage
+- High availability
+- Strong consistency
+- Disaster recovery capabilities
+You can read more about that here: Introduction to Data Late Gen2.</p>
+</div>
+</div>
+<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question" class="faq-question">
+<h3 itemprop="name" class="faq-q">What is a Storage Account?</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<p itemprop="text" class="faq-a">A storage account provides a unique namespace in Azure for your data. Every object that you store in Azure Storage has an address that includes your unique account name. The combination of the account name and the Blob Storage endpoint forms the base address for the objects in your storage account.</p>
+</div>
+</div>
+<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question" class="faq-question">
+<h3 itemprop="name" class="faq-q">What is a Storage Container?</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<p itemprop="text" class="faq-a">A container organizes a set of blobs, similar to a directory in a file system. A storage account can include an unlimited number of containers, and a container can store an unlimited number of blobs.</p>
+</div>
+</div>
+<div itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question" class="faq-question">
+<h3 itemprop="name" class="faq-q">What is a Blob in Azure?</h3>
+<div itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+<p itemprop="text" class="faq-a">Azure Storage supports three types of blobs:
+- Block blobs store text and binary data. Block blobs are made up of blocks of data that can be managed individually. Block blobs can store up to about 190.7 TiB.
+- Append blobs are made up of blocks like block blobs but are optimized for append operations. Append blobs are ideal for scenarios such as logging data from virtual machines.
+- Page blobs store random access files up to 8 TiB in size. Page blobs store virtual hard drive (VHD) files and serve as disks for Azure virtual machines.</p>
+</div>
+</div>
+</div><h2 id="create-a-new-aspnet-web-api-to-handle-files-in-azure">Create a new ASP.NET Web API to handle files in Azure</h2><p>Open up Visual Studio and create a new project using the template ASP.NET Core Web API and choose .NET 6 (Long-term Support) as a framework. I have not placed my solution and project in the same folder. Optionally you can enable Docker Support if you are thinking of containerizing the solution.</p><p>My solution structure is as follows. I have one solution with two projects inside:</p><ul><li><strong><strong>AzureBlobStorage</strong></strong></li><li><strong><strong>AzureBlobStorage.WebApi</strong></strong> (this is built on the ASP.NET Core Web API template)</li><li><strong><strong>AzureBlobStorage.Test</strong></strong> (this is built on the template NUnit Test Project)</li></ul><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Azure-Blob-Storage-Solution-Overview.png" class="kg-image medium-zoom-image" alt="Visual Studio Solution Explorer" loading="lazy" width="339" height="358"><figcaption>AzureBlobStorage Solution Overview</figcaption></figure><h3 id="install-required-nuget-packages">Install required NuGet Packages</h3><h4 id="azurestorageblobs">Azure.Storage.Blobs</h4><p>To gain easy access to Azure Blob Storage, we have to install a package named <a href="https://www.nuget.org/packages/Azure.Storage.Blobs/?ref=tech-with-christian" rel="noreferrer noopener" target="_blank">Azure.Storage.Blobs</a>. It is a package that provides access to the Azure Blob Storage (object storage) solution for the cloud.</p><div class="code-toolbar"><pre class="language-text line-numbers" tabindex="0"><code class="language-text"># Package Manager
+Install-Package Azure.Storage.Blobs
+
+# .NET CLI
+dotnet add package Azure.Storage.Blobs
+
+# Package Reference
+&lt;PackageReference Include="Azure.Storage.Blobs" Version="&lt;VERSION-TAG-HERE&gt;" /&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><h4 id="microsoftvisualstudioazurecontainerstoolstargets">Microsoft.VisualStudio.Azure.Containers.Tools.Targets</h4><p>This package contains target files to enable your application to communicate with containers through tools.</p><div class="code-toolbar"><pre class="language-text line-numbers" tabindex="0"><code class="language-text"># Package Manager
+Install-Package Microsoft.VisualStudio.Azure.Containers.Tools.Targets
+
+# .NET CLI
+dotnet add package Microsoft.VisualStudio.Azure.Containers.Tools.Targets
+
+# Package Reference
+&lt;PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="&lt;VERSION-TAG-HERE&gt;" /&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><h3 id="add-configuration-details-in-appsettingsjson">Add configuration details in appsettings.json</h3><p>Open <code>appsettings.json</code> and add the following lines below “AllowedHosts”:</p><div class="code-toolbar"><pre class="line-numbers language-json" data-line="9-10" tabindex="0"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"Logging"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"LogLevel"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"Default"</span><span class="token operator">:</span> <span class="token string">"Information"</span><span class="token punctuation">,</span>
+      <span class="token property">"Microsoft.AspNetCore"</span><span class="token operator">:</span> <span class="token string">"Warning"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"AllowedHosts"</span><span class="token operator">:</span> <span class="token string">"*"</span><span class="token punctuation">,</span>
+  <span class="token property">"BlobConnectionString"</span><span class="token operator">:</span> <span class="token string">"*Your Connection string from Azure*"</span><span class="token punctuation">,</span>
+  <span class="token property">"BlobContainerName"</span><span class="token operator">:</span> <span class="token string">"*Your container name in Azure*"</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code><div aria-hidden="true" data-range="9-10" class=" line-highlight" style="top: 195px; height: 48px; width: 699px;"></div></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div>
+<p>With the connection string and container name in place, let’s create a repository to handle the operations we are going to perform against our Azure Storage Account.</p><h3 id="create-models-for-working-with-azure-blob-storage">Create models for working with Azure Blob Storage</h3><p>When uploading a file to Azure Blob Storage, we have to supply a name (string) and a file (string). The files we will be uploading, downloading, and deleting from Azure in this project are of the form <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformfile?view=aspnetcore-6.0&amp;ref=tech-with-christian" rel="noreferrer noopener" target="_blank">IFormFile</a>.</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformfile?view=aspnetcore-6.0&amp;ref=tech-with-christian" target="_blank"><div class="kg-bookmark-content"><div class="kg-bookmark-title">IFormFile Interface (Microsoft.AspNetCore.Http)</div><div class="kg-bookmark-description">Represents a file sent with the HttpRequest.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/favicon.ico" alt=""><span class="kg-bookmark-author">Microsoft Docs</span><span class="kg-bookmark-publisher">dotnet-bot</span></div></div><div class="kg-bookmark-thumbnail"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/logo-ms-social.png" alt=""></div></a></figure><p><strong><strong>Create </strong></strong>a <strong><strong>new folder </strong></strong>named <strong><strong>Models </strong></strong>and a <strong><strong>new </strong></strong>public <strong><strong>class</strong></strong> named <strong><strong>BlobDto</strong></strong> and another one named <strong><strong>BlobResponseDto</strong></strong>. </p><p>Place below code inside <strong><strong>BlobDto.cs</strong></strong>.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Models</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlobDto</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span><span class="token punctuation">?</span></span> Uri <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span><span class="token punctuation">?</span></span> Name <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span><span class="token punctuation">?</span></span> ContentType <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">Stream<span class="token punctuation">?</span></span> Content <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>This is for <strong>BlobResponseDto.cs</strong></p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Models</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlobResponseDto</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span><span class="token punctuation">?</span></span> Status <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">bool</span></span> Error <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">BlobDto</span> Blob <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token function">BlobResponseDto</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Blob <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobDto</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><h3 id="create-repository-for-azure-blob-storage">Create Repository for Azure Blob Storage</h3><p>To make it all a bit more clear and easy to maintain in the future or to implement for you in another solution/project, let’s put it all inside a repository and wire that up in or controller using an interface.</p><p><strong><strong>Create </strong></strong>a <strong><strong>new folder</strong></strong> named <strong><strong>Services</strong></strong>, this will contain our interface for the repository implementation. <strong><strong>Create </strong></strong>a <strong><strong>new</strong></strong> public <strong><strong>interface</strong></strong> and name it <code>IAzureStorage</code>. Place below code inside the interface:</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Services</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IAzureStorage</span>
+    <span class="token punctuation">{</span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// This method uploads a file submitted with the request</span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>File for upload<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>returns</span><span class="token punctuation">&gt;</span></span>Blob with status<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>returns</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobResponseDto<span class="token punctuation">&gt;</span></span> <span class="token function">UploadAsync</span><span class="token punctuation">(</span><span class="token class-name">IFormFile</span> file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// This method downloads a file with the specified filename</span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>blobFilename<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Filename<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>returns</span><span class="token punctuation">&gt;</span></span>Blob<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>returns</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span></span> <span class="token function">DownloadAsync</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> blobFilename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// This method deleted a file with the specified filename</span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>blobFilename<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Filename<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>returns</span><span class="token punctuation">&gt;</span></span>Blob with status<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>returns</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobResponseDto<span class="token punctuation">&gt;</span></span> <span class="token function">DeleteAsync</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> blobFilename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// This method returns a list of all files located in the container</span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>summary</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token doc-comment comment">/// <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>returns</span><span class="token punctuation">&gt;</span></span>Blobs in a list<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>returns</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>List<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> <span class="token function">ListAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>As you can see we now got 4 different async methods making up a CRUD (Create, Read, Update, Delete) interface for files located at Azure. Next, we have to add a new folder named <strong><strong>Repository</strong></strong> and <strong><strong>create </strong></strong>a <strong><strong>new file </strong></strong>inside that folder named <code>AzureStorage.cs</code>.</p><p>Let’s break the AzureStorage.cs file up in chunks and take a look at what happens. Let’s start off by adding the constructor with DI (dependency injection).</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Services</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Repository</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AzureStorage</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">IAzureStorage</span></span>
+    <span class="token punctuation">{</span>
+        <span class="token preprocessor property">#<span class="token directive keyword">region</span> Dependency Injection / Constructor</span>
+
+        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">string</span></span> _storageConnectionString<span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">string</span></span> _storageContainerName<span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">ILogger<span class="token punctuation">&lt;</span>AzureStorage<span class="token punctuation">&gt;</span></span> _logger<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token function">AzureStorage</span><span class="token punctuation">(</span><span class="token class-name">IConfiguration</span> configuration<span class="token punctuation">,</span> <span class="token class-name">ILogger<span class="token punctuation">&lt;</span>AzureStorage<span class="token punctuation">&gt;</span></span> logger<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            _storageConnectionString <span class="token operator">=</span> configuration<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetValue</span><span class="token generic class-name"><span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">"BlobConnectionString"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            _storageContainerName <span class="token operator">=</span> configuration<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetValue</span><span class="token generic class-name"><span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">"BlobContainerName"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            _logger <span class="token operator">=</span> logger<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token preprocessor property">#<span class="token directive keyword">endregion</span></span>
+
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>I have added this as a region, to make it easier to read the class and hide/unhide certain things in the class.</p><ul><li>We start by inheriting our Interface and then declaring two readonly string to house our connection string and the container name from our <code>appsettings.json</code> file. During runtime, these variables will be updated by the constructor.</li><li>Then we declare an ILogger&lt;AzureStorage&gt; variable. This will be used to create logs to our console at runtime, showing errors etc…</li><li>Finally we got the constructor where we tell it to take the values from our appsettings.json (configuration) and update the two variables so that we avoid getting a “Object reference is not set to an instance of an object” error at runtime.</li></ul><p>Let’s implement the interface.</p><h4 id="listasync">ListAsync()</h4><p>At the controller, we would like to present a list to the user with all files we have stored inside our container in Azure. Create the implementation for the interface and add the following logic:</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>List<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> <span class="token function">ListAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// Get a reference to a container named in appsettings.json</span>
+    <span class="token class-name">BlobContainerClient</span> container <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobContainerClient</span><span class="token punctuation">(</span>_storageConnectionString<span class="token punctuation">,</span> _storageContainerName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Create a new list object for </span>
+    <span class="token class-name">List<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span></span> files <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">await</span> <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name">BlobItem</span> file <span class="token keyword">in</span> container<span class="token punctuation">.</span><span class="token function">GetBlobsAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Add each file retrieved from the storage container to the files list by creating a BlobDto object</span>
+        <span class="token class-name"><span class="token keyword">string</span></span> uri <span class="token operator">=</span> container<span class="token punctuation">.</span>Uri<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword">var</span></span> name <span class="token operator">=</span> file<span class="token punctuation">.</span>Name<span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword">var</span></span> fullUri <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">uri</span><span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">name</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">;</span>
+
+        files<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobDto</span> <span class="token punctuation">{</span>
+            Uri <span class="token operator">=</span> fullUri<span class="token punctuation">,</span>
+            Name <span class="token operator">=</span> name<span class="token punctuation">,</span>
+            ContentType <span class="token operator">=</span> file<span class="token punctuation">.</span>Properties<span class="token punctuation">.</span>ContentType
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Return all files to the requesting method</span>
+    <span class="token keyword">return</span> files<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>In the code above we:</p><ul><li>Start off by creating a new BlobContainerClient using the connection string and container name. This allows us to manipulate Azure Storage Containers and their blobs.</li><li>At line 7 we create a new list uwing our BlobDto and name it files. The files are the object we would like to end up returning to the requesting method.</li><li>In the foreach loop, we get the blobs inside the container and adds the to the list we created at line 7.</li><li>Finally we return the files.</li></ul><p>We do not make any logging here, we will just return an empty list if no files have been added prior to the request. You could (if you want to) make a log showing how many files were found in the container.</p><h4 id="uploadasync">UploadAsync()</h4><p>If we don’t upload any files, the rest of the functionality will not make any sense. Let’s take a look at how we can upload files asynchronously to Azure Storage.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobResponseDto<span class="token punctuation">&gt;</span></span> <span class="token function">UploadAsync</span><span class="token punctuation">(</span><span class="token class-name">IFormFile</span> blob<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// Create new upload response object that we can return to the requesting method</span>
+    <span class="token class-name">BlobResponseDto</span> response <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Get a reference to a container named in appsettings.json and then create it</span>
+    <span class="token class-name">BlobContainerClient</span> container <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobContainerClient</span><span class="token punctuation">(</span>_storageConnectionString<span class="token punctuation">,</span> _storageContainerName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//await container.CreateAsync();</span>
+    <span class="token keyword">try</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Get a reference to the blob just uploaded from the API in a container from configuration settings</span>
+        <span class="token class-name">BlobClient</span> client <span class="token operator">=</span> container<span class="token punctuation">.</span><span class="token function">GetBlobClient</span><span class="token punctuation">(</span>blob<span class="token punctuation">.</span>FileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Open a stream for the file we want to upload</span>
+        <span class="token keyword">await</span> <span class="token keyword">using</span> <span class="token punctuation">(</span><span class="token class-name">Stream<span class="token punctuation">?</span></span> data <span class="token operator">=</span> blob<span class="token punctuation">.</span><span class="token function">OpenReadStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// Upload the file async</span>
+            <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">UploadAsync</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Everything is OK and file got uploaded</span>
+        response<span class="token punctuation">.</span>Status <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"File </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blob<span class="token punctuation">.</span>FileName</span><span class="token punctuation">}</span></span><span class="token string"> Uploaded Successfully"</span></span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Error <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Blob<span class="token punctuation">.</span>Uri <span class="token operator">=</span> client<span class="token punctuation">.</span>Uri<span class="token punctuation">.</span>AbsoluteUri<span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Blob<span class="token punctuation">.</span>Name <span class="token operator">=</span> client<span class="token punctuation">.</span>Name<span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+    <span class="token comment">// If the file already exists, we catch the exception and do not upload it</span>
+    <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RequestFailedException</span> ex<span class="token punctuation">)</span>
+       <span class="token keyword">when</span> <span class="token punctuation">(</span>ex<span class="token punctuation">.</span>ErrorCode <span class="token operator">==</span> BlobErrorCode<span class="token punctuation">.</span>BlobAlreadyExists<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _logger<span class="token punctuation">.</span><span class="token function">LogError</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"File with name </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blob<span class="token punctuation">.</span>FileName</span><span class="token punctuation">}</span></span><span class="token string"> already exists in container. Set another name to store the file in the container: '</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">_storageContainerName</span><span class="token punctuation">}</span></span><span class="token string">.'"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Status <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"File with name </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blob<span class="token punctuation">.</span>FileName</span><span class="token punctuation">}</span></span><span class="token string"> already exists. Please use another name to store your file."</span></span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Error <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> 
+    <span class="token comment">// If we get an unexpected error, we catch it here and return the error message</span>
+    <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RequestFailedException</span> ex<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Log error to console and create a new response we can return to the requesting method</span>
+        _logger<span class="token punctuation">.</span><span class="token function">LogError</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Unhandled Exception. ID: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">ex<span class="token punctuation">.</span>StackTrace</span><span class="token punctuation">}</span></span><span class="token string"> - Message: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">ex<span class="token punctuation">.</span>Message</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Status <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"Unexpected error: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">ex<span class="token punctuation">.</span>StackTrace</span><span class="token punctuation">}</span></span><span class="token string">. Check log with StackTrace ID."</span></span><span class="token punctuation">;</span>
+        response<span class="token punctuation">.</span>Error <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Return the BlobUploadResponse object</span>
+    <span class="token keyword">return</span> response<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>This method returns a <strong><strong>BlobResponseDto </strong></strong>with different error messages, depending on the return message from Azure. Each error message has also been configured with a log. The last exception handler will not expose the message to the client, only the stack trace. This has been done to avoid exposing sensitive data. What happens when no errors are present:</p><ul><li>First we create the <strong><strong>BlobResponseDto </strong></strong>and a new <strong><strong>BlobContainerClient </strong></strong>with our connection string and container name.</li><li>We then try to create a new <code>BlobClient</code> with the filename specified from <code>IFormFile</code>.</li><li>If that was a success we create a new stream and upload the data inside that stream to the client (<code>BlobClient</code>) with the filename we gave it earlier.</li><li>We then update the <strong><strong>BlobResponseDto </strong></strong>with data from the upload request and return to the client.</li></ul><h4 id="downloadasync">DownloadAsync()</h4><p>It’s not fun having a file repository if you cant access the files. Let’s implement some logic to download a file by name inside our repository.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span></span> <span class="token function">DownloadAsync</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> blobFilename<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// Get a reference to a container named in appsettings.json</span>
+    <span class="token class-name">BlobContainerClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobContainerClient</span><span class="token punctuation">(</span>_storageConnectionString<span class="token punctuation">,</span> _storageContainerName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">try</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Get a reference to the blob uploaded earlier from the API in the container from configuration settings</span>
+        <span class="token class-name">BlobClient</span> file <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">GetBlobClient</span><span class="token punctuation">(</span>blobFilename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Check if the file exists in the container</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">ExistsAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> data <span class="token operator">=</span> <span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">OpenReadAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Stream</span> blobContent <span class="token operator">=</span> data<span class="token punctuation">;</span>
+
+            <span class="token comment">// Download the file details async</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> content <span class="token operator">=</span> <span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">DownloadContentAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Add data to variables in order to return a BlobDto</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> name <span class="token operator">=</span> blobFilename<span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> contentType <span class="token operator">=</span> content<span class="token punctuation">.</span>Value<span class="token punctuation">.</span>Details<span class="token punctuation">.</span>ContentType<span class="token punctuation">;</span>
+
+            <span class="token comment">// Create new BlobDto with blob data from variables</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobDto</span> <span class="token punctuation">{</span> Content <span class="token operator">=</span> blobContent<span class="token punctuation">,</span> Name <span class="token operator">=</span> name<span class="token punctuation">,</span> ContentType <span class="token operator">=</span> contentType <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RequestFailedException</span> ex<span class="token punctuation">)</span>
+        <span class="token keyword">when</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span>ErrorCode <span class="token operator">==</span> BlobErrorCode<span class="token punctuation">.</span>BlobNotFound<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Log error to console</span>
+        _logger<span class="token punctuation">.</span><span class="token function">LogError</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"File </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blobFilename</span><span class="token punctuation">}</span></span><span class="token string"> was not found."</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// File does not exist, return null and handle that in requesting method</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>Once again we create a BlobContanerClient with our connection string and the container name. We then try to get the file, if it turns out that the file does not exist at our Azure Blob Storage, we create an error log message and return null to the requesting method. If it goes well, we do the following:</p><ul><li>Get the file using the filename provided</li><li>Open an async stream for the file we would like to download.</li><li>Then download the content of the file asyncronosly.</li><li>Set the content type and filename and finally return that as a <code>BlobDto</code>.</li></ul><h4 id="deleteasync">DeleteAsync()</h4><p>If we are not able to delete files, we will get a ton of them in our Azure Blob Storage container = a lot of garbage. Let’s implement some logic to delete the files we don’t need anymore.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>BlobResponseDto<span class="token punctuation">&gt;</span></span> <span class="token function">DeleteAsync</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> blobFilename<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">BlobContainerClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobContainerClient</span><span class="token punctuation">(</span>_storageConnectionString<span class="token punctuation">,</span> _storageContainerName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">BlobClient</span> file <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">GetBlobClient</span><span class="token punctuation">(</span>blobFilename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">try</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Delete the file</span>
+        <span class="token keyword">await</span> file<span class="token punctuation">.</span><span class="token function">DeleteAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RequestFailedException</span> ex<span class="token punctuation">)</span>
+        <span class="token keyword">when</span> <span class="token punctuation">(</span>ex<span class="token punctuation">.</span>ErrorCode <span class="token operator">==</span> BlobErrorCode<span class="token punctuation">.</span>BlobNotFound<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// File did not exist, log to console and return new response to requesting method</span>
+        _logger<span class="token punctuation">.</span><span class="token function">LogError</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"File </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blobFilename</span><span class="token punctuation">}</span></span><span class="token string"> was not found."</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobResponseDto</span> <span class="token punctuation">{</span> Error <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span> Status <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"File with name </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blobFilename</span><span class="token punctuation">}</span></span><span class="token string"> not found."</span></span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Return a new BlobResponseDto to the requesting method</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BlobResponseDto</span> <span class="token punctuation">{</span> Error <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">,</span> Status <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"File: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">blobFilename</span><span class="token punctuation">}</span></span><span class="token string"> has been successfully deleted."</span></span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>If we do not find the blob/file, we create a new error log to the console and return an error message in the <code>BlobResponseDto</code> to the requesting method. However, if we do find the file at our Azure Blob Storage, we do the following:</p><ul><li>We create a new blob client with the filename provided from the requester.</li><li>We then try to delete the file using the method <code>DeleteAsync()</code> it takes no parameters, as it already got it from th client (<code>BlobClient</code>).</li><li>Finally we create a new BlobResponseDto object and return that to the requesting method.</li></ul><h3 id="modify-programcs-to-use-serilog-and-register-our-azure-service">Modify Program.cs to use Serilog and register our Azure Service</h3><p>I have totally rewritten the program.cs file because I wanted to add some extra logging. I have decided to add Serilog and write to the console.</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://serilog.net/?ref=tech-with-christian" target="_blank"><div class="kg-bookmark-content"><div class="kg-bookmark-title">Serilog — simple .NET logging with fully-structured events</div><div class="kg-bookmark-description"></div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/favicon.png" alt=""></div></div><div class="kg-bookmark-thumbnail"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/pluralsight-light.png" alt=""></div></a></figure><p>Serilog got many great options and is capable of beautifying the logs, and integrate with many different services like <a href="https://datalust.co/seq?ref=tech-with-christian" rel="noreferrer noopener" target="_blank">Seq</a>, <a href="https://www.elastic.co/elasticsearch/?ref=tech-with-christian" rel="noreferrer noopener" target="_blank">Elasticsearch</a>, etc…</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://datalust.co/seq?ref=tech-with-christian" target="_blank"><div class="kg-bookmark-content"><div class="kg-bookmark-title">Seq — centralized structured logs for .NET, Java, Node.js</div><div class="kg-bookmark-description">Seq is the intelligent search, analysis, and alerting server built specifically for modern structured log data.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/favicon(1).png" alt=""><span class="kg-bookmark-author">Seq</span><span class="kg-bookmark-publisher">Datalust</span></div></div><div class="kg-bookmark-thumbnail"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/screenshot-header-light.png" alt=""></div></a></figure><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://www.elastic.co/elasticsearch/?ref=tech-with-christian" target="_blank"><div class="kg-bookmark-content"><div class="kg-bookmark-title">Elasticsearch: The Official Distributed Search &amp; Analytics Engine | Elastic</div><div class="kg-bookmark-description">Elasticsearch is the leading distributed, RESTful, free and open search and analytics engine designed for speed, horizontal scalability, reliability, and easy management. Get started for free.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/android-chrome-192x192.png" alt=""><span class="kg-bookmark-author">Elastic</span></div></div><div class="kg-bookmark-thumbnail"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/social_media_default.png" alt=""></div></a></figure><p>Below is the new implementation of <code>program.cs</code>.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Common</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Repository</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Services</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Serilog</span><span class="token punctuation">;</span>
+
+StaticLogger<span class="token punctuation">.</span><span class="token function">EnsureInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Log<span class="token punctuation">.</span><span class="token function">Information</span><span class="token punctuation">(</span><span class="token string">"Azure Storage API Booting Up..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> builder <span class="token operator">=</span> WebApplication<span class="token punctuation">.</span><span class="token function">CreateBuilder</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Add Serilog</span>
+    builder<span class="token punctuation">.</span>Host<span class="token punctuation">.</span><span class="token function">UseSerilog</span><span class="token punctuation">(</span><span class="token punctuation">(</span>_<span class="token punctuation">,</span> config<span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+    <span class="token punctuation">{</span>
+        config<span class="token punctuation">.</span>WriteTo<span class="token punctuation">.</span><span class="token function">Console</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span>ReadFrom<span class="token punctuation">.</span><span class="token function">Configuration</span><span class="token punctuation">(</span>builder<span class="token punctuation">.</span>Configuration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    
+    builder<span class="token punctuation">.</span>Services<span class="token punctuation">.</span><span class="token function">AddControllers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    builder<span class="token punctuation">.</span>Services<span class="token punctuation">.</span><span class="token function">AddEndpointsApiExplorer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    builder<span class="token punctuation">.</span>Services<span class="token punctuation">.</span><span class="token function">AddSwaggerGen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Add Azure Repository Service</span>
+    builder<span class="token punctuation">.</span>Services<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddTransient</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>IAzureStorage<span class="token punctuation">,</span> AzureStorage<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Log<span class="token punctuation">.</span><span class="token function">Information</span><span class="token punctuation">(</span><span class="token string">"Services has been successfully added..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> app <span class="token operator">=</span> builder<span class="token punctuation">.</span><span class="token function">Build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Configure the HTTP request pipeline.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>app<span class="token punctuation">.</span>Environment<span class="token punctuation">.</span><span class="token function">IsDevelopment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        app<span class="token punctuation">.</span><span class="token function">UseSwagger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        app<span class="token punctuation">.</span><span class="token function">UseSwaggerUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    app<span class="token punctuation">.</span><span class="token function">UseHttpsRedirection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    app<span class="token punctuation">.</span><span class="token function">UseAuthorization</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    app<span class="token punctuation">.</span><span class="token function">MapControllers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    app<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Log<span class="token punctuation">.</span><span class="token function">Information</span><span class="token punctuation">(</span><span class="token string">"API is now ready to serve files to and from Azure Cloud Storage..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token keyword">when</span> <span class="token punctuation">(</span><span class="token operator">!</span>ex<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Name<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token string">"StopTheHostException"</span><span class="token punctuation">,</span> StringComparison<span class="token punctuation">.</span>Ordinal<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    StaticLogger<span class="token punctuation">.</span><span class="token function">EnsureInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>ex<span class="token punctuation">,</span> <span class="token string">"Unhandled Exception"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">finally</span>
+<span class="token punctuation">{</span>
+    StaticLogger<span class="token punctuation">.</span><span class="token function">EnsureInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Log<span class="token punctuation">.</span><span class="token function">Information</span><span class="token punctuation">(</span><span class="token string">"Azure Storage API Shutting Down..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Log<span class="token punctuation">.</span><span class="token function">CloseAndFlush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>As you might notice I use a class named <code>StaticLogger</code> with the method <code>EnsureInitialized()</code>. For you to get that, you have to add a new folder named <code>Common</code> and then <strong><strong>add </strong></strong>a <strong><strong>new class </strong></strong>named <code>StaticLogger.cs</code>. Below is the implementation for <code>StaticLogger.cs</code>.</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">Serilog</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Common</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StaticLogger</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">EnsureInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>Log<span class="token punctuation">.</span>Logger <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token class-name">Serilog<span class="token punctuation">.</span>Core<span class="token punctuation">.</span>Logger</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                Log<span class="token punctuation">.</span>Logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">LoggerConfiguration</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span>Enrich<span class="token punctuation">.</span><span class="token function">FromLogContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span>WriteTo<span class="token punctuation">.</span><span class="token function">Console</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">CreateLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>This method is just to make sure that if the logger used is not <a href="https://serilog.net/?ref=tech-with-christian" rel="noreferrer noopener" target="_blank">Serilog</a>, we change it and make sure that we use Serilog and that it writes to the console.</p><h3 id="create-storagecontroller-for-implementing-azure-blob-storage-endpoints">Create StorageController for implementing Azure Blob Storage endpoints</h3><p>The controller is a simple one with four actions. Each action is returning an IActionResult when the repository has done its work against our Azure Blob Storage.</p><p>I have not created any names on the routes, as the four methods are different. You are welcome to update the naming for the routes if you like that. In a production environment, I would probably change this to include namings, especially if I have multiple actions in the same controller with the same type of request methods (POST, GET, DELETE, PUT)…</p><p>Below is the implementation for the controller:</p><div class="code-toolbar"><pre class="language-csharp line-numbers" tabindex="0"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Models</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Services</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Microsoft<span class="token punctuation">.</span>AspNetCore<span class="token punctuation">.</span>Mvc</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">AzureBlobStorage<span class="token punctuation">.</span>WebApi<span class="token punctuation">.</span>Controllers</span>
+<span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Route</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"api/[controller]"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">ApiController</span></span><span class="token punctuation">]</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StorageController</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ControllerBase</span></span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">IAzureStorage</span> _storage<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token function">StorageController</span><span class="token punctuation">(</span><span class="token class-name">IAzureStorage</span> storage<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            _storage <span class="token operator">=</span> storage<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpGet</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token keyword">nameof</span><span class="token punctuation">(</span>Get<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">&gt;</span></span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// Get all files at the Azure Storage Location and return them</span>
+            <span class="token class-name">List<span class="token punctuation">&lt;</span>BlobDto<span class="token punctuation">&gt;</span><span class="token punctuation">?</span></span> files <span class="token operator">=</span> <span class="token keyword">await</span> _storage<span class="token punctuation">.</span><span class="token function">ListAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Returns an empty array if no files are present at the storage container</span>
+            <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status200OK<span class="token punctuation">,</span> files<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpPost</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token keyword">nameof</span><span class="token punctuation">(</span>Upload<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">&gt;</span></span> <span class="token function">Upload</span><span class="token punctuation">(</span><span class="token class-name">IFormFile</span> file<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name">BlobResponseDto<span class="token punctuation">?</span></span> response <span class="token operator">=</span> <span class="token keyword">await</span> _storage<span class="token punctuation">.</span><span class="token function">UploadAsync</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Check if we got an error</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>Error <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// We got an error during upload, return an error with details to the client</span>
+                <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status500InternalServerError<span class="token punctuation">,</span> response<span class="token punctuation">.</span>Status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// Return a success message to the client about successfull upload</span>
+                <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status200OK<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpGet</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"{filename}"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">&gt;</span></span> <span class="token function">Download</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> filename<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name">BlobDto<span class="token punctuation">?</span></span> file <span class="token operator">=</span> <span class="token keyword">await</span> _storage<span class="token punctuation">.</span><span class="token function">DownloadAsync</span><span class="token punctuation">(</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Check if file was found</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>file <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// Was not, return error message to client</span>
+                <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status500InternalServerError<span class="token punctuation">,</span> <span class="token interpolation-string"><span class="token string">$"File </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">filename</span><span class="token punctuation">}</span></span><span class="token string"> could not be downloaded."</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// File was found, return it to client</span>
+                <span class="token keyword">return</span> <span class="token function">File</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span>Content<span class="token punctuation">,</span> file<span class="token punctuation">.</span>ContentType<span class="token punctuation">,</span> file<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpDelete</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"filename"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+        <span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">&gt;</span></span> <span class="token function">Delete</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> filename<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name">BlobResponseDto</span> response <span class="token operator">=</span> <span class="token keyword">await</span> _storage<span class="token punctuation">.</span><span class="token function">DeleteAsync</span><span class="token punctuation">(</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// Check if we got an error</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>Error <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// Return an error message to the client</span>
+                <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status500InternalServerError<span class="token punctuation">,</span> response<span class="token punctuation">.</span>Status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// File has been successfully deleted</span>
+                <span class="token keyword">return</span> <span class="token function">StatusCode</span><span class="token punctuation">(</span>StatusCodes<span class="token punctuation">.</span>Status200OK<span class="token punctuation">,</span> response<span class="token punctuation">.</span>Status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button class="copy-to-clipboard-button" type="button" data-copy-state="copy"><span>Copy</span></button></div></div></div><p>What is going on here?</p><ul><li><code>Get()</code> – Create a list and reques the files at our Azure Blob Storage. Then return the files in a list. If no files were found an empty list will be returned.</li><li><code>Upload()</code> – This action takes in an <code>IFormFile</code> and passes it onto the UploadAsync method we created in our interface and repository. It then checks the result and returns a Status 500 if an error occured or a status 200 including the response from the repository.</li><li><code>Dowload()</code> – This action is requesting a filename is can pass on to the <code>DownloadAsync()</code> method. It then checks the result to see if it was an error (<em><em>null is returned</em></em>) or simply just returns the File with the content from the <code>BlobDto</code>.</li><li><code>Delete()</code> – This action also requests a filename for the file we would like to delete. It then requests the repository to delete that file. If the repository encountered an error, a status of 500 is returned to the client. However if the file was actually found and deleted from our Azure Blob Storage, we return status 200 with a success status message.</li></ul><h2 id="testing-the-api-with-swagger">Testing the API with Swagger</h2><p>Now for the exciting part of the project. The testing of the API using Swagger or Postman.</p><h3 id="boot-the-api">Boot the API</h3><p>Start off by booting up the API. If we check the console, we can see that Serilog is outputting some great logs for us – perfect!</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/API-Booting-Console.png" class="kg-image medium-zoom-image" alt="Booting Application Logs" loading="lazy" width="975" height="508" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/API-Booting-Console.png 600w, https://blog.christian-schou.dk/content/images/2022/09/API-Booting-Console.png 975w" sizes="(min-width: 720px) 720px"><figcaption>Booting Application Logs</figcaption></figure><p>The API is ready and you should now have a webpage in front of you with Swagger and your endpoints.</p><h3 id="upload-a-file">Upload a file</h3><p>Let’s start off by uploading some files to our Azure Blob Storage. I have uploaded two files named <strong><strong>test.txt</strong></strong> and <strong><strong>test1.txt</strong></strong>. You can upload anything you would like.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Upload-File-Swagger-Asp-Net-Core.png" class="kg-image medium-zoom-image" alt="Successfully uploaded a file to Azure Blob Storage" loading="lazy" width="1436" height="1217" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Upload-File-Swagger-Asp-Net-Core.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Upload-File-Swagger-Asp-Net-Core.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Upload-File-Swagger-Asp-Net-Core.png 1436w" sizes="(min-width: 720px) 720px"><figcaption>Successfully uploaded a file to Azure Blob Storage</figcaption></figure><p>The file got uploaded and we get the expected response in return. If you were to allow a public (unauthorized) view of your files in the container, you could copy and paste the link from <strong><strong>URI</strong></strong> to get your file.</p><p>If we refresh our Azure Storage Container, we now see the files we uploaded from the API. Awesome!</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Azure-Container-With-Blobs.png" class="kg-image medium-zoom-image" alt="list files in azure blob storage" loading="lazy" width="1364" height="656" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Azure-Container-With-Blobs.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Azure-Container-With-Blobs.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Azure-Container-With-Blobs.png 1364w" sizes="(min-width: 720px) 720px"><figcaption>Show files inside container at Azure</figcaption></figure><h3 id="get-all-files">Get all files</h3><p>Let’s see if we can make the same list of files as we see in Azure. Execute the <strong><strong>Get</strong></strong> endpoint.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Get-All-Files-From-Azure-Blob-Storage-Asp-Net-Core-Web-Api.png" class="kg-image medium-zoom-image" alt="Get all files at Azure Blob Storage" loading="lazy" width="1428" height="1016" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Get-All-Files-From-Azure-Blob-Storage-Asp-Net-Core-Web-Api.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Get-All-Files-From-Azure-Blob-Storage-Asp-Net-Core-Web-Api.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Get-All-Files-From-Azure-Blob-Storage-Asp-Net-Core-Web-Api.png 1428w" sizes="(min-width: 720px) 720px"><figcaption>Get all files at Azure Blob Storage</figcaption></figure><p>As we expected, we get to see the files we just saw in the web interface in Azure.</p><h3 id="download-file">Download file</h3><p>Now for a crucial part of this API. Can we actually download our files again? Execute the endpoint to download a file and specify the name of the file you would like to download.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Download-file-from-azure-blob-storage-asp-net-core-web-api.png" class="kg-image medium-zoom-image" alt="Download File from Azure Blob Storage" loading="lazy" width="1432" height="967" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Download-file-from-azure-blob-storage-asp-net-core-web-api.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Download-file-from-azure-blob-storage-asp-net-core-web-api.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Download-file-from-azure-blob-storage-asp-net-core-web-api.png 1432w" sizes="(min-width: 720px) 720px"><figcaption>Download File from Azure Blob Storage</figcaption></figure><p>When we execute this method with a valid filename, we get a link to download the file in the response body. It works!</p><h3 id="delete-file">Delete file</h3><p>Last but very important – cleanup. <strong><strong>Enter</strong></strong> the <strong><strong>name</strong></strong> <strong><strong>of</strong></strong> <strong><strong>the</strong></strong> <strong><strong>file</strong></strong> you would like to delete at Azure and <strong><strong>click</strong></strong> <strong><strong>Execute</strong></strong>. If the file exists it will be deleted as shown below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/Delete-File-Azure-Blob-Storage-Web-Api.png" class="kg-image medium-zoom-image" alt="Delete Azure Blob Storage file using Web API" loading="lazy" width="1435" height="991" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/Delete-File-Azure-Blob-Storage-Web-Api.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/Delete-File-Azure-Blob-Storage-Web-Api.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/Delete-File-Azure-Blob-Storage-Web-Api.png 1435w" sizes="(min-width: 720px) 720px"><figcaption>Delete Azure Blob Storage file using Web API</figcaption></figure><p>That went well. Let’s see if the Azure portal agrees and only shows one file now.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/File-Deleted-Azure-Storage-Account-Container.png" class="kg-image medium-zoom-image" alt="Azure Portal for file container with blobs" loading="lazy" width="1365" height="553" srcset="https://blog.christian-schou.dk/content/images/size/w600/2022/09/File-Deleted-Azure-Storage-Account-Container.png 600w, https://blog.christian-schou.dk/content/images/size/w1000/2022/09/File-Deleted-Azure-Storage-Account-Container.png 1000w, https://blog.christian-schou.dk/content/images/2022/09/File-Deleted-Azure-Storage-Account-Container.png 1365w" sizes="(min-width: 720px) 720px"><figcaption>Azure Portal for file container with blobs</figcaption></figure><p>It has been deleted and is no longer available inside of our container. Perfect – just what we expected it to do.</p><h2 id="summary">Summary</h2><p>Azure Blob Storage is a very powerful cloud storage solution provided by Microsoft. In almost any project you make I’m sure that you interact with files in one way or another. If you want to get away from the old way of storing files like with an on-premise file server, Azure Blob Storage would be the perfect fit for you.</p><p>In this article, you learned how to set up a new storage account at Azure and create your own container + extract the connection string from the Access Keys section in your Storage Account. You then learned how to implement CRUD functionality inside your ASP.NET Core Web API to interact with Azure Blob Storage to get, upload, delete and list your files inside a container and serve the result to a client through the API.</p><p>If you got any questions, issues, or suggestions, please let me know in the comments below. The <a href="https://github.com/Christian-Schou/?ref=tech-with-christian" target="_blank">source code is available at my Github</a>. Until next time -Happy coding!</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/Christian-Schou/Azure-Blob-Storage-with-ASP.NET-Core-Web-API?ref=tech-with-christian" target="_blank"><div class="kg-bookmark-content"><div class="kg-bookmark-title">GitHub - Christian-Schou/Azure-Blob-Storage-with-ASP.NET-Core-Web-API</div><div class="kg-bookmark-description">Contribute to Christian-Schou/Azure-Blob-Storage-with-ASP.NET-Core-Web-API development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/fluidicon.png" alt=""><span class="kg-bookmark-author">GitHub</span><span class="kg-bookmark-publisher">Christian-Schou</span></div></div><div class="kg-bookmark-thumbnail"><img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/eb43b2d0-85c3-4578-8657-087ebee2881f" alt=""></div></a></figure>
+</div>
+<div class="post-footer">
+<div class="tag-wrap">
+<a href="https://blog.christian-schou.dk/tag/net/" style="background:#5B2992">.NET</a>
+<a href="https://blog.christian-schou.dk/tag/cloud/">Cloud</a>
+<a href="https://blog.christian-schou.dk/tag/azure/" style="background:#0088D4">Azure</a>
+</div>
+<div class="share-wrap">
+<div class="share-title h5 text-center">Care to share? Help me spread the word about TWC.</div>
+<div class="share-links flex">
+<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/" onclick="window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;" title="Share on Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+<a class="twitter" href="https://twitter.com/share?text=How%20to%20use%20Azure%20Blob%20Storage%20in%20an%20ASP.NET%20Core%20Web%20API%20to%20list%2C%20upload%2C%20download%2C%20and%20delete%20files&amp;url=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/" onclick="window.open(this.href, &#39;twitter-share&#39;, &#39;width=580,height=296&#39;);return false;" title="Share on Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg></a>
+<a class="pinterest" href="https://pinterest.com/pin/create/button/?url=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/&amp;media=https://blog.christian-schou.dk/content/images/2022/09/Azure-Blob-Storage-Asp-Net-Core-Web-Api-1536x864.png&amp;description=How%20to%20use%20Azure%20Blob%20Storage%20in%20an%20ASP.NET%20Core%20Web%20API%20to%20list%2C%20upload%2C%20download%2C%20and%20delete%20files" onclick="window.open(this.href, &#39;linkedin-share&#39;, &#39;width=580,height=296&#39;);return false;" title="Share on Pinterest"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" fill-rule="evenodd" clip-rule="evenodd"></path></svg></a>
+<a class="whatsapp" href="whatsapp://send?text=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/" data-action="share/whatsapp/share" onclick="window.open(this.href, &#39;linkedin-share&#39;, &#39;width=580,height=296&#39;);return false;" title="Share on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg></a>
+<a class="linkedin" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/&amp;title=How%20to%20use%20Azure%20Blob%20Storage%20in%20an%20ASP.NET%20Core%20Web%20API%20to%20list%2C%20upload%2C%20download%2C%20and%20delete%20files" onclick="window.open(this.href, &#39;linkedin-share&#39;, &#39;width=580,height=296&#39;);return false;" title="Share on Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path></svg></a>
+<a class="link" href="mailto:?subject=How%20to%20use%20Azure%20Blob%20Storage%20in%20an%20ASP.NET%20Core%20Web%20API%20to%20list%2C%20upload%2C%20download%2C%20and%20delete%20files&amp;body=https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/" title="Send via email" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"></path></svg></a>
+<a class="link js-copy-link" href="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/#" onclick="return false;" data-clipboard-text="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/" title="Copy the permalink" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.188 8.719c.439-.439.926-.801 1.444-1.087 2.887-1.591 6.589-.745 8.445 2.069l-2.246 2.245c-.644-1.469-2.243-2.305-3.834-1.949-.599.134-1.168.433-1.633.898l-4.304 4.306c-1.307 1.307-1.307 3.433 0 4.74 1.307 1.307 3.433 1.307 4.74 0l1.327-1.327c1.207.479 2.501.67 3.779.575l-2.929 2.929c-2.511 2.511-6.582 2.511-9.093 0s-2.511-6.582 0-9.093l4.304-4.306zm6.836-6.836l-2.929 2.929c1.277-.096 2.572.096 3.779.574l1.326-1.326c1.307-1.307 3.433-1.307 4.74 0 1.307 1.307 1.307 3.433 0 4.74l-4.305 4.305c-1.311 1.311-3.44 1.3-4.74 0-.303-.303-.564-.68-.727-1.051l-2.246 2.245c.236.358.481.667.796.982.812.812 1.846 1.417 3.036 1.704 1.542.371 3.194.166 4.613-.617.518-.286 1.005-.648 1.444-1.087l4.304-4.305c2.512-2.511 2.512-6.582.001-9.093-2.511-2.51-6.581-2.51-9.092 0z"></path></svg></a>
+</div>
+<div class="js-notification-copy-link text-center"><span>The link has been Copied to your clipboard. Thank you for sharing, have an awesome day!</span></div>
+</div> <div class="about-author flex">
+<div class="avatar-wrap">
+<a href="https://blog.christian-schou.dk/author/christian/" title="Christian Schou"><img class="avatar" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-summer_1(1).webp" loading="lazy" alt="Christian Schou"></a>
+</div>
+<div class="author-info">
+<h3 class="name h5"><a href="https://blog.christian-schou.dk/author/christian/">Christian Schou</a></h3>
+<div class="bio">
+My name is Christian. I am a 26-year-old pragmatic software engineer with a passion for .NET, Cloud, and Containers. In my spare time, I share my knowledge and love teaching other people about tech.
+</div>
+</div>
+</div>
+</div>
+</article>
+<div class="prev-nex-wrap">
+<div class="row">
+<div class="col-md-6">
+<div class="post prev-post">
+<a href="https://blog.christian-schou.dk/send-emails-with-asp-net-core-with-mailkit/" class="flex">
+<div class="featured-image">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/sending-emails-with-asp-net-core-featured-image-1536x960.png" loading="lazy" alt="How to Send Emails with ASP.NET Core using SMTP with MailKit">
+</div>
+<div class="content-wrap">
+<div class="nav-text">Newer article</div>
+<h4 class="title h5">How to Send Emails with ASP.NET Core using SMTP with MailKit</h4>
+<div class="post-meta">
+<time class="post-date" datetime="2022-04-15">Apr 15, 2022</time>
+<span class="read-time">25 min read</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="col-md-6">
+<div class="post next-post">
+<a href="https://blog.christian-schou.dk/what-is-a-json-web-token-jwt-and-why-use-them/" class="flex">
+<div class="featured-image">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/json-web-token-jwt-christian-schou.png" loading="lazy" alt="What is a JSON Web Token (JWT) and why use them in conjunction with Web APIs?">
+</div>
+<div class="content-wrap">
+<div class="nav-text">Older article</div>
+<h4 class="title h5">What is a JSON Web Token (JWT) and why use them in conjunction with Web APIs?</h4>
+<div class="post-meta">
+<time class="post-date" datetime="2022-03-07">Mar 07, 2022</time>
+<span class="read-time">10 min read</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div> <div class="comment-wrap">
+<div class="comment-container">
+<div id="ghost-comments-root"><iframe title="comments-frame" frameborder="0" style="width: 100%; height: 364px;" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/saved_resource.html"></iframe><div class="js-reframe" style="position: relative; width: 100%;"><iframe data-frame="admin-auth" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/saved_resource(1).html" title="auth-frame" style="display: none; position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;"></iframe></div></div><script defer="" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/comments-ui.min.js.download" data-ghost-comments="https://blog.christian-schou.dk/" data-api="https://blog.christian-schou.dk/ghost/api/content/" data-admin="https://blog.christian-schou.dk/ghost/" data-key="d0c7ceec837325c2faeb16664b" data-styles="https://cdn.jsdelivr.net/ghost/comments-ui@~0.12/umd/main.css" data-title="null" data-count="true" data-post-id="63f50da668bb550001e6f153" data-sentry-dsn="" data-color-scheme="auto" data-avatar-saturation="60" data-accent-color="#0057FF" data-app-version="0.12" data-comments-enabled="all" data-publication="Tech with Christian" crossorigin="anonymous"></script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="related-posts-wrap">
+<h3 class="section-title h5 text-center">Have you seen these?</h3>
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-6">
+<article class="related-post-card" data-id="">
+<a href="https://blog.christian-schou.dk/connect-postgresql-database-to-dot-net-6/" class="post-img-wrap">
+<img class="post-img" loading="lazy" srcset="/content/images/size/w250/2022/10/connect-postgresql-to-dot-net-with-ef-core.png 250w,
+                                /content/images/size/w400/2022/10/connect-postgresql-to-dot-net-with-ef-core.png 400w,
+                                /content/images/size/w600/2022/10/connect-postgresql-to-dot-net-with-ef-core.png 600w,
+                                /content/images/size/w1000/2022/10/connect-postgresql-to-dot-net-with-ef-core.png 1000w," sizes="(max-width: 432px) 400px, (max-width: 575px) 600px, (max-width: 628px) 250px, 400px" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/connect-postgresql-to-dot-net-with-ef-core.png" alt="How to Connect PostgreSQL Database with Entity Framework Core in .NET 6">
+</a>
+<div class="post-info-wrap">
+<h2 class="h5 post-title"><a href="https://blog.christian-schou.dk/connect-postgresql-database-to-dot-net-6/">How to Connect PostgreSQL Database with Entity Framework Core in .NET 6</a></h2>
+<div class="post-meta">
+<time class="post-date" datetime="2022-10-09">Oct 09, 2022</time>
+<span class="read-time">17 min read</span>
+</div>
+</div>
+</article>
+</div>
+<div class="col-lg-3 col-md-4 col-sm-6">
+<article class="related-post-card" data-id="">
+<a href="https://blog.christian-schou.dk/how-to-connect-postgresql-database-with-entity-framework-core-in-net/" class="post-img-wrap">
+<img class="post-img" loading="lazy" srcset="/content/images/size/w250/2023/03/connect-mysql-to-ef-core-and-dotnet.webp 250w,
+                                /content/images/size/w400/2023/03/connect-mysql-to-ef-core-and-dotnet.webp 400w,
+                                /content/images/size/w600/2023/03/connect-mysql-to-ef-core-and-dotnet.webp 600w,
+                                /content/images/size/w1000/2023/03/connect-mysql-to-ef-core-and-dotnet.webp 1000w," sizes="(max-width: 432px) 400px, (max-width: 575px) 600px, (max-width: 628px) 250px, 400px" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/connect-mysql-to-ef-core-and-dotnet.webp" alt="How to Connect MySQL Database with Entity Framework Core in .NET">
+</a>
+<div class="post-info-wrap">
+<h2 class="h5 post-title"><a href="https://blog.christian-schou.dk/how-to-connect-postgresql-database-with-entity-framework-core-in-net/">How to Connect MySQL Database with Entity Framework Core in .NET</a></h2>
+<div class="post-meta">
+<time class="post-date" datetime="2023-03-10">Mar 10, 2023</time>
+<span class="read-time">9 min read</span>
+</div>
+</div>
+</article>
+</div>
+<div class="col-lg-3 col-md-4 col-sm-6">
+<article class="related-post-card" data-id="">
+<a href="https://blog.christian-schou.dk/how-to-build-a-restful-web-api-using-net-core6/" class="post-img-wrap">
+<img class="post-img" loading="lazy" srcset="/content/images/size/w250/2022/08/RESTful-Web-API-ASP-NET-Core-80.jpeg 250w,
+                                /content/images/size/w400/2022/08/RESTful-Web-API-ASP-NET-Core-80.jpeg 400w,
+                                /content/images/size/w600/2022/08/RESTful-Web-API-ASP-NET-Core-80.jpeg 600w,
+                                /content/images/size/w1000/2022/08/RESTful-Web-API-ASP-NET-Core-80.jpeg 1000w," sizes="(max-width: 432px) 400px, (max-width: 575px) 600px, (max-width: 628px) 250px, 400px" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/RESTful-Web-API-ASP-NET-Core-80.jpeg" alt="How to build a RESTful Web API using ASP.NET Core and Entity Framework Core (.NET 6)">
+</a>
+<div class="post-info-wrap">
+<h2 class="h5 post-title"><a href="https://blog.christian-schou.dk/how-to-build-a-restful-web-api-using-net-core6/">How to build a RESTful Web API using ASP.NET Core and Entity Framework Core (.NET 6)</a></h2>
+<div class="post-meta">
+<time class="post-date" datetime="2022-07-25">Jul 25, 2022</time>
+<span class="read-time">19 min read</span>
+</div>
+</div>
+</article>
+</div>
+<div class="col-lg-3 col-md-4 col-sm-6">
+<article class="related-post-card" data-id="">
+<a href="https://blog.christian-schou.dk/how-to-implement-azure-redis-cache-in-net-core-web-api/" class="post-img-wrap">
+<img class="post-img" loading="lazy" srcset="/content/images/size/w250/2023/01/implement-azure-redis-cache-net-core-web-api.webp 250w,
+                                /content/images/size/w400/2023/01/implement-azure-redis-cache-net-core-web-api.webp 400w,
+                                /content/images/size/w600/2023/01/implement-azure-redis-cache-net-core-web-api.webp 600w,
+                                /content/images/size/w1000/2023/01/implement-azure-redis-cache-net-core-web-api.webp 1000w," sizes="(max-width: 432px) 400px, (max-width: 575px) 600px, (max-width: 628px) 250px, 400px" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/implement-azure-redis-cache-net-core-web-api.webp" alt="How to implement Azure Cache for Redis in a .NET Core Web API?">
+</a>
+<div class="post-info-wrap">
+<h2 class="h5 post-title"><a href="https://blog.christian-schou.dk/how-to-implement-azure-redis-cache-in-net-core-web-api/">How to implement Azure Cache for Redis in a .NET Core Web API?</a></h2>
+<div class="post-meta">
+<time class="post-date" datetime="2023-01-19">Jan 19, 2023</time>
+<span class="read-time">31 min read</span>
+</div>
+</div>
+</article>
+</div>
+</div>
+</div>
+</div>
+<section class="email-subs">
+<div class="container">
+<div class="email-subs-wrap text-center">
+<div class="icon">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 122 55"><path d="M80.265 5.637a1.563 1.563 0 000 3.125h.045a1.563 1.563 0 000-3.125h-.045zM59.345 43.791a1.563 1.563 0 000 3.126h24.623a1.563 1.563 0 100-3.126H59.345z"></path><path fill-rule="evenodd" d="M44.922 0h72.763a4.172 4.172 0 014.159 4.158v45.737a4.17 4.17 0 01-4.158 4.158H44.922a4.17 4.17 0 01-4.158-4.158V4.158A4.17 4.17 0 0144.922 0zm38.774 27.442l16.523-12.393h-5.43a1.563 1.563 0 010-3.126h9.597l4.215-3.161H86.715a1.563 1.563 0 010-3.125h25.328c.204 0 .399.039.578.11l3.504-2.629H46.482l32.43 24.324c.583.444 1.478.722 2.392.718.913.004 1.808-.274 2.392-.718zm6.451-.942l-4.582 3.437c-1.247.929-2.765 1.338-4.262 1.34-1.498-.003-3.015-.412-4.261-1.34L72.46 26.5 46.134 50.876a.2.2 0 01-.01.012l-.01.01-.01.009-.014.013-.006.006-.008.009h70.456l-.023-.023a.337.337 0 01-.035-.035L90.147 26.5zM69.95 24.617L43.883 5.067v43.634l26.066-24.084zm22.71 0l26.065-19.55V48.7L92.658 24.617z" clip-rule="evenodd"></path><path d="M2.654 23.901a1.563 1.563 0 000 3.125h15.383a1.563 1.563 0 100-3.125H2.654zM24.288 25.464c0-.863.7-1.563 1.563-1.563h9.99a1.563 1.563 0 010 3.125h-9.99c-.863 0-1.563-.7-1.563-1.562zM5.373 17.876c0-.863.7-1.563 1.563-1.563h25.328a1.563 1.563 0 110 3.126H6.936c-.863 0-1.563-.7-1.563-1.563zM22.599 39.077a1.563 1.563 0 000 3.125h14.353a1.563 1.563 0 000-3.125H22.6zM.157 40.64c0-.864.7-1.563 1.562-1.563h14.354a1.563 1.563 0 010 3.125H1.719c-.863 0-1.562-.7-1.562-1.563zM15.662 31.489a1.563 1.563 0 000 3.125h16.602a1.563 1.563 0 100-3.125H15.662zM7.162 33.052c0-.864.7-1.563 1.562-1.563h.344a1.563 1.563 0 110 3.125h-.344c-.863 0-1.562-.7-1.562-1.562z"></path></svg> </div>
+<h2 class="h1 email-subs-section-title">Subscribe to TWC</h2>
+<div class="email-subs-section-description">
+Stay up to date! Get all the latest tutorials delivered straight to your inbox.
+</div>
+<div class="form-wrap">
+<form class="subscribe-form text-left" data-members-form="subscribe">
+<div class="form-field-wrap field-group-inline">
+<label for="name" class="sr-only">Name</label>
+<input data-members-name="" type="text" class="name form-field input-field" id="name" placeholder="Your name" required="" autocomplete="off">
+<label for="email" class="sr-only">Email</label>
+<input data-members-email="" type="email" class="email form-field input-field" id="email" placeholder="Your email address" required="" autocomplete="off">
+<button class="btn form-field" type="submit"><span>Subscribe</span></button>
+</div>
+<div class="message-container">
+<div class="notification success form-notification">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+<strong>Great!</strong> Awesome! Please check your inbox and click the link to confirm your subscription to TWC.
+</div>
+<div class="notification error form-notification">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+<strong>Error!</strong> Please enter a valid email address.
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<footer class="site-footer">
+<div class="container">
+<div class="footer-top">
+<div class="row">
+<div class="col-lg-5">
+<div class="footer-widget widget-about">
+<div class="widget-content">
+<div class="footer-logo-wrap">
+<a href="https://blog.christian-schou.dk/" class="logo-img theme-light-logo">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-schou-logo-dark-v1.png" alt="Tech with Christian">
+</a>
+<a href="https://blog.christian-schou.dk/" class="logo-img theme-dark-logo">
+<img src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/christian-schou-logo-white-v1.png" alt="Tech with Christian">
+</a>
+</div>
+<div class="site-description">
+A professional Software Developer sharing his knowledge with the internet.
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-7">
+<div class="widget secondary-nav flex">
+<div class="nav-col">
+<h3 class="title h6">Shortcuts</h3>
+<nav>
+<ul class="no-style-list">
+<li class="nav-link"><a href="https://blog.christian-schou.dk/how-to-use-azure-blob-storage-with-asp-net-core/#/portal/">Sign up</a></li>
+<li class="nav-link"><a href="https://christian-schou.dk/about/">About</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footer-bottom flex justify-space-between">
+<div class="social-links-wrap flex">
+<span class="title">Follow:</span>
+<div class="social-links flex">
+<a href="https://www.facebook.com/christan.schou" aria-label="facebook link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+<a href="https://www.youtube.com/channel/UCeBO2irl7zeAbDpC_EEH51w" aria-label="youtube link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg></a>
+<a href="https://github.com/Christian-Schou" aria-label="github link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a>
+<a href="https://www.linkedin.com/in/chrschou1996/" aria-label="linkedin link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path></svg></a>
+<a href="https://christian-schou.dk/" aria-label="chrisian schou"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.188 8.719c.439-.439.926-.801 1.444-1.087 2.887-1.591 6.589-.745 8.445 2.069l-2.246 2.245c-.644-1.469-2.243-2.305-3.834-1.949-.599.134-1.168.433-1.633.898l-4.304 4.306c-1.307 1.307-1.307 3.433 0 4.74 1.307 1.307 3.433 1.307 4.74 0l1.327-1.327c1.207.479 2.501.67 3.779.575l-2.929 2.929c-2.511 2.511-6.582 2.511-9.093 0s-2.511-6.582 0-9.093l4.304-4.306zm6.836-6.836l-2.929 2.929c1.277-.096 2.572.096 3.779.574l1.326-1.326c1.307-1.307 3.433-1.307 4.74 0 1.307 1.307 1.307 3.433 0 4.74l-4.305 4.305c-1.311 1.311-3.44 1.3-4.74 0-.303-.303-.564-.68-.727-1.051l-2.246 2.245c.236.358.481.667.796.982.812.812 1.846 1.417 3.036 1.704 1.542.371 3.194.166 4.613-.617.518-.286 1.005-.648 1.444-1.087l4.304-4.305c2.512-2.511 2.512-6.582.001-9.093-2.511-2.51-6.581-2.51-9.092 0z"></path></svg></a>
+</div>
+</div> <div class="copyright">
+© 2022 Tech with Christian - All rights reserved.
+</div> </div>
+</div>
+</footer> </div>
+<div class="search-popup js-search-popup">
+<div class="search-popup-bg"></div>
+<a href="javascript:;" class="close-button" id="search-close" aria-label="Close search">
+<svg><use xlink:href="#i-close"></use></svg>
+</a>
+<div class="popup-inner">
+<div class="inner-container">
+<form class="search-form" id="search-form">
+<div class="search-form-box flex">
+<input type="text" class="search-input" placeholder="Type to search" id="search-input" aria-label="Type to search" role="searchbox">
+</div>
+</form>
+<div class="search-close-note">Press ESC to close.</div>
+<div class="search-result" id="search-results"></div>
+<div class="suggested-tags tag-wrap" id="suggested-tags">
+<h2 class="h6">See posts by Popular tags</h2>
+<div class="tag-list">
+<a href="https://blog.christian-schou.dk/tag/net/" style="background:#5B2992">.NET</a>
+<a href="https://blog.christian-schou.dk/tag/csharp/" style="background:#953DAB">C#</a>
+<a href="https://blog.christian-schou.dk/tag/api/">API</a>
+<a href="https://blog.christian-schou.dk/tag/python/" style="background:#2D699A">Python</a>
+<a href="https://blog.christian-schou.dk/tag/learn-to-code/" style="background:#90d373">Learn to code</a>
+<a href="https://blog.christian-schou.dk/tag/azure/" style="background:#0088D4">Azure</a>
+<a href="https://blog.christian-schou.dk/tag/docker/" style="background:#2396EC">Docker</a>
+<a href="https://blog.christian-schou.dk/tag/cloud/">Cloud</a>
+<a href="https://blog.christian-schou.dk/tag/general/">General</a>
+<a href="https://blog.christian-schou.dk/tag/ef-core/" style="background:#68207A">EF Core</a>
+</div>
+</div>
+</div>
+</div>
+</div> <div class="notification notification-subscribe">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+You've successfully subscribed to Tech with Christian
+</div>
+<div class="notification notification-signup">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Great! Next, complete checkout to get full access to all premium content.
+</div>
+<div class="notification notification-signup-error error">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Error! Could not sign up. invalid link.
+</div>
+<div class="notification notification-signin">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Welcome back! You've successfully signed in.
+</div>
+<div class="notification notification-signin-error error">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Error! Could not sign in. Please try again.
+</div>
+<div class="notification notification-checkout">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Success! Your account is fully activated, you now have access to all content.
+</div>
+<div class="notification error notification-checkout-cancel">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Error! Stripe checkout failed.
+</div>
+<div class="notification notification-billing-update">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Success! Your billing info is updated.
+</div>
+<div class="notification error notification-billing-update-cancel">
+<a class="notification-close" href="javascript:;" aria-label="close notification"><span class="close-icon"><svg><use xlink:href="#i-close"></use></svg></span></a>
+Error! Billing info update failed.
+</div> <script>
+            var nextPage = '';
+            var totalPages = '';
+			var TweetQuoteText ='<svg><use xlink:href="#i-twitter"/></svg><span>Tweet this</span>';
+        </script>
+<script src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/app.bundle.min.js.download"></script>
+<script src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/prism-v1.js.download"></script>
+<script type="text/javascript">
+	var links = document.getElementsByTagName("article")[0].querySelectorAll('a');
+    var a = new RegExp('/' + window.location.host + '/');
+	links.forEach((link) => {
+		if(!a.test(link.href)) {
+			link.setAttribute("target","_blank");
+		}
+	});
+</script>
+<script>document.body.className += ' ' + 'line-numbers';</script>
+
+<div id="ghost-portal-root"><div class="js-reframe" style="position: relative; width: 100%; padding-top: 53.5519%;"><iframe data-testid="portal-trigger-frame" title="portal-trigger" frameborder="0" class="gh-portal-triggerbtn-iframe" style="z-index: 3999998; position: absolute; inset: 0px; width: 100%; max-width: 500px; height: 100%; animation: 250ms ease 0s 1 normal none running animation-bhegco; transition: opacity 0.3s ease 0s; overflow: hidden;" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/saved_resource(2).html"></iframe></div></div><div id="sodo-search-root"></div><iframe name="__privateStripeMetricsController7710" frameborder="0" allowtransparency="true" scrolling="no" role="presentation" allow="payment *" src="./How to use Azure Blob Storage with ASP.NET Core Web API_files/m-outer-93afeeb17bc37e711759584dbfc50d47.html" aria-hidden="true" tabindex="-1" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; visibility: hidden !important; position: fixed !important; height: 1px !important; pointer-events: none !important; user-select: none !important;"></iframe></body></html>
