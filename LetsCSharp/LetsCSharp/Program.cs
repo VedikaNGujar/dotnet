@@ -6,6 +6,7 @@ using LetsCSharp.AccessModifiers;
 using LetsCSharp.AsyncAwait;
 using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
+using LetsCSharp.Constructors;
 using LetsCSharp.Delegates;
 using LetsCSharp.Enums;
 using LetsCSharp.EqualityComparer;
@@ -16,6 +17,9 @@ using LetsCSharp.IsAndAsExample;
 using LetsCSharp.LinQ;
 using LetsCSharp.List;
 using LetsCSharp.NameOf;
+using LetsCSharp.Params;
+//using LetsCSharp.Polymorphism.MethodHiding;
+using LetsCSharp.Polymorphism.MethodOverloading;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
@@ -30,9 +34,9 @@ internal class Program
     private static void Main(string[] args)
     {
 
-        var original = new Point(1, 2);
-        var shifted = original with { X = original.X + 3, Y = original.Y - 1 };
-        Console.WriteLine(shifted);
+        //var original = new Point(1, 2);
+        //var shifted = original with { X = original.X + 3, Y = original.Y - 1 };
+        //Console.WriteLine(shifted);
 
         //CompareRecordAndClass.Compare();
         //EnumsExample.PrintEnums();
@@ -62,55 +66,94 @@ internal class Program
 
         //Helper.WriteLine("/**Polymorphism**/");
         //Helper.WriteLine("/****Method Hiding****/");
-        //CSharp.Polymorphism.MethodHiding.Employee employee
-        //    = new CSharp.Polymorphism.MethodHiding.Employee()
-        //    //will always call base class method
-        //    {
-        //        FirstName = "FirstName",
-        //        LastName = "LastName"
-        //    };
+        //Employee employee = new Employee()
+        ////will always call base class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
         //Helper.WriteLineWithTab(employee.PrintName());
 
-        //CSharp.Polymorphism.MethodHiding.PartTimeEmployee employee4
-        //   = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
-        //   //will always call PartTimeEmployee class method
-        //   {
-        //       FirstName = "FirstName",
-        //       LastName = "LastName"
-        //   };
+        //PartTimeEmployee employee4 = new PartTimeEmployee()
+        ////will always call PartTimeEmployee class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
         //Helper.WriteLineWithTab(employee4.PrintName());
 
-        //CSharp.Polymorphism.MethodHiding.PartTimeEmployee employee5
-        //  = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
-        //  //will always call Employee class method
-        //  {
-        //      FirstName = "FirstName",
-        //      LastName = "LastName"
-        //  };
+        //PartTimeEmployee employee5 = new PartTimeEmployee()
+        ////will always call Employee class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
         ////typecasting
-        //Helper.WriteLineWithTab(
-        //    ((CSharp.Polymorphism.MethodHiding.Employee)employee5).PrintName());
+        //Helper.WriteLineWithTab(((Employee)employee5).PrintName());
 
-        //CSharp.Polymorphism.MethodHiding.Employee employee1
-        //    = new CSharp.Polymorphism.MethodHiding.PartTimeEmployee()
-        //    //will always call base class method
-        //    {
-        //        FirstName = "FirstName",
-        //        LastName = "LastName"
-        //    };
+        //Employee employee1 = new PartTimeEmployee()
+        ////will always call base class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
         //Helper.WriteLineWithTab(employee1.PrintName());
 
-        //CSharp.Polymorphism.MethodHiding.Employee employee2
-        //    = new CSharp.Polymorphism.MethodHiding.FullTimeEmployee()
-        //    //will always call base class method
-        //    {
-        //        FirstName = "FirstName",
-        //        LastName = "LastName"
-        //    };
+        //Employee employee2 = new FullTimeEmployee()
+        ////will always call base class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
         //Helper.WriteLineWithTab(employee2.PrintName());
         ////typecasting
-        //Helper.WriteLineWithTab(
-        //    ((CSharp.Polymorphism.MethodHiding.FullTimeEmployee)employee2).PrintName());
+        //Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
+
+
+        Helper.WriteLine("/**Polymorphism**/");
+        Helper.WriteLine("/****Method Overloading****/");
+        Employee employee = new Employee()
+        //will always call base class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee.PrintName());
+
+        PartTimeEmployee employee4 = new PartTimeEmployee()
+        //will always call PartTimeEmployee class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee4.PrintName());
+
+        PartTimeEmployee employee5 = new PartTimeEmployee()
+        //will always call PartTimeEmployee class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        //typecasting
+        Helper.WriteLineWithTab(((Employee)employee5).PrintName());
+
+        Employee employee1 = new PartTimeEmployee()
+        //will call PartTime class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee1.PrintName());
+
+        Employee employee2 = new FullTimeEmployee()
+        //will call FullTime class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee2.PrintName());
+        //typecasting
+        Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
 
 
 
@@ -129,7 +172,17 @@ internal class Program
         //EqualityComparerTest();
         //AsyncAwaitTest();
         //NameOfTest();
-        StructTest();
+        //StructTest();
+        //ParamsTest();
+    }
+
+    private static void ParamsTest()
+    {
+        Console.WriteLine(ParamsExample.Add(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        Console.WriteLine(ParamsExample.Add()); // this will call Add which has only params.
+        Console.WriteLine(ParamsExample.Add(10));
+        Console.WriteLine(ParamsExample.Add(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        Console.WriteLine(ParamsExample.ConcatString("Vedika", "Nidhi", "Gujar"));
     }
 
     private static void StructTest()
