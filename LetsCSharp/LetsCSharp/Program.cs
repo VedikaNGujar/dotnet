@@ -61,6 +61,9 @@ internal class Program
         //StaticExample staticExample = new StaticExample();// will call default constructor
         //StaticExample staticExample1 = new StaticExample(1);// will call paramterised constructor
 
+        //Helper.WriteLine("/**Private Constructors**/");
+        //ErrorExample1 errorExample1 = new ErrorExample1(); //will throw error as its constructor is private
+
         //Helper.WriteLine("/**Error Constructors**/");
         ////ErrorExample errorExample = new ErrorExample();// will THROW error as there is no default constructor
         //ErrorExample errorExample1 = new ErrorExample(1);// will call paramterised constructor

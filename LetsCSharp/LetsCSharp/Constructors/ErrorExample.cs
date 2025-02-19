@@ -13,4 +13,25 @@ namespace LetsCSharp.Constructors
 
         }
     }
+
+    public class ErrorExample1
+    {
+        private ErrorExample1()
+        {
+            Helper.WriteLineWithTab("Private Constructor");
+
+        }
+
+
+        public void Instance()
+        {
+            var ex = new ErrorExample1(); //allowed here even if private as its privately accessed
+        }
+
+        public ErrorExample1 InstanceNew()
+        {
+            return new ErrorExample1(); //allowed here even if private as its privately accessed
+        }
+
+    }
 }
