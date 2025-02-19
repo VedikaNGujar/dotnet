@@ -189,7 +189,7 @@ internal class Program
 
         var dispose1 = new DisposeExample(new IntPtr(10)); // this object will later get destroyed by finalizer\
 
-        using(var dispose = new DisposeExample2(new IntPtr(10)))
+        using (var dispose = new DisposeExample2(new IntPtr(10)))
         {
 
         }
