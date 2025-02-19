@@ -110,50 +110,50 @@ internal class Program
         //Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
 
 
-        Helper.WriteLine("/**Polymorphism**/");
-        Helper.WriteLine("/****Method Overloading****/");
-        Employee employee = new Employee()
-        //will always call base class method
-        {
-            FirstName = "FirstName",
-            LastName = "LastName"
-        };
-        Helper.WriteLineWithTab(employee.PrintName());
+        //Helper.WriteLine("/**Polymorphism**/");
+        //Helper.WriteLine("/****Method Overloading****/");
+        //Employee employee = new Employee()
+        ////will always call base class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
+        //Helper.WriteLineWithTab(employee.PrintName());
 
-        PartTimeEmployee employee4 = new PartTimeEmployee()
-        //will always call PartTimeEmployee class method
-        {
-            FirstName = "FirstName",
-            LastName = "LastName"
-        };
-        Helper.WriteLineWithTab(employee4.PrintName());
+        //PartTimeEmployee employee4 = new PartTimeEmployee()
+        ////will always call PartTimeEmployee class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
+        //Helper.WriteLineWithTab(employee4.PrintName());
 
-        PartTimeEmployee employee5 = new PartTimeEmployee()
-        //will always call PartTimeEmployee class method
-        {
-            FirstName = "FirstName",
-            LastName = "LastName"
-        };
-        //typecasting
-        Helper.WriteLineWithTab(((Employee)employee5).PrintName());
+        //PartTimeEmployee employee5 = new PartTimeEmployee()
+        ////will always call PartTimeEmployee class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
+        ////typecasting
+        //Helper.WriteLineWithTab(((Employee)employee5).PrintName());
 
-        Employee employee1 = new PartTimeEmployee()
-        //will call PartTime class method
-        {
-            FirstName = "FirstName",
-            LastName = "LastName"
-        };
-        Helper.WriteLineWithTab(employee1.PrintName());
+        //Employee employee1 = new PartTimeEmployee()
+        ////will call PartTime class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
+        //Helper.WriteLineWithTab(employee1.PrintName());
 
-        Employee employee2 = new FullTimeEmployee()
-        //will call FullTime class method
-        {
-            FirstName = "FirstName",
-            LastName = "LastName"
-        };
-        Helper.WriteLineWithTab(employee2.PrintName());
-        //typecasting
-        Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
+        //Employee employee2 = new FullTimeEmployee()
+        ////will call FullTime class method
+        //{
+        //    FirstName = "FirstName",
+        //    LastName = "LastName"
+        //};
+        //Helper.WriteLineWithTab(employee2.PrintName());
+        ////typecasting
+        //Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
 
 
 
@@ -174,6 +174,18 @@ internal class Program
         //NameOfTest();
         //StructTest();
         //ParamsTest();
+
+        Disposable();
+    }
+
+    private static void Disposable()
+    {
+        using (var dispose = new DisposeExample(new IntPtr(10)))
+        {
+
+        }
+
+        var dispose1 = new DisposeExample(new IntPtr(10)); // this object will later get destroyed by finalizer
     }
 
     private static void ParamsTest()
