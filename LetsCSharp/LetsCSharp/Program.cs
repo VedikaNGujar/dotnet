@@ -8,6 +8,7 @@ using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Constructors;
 using LetsCSharp.Delegates;
+using LetsCSharp.Disposable;
 using LetsCSharp.Enums;
 using LetsCSharp.EqualityComparer;
 using LetsCSharp.Generics;
@@ -182,10 +183,16 @@ internal class Program
     {
         using (var dispose = new DisposeExample(new IntPtr(10)))
         {
+            var dispose3 = new DisposeExample(new IntPtr(10)); // this object will later get destroyed by finalizer\
 
         }
 
-        var dispose1 = new DisposeExample(new IntPtr(10)); // this object will later get destroyed by finalizer
+        var dispose1 = new DisposeExample(new IntPtr(10)); // this object will later get destroyed by finalizer\
+
+        using(var dispose = new DisposeExample2(new IntPtr(10)))
+        {
+
+        }
     }
 
     private static void ParamsTest()
