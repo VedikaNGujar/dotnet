@@ -9,17 +9,23 @@ namespace LetsCSharp.Abstract
 
     internal interface InterfaceForAbstract
     {
-        public abstract void Getname();
+        public abstract void Getname(); //can also have abstract in interface
+        public void Setname();
+
     }
 
     internal interface InterfaceForAbstract1 : InterfaceForAbstract
     {
-        public new abstract void Getname();
+        public abstract void Getname();
+        public void Setname();
+
     }
 
-    internal abstract class Abstract2 : InterfaceForAbstract1
+    internal abstract class Abstract2 : InterfaceForAbstract1 //abstract class can inherit interface
     {
         public abstract void Getname();
+
+        public abstract void Setname();
     }
 
 
@@ -29,6 +35,7 @@ namespace LetsCSharp.Abstract
         {
             Console.WriteLine("getname");
         }
+
     }
 
     internal abstract class Abstract1
@@ -49,6 +56,8 @@ namespace LetsCSharp.Abstract
         {
             Console.WriteLine("getName3");
         }
+
+        //public abstract void Getname4();
     }
 
     internal class ClassAbstract1 : Abstract1

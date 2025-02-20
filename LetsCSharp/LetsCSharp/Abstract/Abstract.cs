@@ -15,14 +15,19 @@ namespace LetsCSharp.Abstract
         }
 
         public abstract void Getname();
+        public virtual void GetName3()
+        {
+            Console.WriteLine("Base:GetName3");
+
+        }
         public void Getname2()
         {
-            Console.WriteLine("getName2");
+            Console.WriteLine("Base:GetName2");
         }
 
         public virtual void Getname3()
         {
-            Console.WriteLine("getName3");
+            Console.WriteLine("Base:GetName3");
         }
     }
 
@@ -30,12 +35,12 @@ namespace LetsCSharp.Abstract
     {
         public override void Getname()
         {
-            Console.WriteLine("getName child class");
+            Console.WriteLine("Child:GetName child class");
 
         }
         public override void Getname3()
         {
-            Console.WriteLine("getName3 child class");
+            Console.WriteLine("Child:GetName3 child class");
         }
     }
 

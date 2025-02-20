@@ -53,31 +53,13 @@ internal class Program
 
 
         //List.ListTest();
-        //Helper.WriteLine("/**Constructors**/");
-        //Example example = new Example();// will call default constructor
-        //Example example1 = new Example(1);// will call paramterised constructor
-
-        //Helper.WriteLine("/**Static Constructors**/");
-        //StaticExample staticExample = new StaticExample();// will call default constructor
-        //StaticExample staticExample1 = new StaticExample(1);// will call paramterised constructor
-
-        //Helper.WriteLine("/**Private Constructors**/");
-        //ErrorExample1 errorExample1 = new ErrorExample1(); //will throw error as its constructor is private
-
-        //Helper.WriteLine("/**Error Constructors**/");
-        ////ErrorExample errorExample = new ErrorExample();// will THROW error as there is no default constructor
-        //ErrorExample errorExample1 = new ErrorExample(1);// will call paramterised constructor
 
 
-
-
-
-
-
+        //Constructors();
         //MethodOverloading();
-        MethodHiding();
+        //MethodHiding();
         //Interfaces();
-        //Abstracts();
+        Abstracts();
         // Delegates();
         //Generics();
         //Indexers();
@@ -94,6 +76,24 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void Constructors()
+    {
+        Helper.WriteLine("/**Constructors**/");
+        Example example = new Example();// will call default constructor
+        Example example1 = new Example(1);// will call paramterised constructor
+
+        Helper.WriteLine("/**Static Constructors**/");
+        StaticExample staticExample = new StaticExample();// will call default constructor
+        StaticExample staticExample1 = new StaticExample(1);// will call paramterised constructor
+
+        Helper.WriteLine("/**Private Constructors**/");
+        //ErrorExample1 errorExample1 = new ErrorExample1(); //will throw error as its constructor is private
+
+        Helper.WriteLine("/**Error Constructors**/");
+        //ErrorExample errorExample = new ErrorExample();// will THROW error as there is no default constructor
+        ErrorExample errorExample1 = new ErrorExample(1);// will call paramterised constructor
     }
 
     private static void MethodHiding()
@@ -325,6 +325,12 @@ internal class Program
     private static void Abstracts()
     {
         //Abstract o = new Abstract();//error we cannot create instance of abstract
+        Abstract o = new ClassAbstract();
+        o.Getname();
+        o.Getname2();
+        o.Getname3();
+        
+
     }
 
     private static void Interfaces()
