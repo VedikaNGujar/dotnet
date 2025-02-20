@@ -6,6 +6,7 @@ using LetsCSharp.AccessModifiers;
 using LetsCSharp.AsyncAwait;
 using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
+using LetsCSharp.Constant;
 using LetsCSharp.Constructors;
 using LetsCSharp.Delegates;
 using LetsCSharp.Disposable;
@@ -64,6 +65,7 @@ internal class Program
         //Abstracts();
         //Static();
         //ReadonlyExample();
+        ConstantExample();
         //Delegates();
         //Generics();
         //Indexers();
@@ -80,6 +82,11 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void ConstantExample()
+    {
+        Constant c = new Constant(10);
     }
 
     private static void ReadonlyExample()

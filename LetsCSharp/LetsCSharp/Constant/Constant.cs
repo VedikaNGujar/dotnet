@@ -11,7 +11,7 @@ namespace LetsCSharp.Constant
         //public static const int k = 20; // cannot do this, static cannot be marked with const
         public static readonly int l = 20; // can do this
         public const int i = 10;
-        //public const int j; //this much defined during declaration
+        //public const int j; //this must be defined during declaration
         public Constant(int value)
         {
             //this.i = value; //error, as constanct value cant be chnaged throughout the lifecycle
