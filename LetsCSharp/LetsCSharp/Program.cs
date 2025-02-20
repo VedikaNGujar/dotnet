@@ -22,6 +22,7 @@ using LetsCSharp.Params;
 using LetsCSharp.Polymorphism.MethodHiding;
 using LetsCSharp.Polymorphism.MethodOverriding;
 using LetsCSharp.PropertiesExample;
+using LetsCSharp.ReadOnly;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
 //using LetsCSharp.Static;
@@ -61,7 +62,8 @@ internal class Program
         //MethodHiding();
         //Interfaces();
         //Abstracts();
-        Static();
+        //Static();
+        //ReadonlyExample();
         //Delegates();
         //Generics();
         //Indexers();
@@ -78,6 +80,12 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void ReadonlyExample()
+    {
+        Readonly r = new Readonly();
+        ReadonlyRefCheck rd = new ReadonlyRefCheck();
     }
 
     private static void Static()

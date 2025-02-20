@@ -64,6 +64,7 @@ namespace LetsCSharp.ReadOnly
         {
             //str1 = "xyz";//error as its readonly
             R1.i = 1; //is allowed
+            R2.i = 2;//is allowed
             R3.i = 30;//is also allowed as both are reference types and not value types
             //R3.j = 40;//will throw error as j is readonly 
         }
