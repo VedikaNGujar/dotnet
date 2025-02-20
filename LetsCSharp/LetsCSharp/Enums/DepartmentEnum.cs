@@ -75,14 +75,14 @@ namespace LetsCSharp.Enums
 
             Console.WriteLine("--------------------------------------------");
             Console.WriteLine("Enum using GetName at position");
-            Console.WriteLine($" Name of constant that has value 4 {Enum.GetName(typeof(DepartmentEnum), 4)} "); ;
-            Console.WriteLine($" Name of constant that has value 5 (No value so will not print anything) {Enum.GetName(typeof(DepartmentEnum), 5)} "); ;
+            Console.WriteLine($" Name of constant that has value 4 {Enum.GetName(typeof(DepartmentEnum), 4)} ");
+            Console.WriteLine($" Name of constant that has value 5 (No value so will not print anything) {Enum.GetName(typeof(DepartmentEnum), 5)} ");
 
 
             Console.WriteLine("--------------------------------------------");
             Console.WriteLine("Checking Enum member exists using Enum IsDefined()");
-            Console.WriteLine($" IsDefined enum that has value 4 {Enum.IsDefined(typeof(DepartmentEnum), 4)} "); ;
-            Console.WriteLine($" IsDefined enum that has value 5 {Enum.IsDefined(typeof(DepartmentEnum), 5)} "); ;
+            Console.WriteLine($" IsDefined enum that has value 4 {Enum.IsDefined(typeof(DepartmentEnum), 4)} ");
+            Console.WriteLine($" IsDefined enum that has value 5 {Enum.IsDefined(typeof(DepartmentEnum), 5)} ");
 
             Console.WriteLine("--------------------------------------------");
             Console.WriteLine("Get Type and underlying type");

@@ -45,8 +45,7 @@ internal class Program
         //Console.WriteLine(shifted);
 
         //CompareRecordAndClass.Compare();
-        //EnumsExample.PrintEnums();
-        //EnumsExample.PrintEnumsMembers();
+      
         //PropertyExample.Execute();
         //IsAndAs.CheckIsKeyword();
         //IsAndAs.CheckAsKeyword();
@@ -59,7 +58,7 @@ internal class Program
 
         //List.ListTest();
 
-
+        Enums();
         //Constructors();
         //MethodOverloading();
         //MethodHiding();
@@ -86,6 +85,12 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void Enums()
+    {
+        EnumsExample.PrintEnums();
+        EnumsExample.PrintEnumsMembers();
     }
 
     private static void SealedExample()
