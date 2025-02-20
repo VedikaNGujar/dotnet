@@ -8,7 +8,7 @@ namespace LetsCSharp.Interface
 {
     internal interface Iinterface
     {
-        //public int i = 0;// not allowed
+        //public int j = 0;// not allowed
 
         public int i //getter setter are allowed
         {
@@ -19,7 +19,11 @@ namespace LetsCSharp.Interface
 
     internal class ClassInterface : Iinterface
     {
-        public int i { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int i
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LetsCSharp.Polymorphism.MethodOverloading
+namespace LetsCSharp.Polymorphism.MethodOverriding
 {
     public class Employee
     {

@@ -19,8 +19,8 @@ using LetsCSharp.LinQ;
 using LetsCSharp.List;
 using LetsCSharp.NameOf;
 using LetsCSharp.Params;
-//using LetsCSharp.Polymorphism.MethodHiding;
-using LetsCSharp.Polymorphism.MethodOverloading;
+using LetsCSharp.Polymorphism.MethodHiding;
+using LetsCSharp.Polymorphism.MethodOverriding;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
@@ -68,100 +68,14 @@ internal class Program
         ////ErrorExample errorExample = new ErrorExample();// will THROW error as there is no default constructor
         //ErrorExample errorExample1 = new ErrorExample(1);// will call paramterised constructor
 
-        //Helper.WriteLine("/**Polymorphism**/");
-        //Helper.WriteLine("/****Method Hiding****/");
-        //Employee employee = new Employee()
-        ////will always call base class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee.PrintName());
-
-        //PartTimeEmployee employee4 = new PartTimeEmployee()
-        ////will always call PartTimeEmployee class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee4.PrintName());
-
-        //PartTimeEmployee employee5 = new PartTimeEmployee()
-        ////will always call Employee class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        ////typecasting
-        //Helper.WriteLineWithTab(((Employee)employee5).PrintName());
-
-        //Employee employee1 = new PartTimeEmployee()
-        ////will always call base class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee1.PrintName());
-
-        //Employee employee2 = new FullTimeEmployee()
-        ////will always call base class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee2.PrintName());
-        ////typecasting
-        //Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
-
-
-        //Helper.WriteLine("/**Polymorphism**/");
-        //Helper.WriteLine("/****Method Overloading****/");
-        //Employee employee = new Employee()
-        ////will always call base class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee.PrintName());
-
-        //PartTimeEmployee employee4 = new PartTimeEmployee()
-        ////will always call PartTimeEmployee class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee4.PrintName());
-
-        //PartTimeEmployee employee5 = new PartTimeEmployee()
-        ////will always call PartTimeEmployee class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        ////typecasting
-        //Helper.WriteLineWithTab(((Employee)employee5).PrintName());
-
-        //Employee employee1 = new PartTimeEmployee()
-        ////will call PartTime class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee1.PrintName());
-
-        //Employee employee2 = new FullTimeEmployee()
-        ////will call FullTime class method
-        //{
-        //    FirstName = "FirstName",
-        //    LastName = "LastName"
-        //};
-        //Helper.WriteLineWithTab(employee2.PrintName());
-        ////typecasting
-        //Helper.WriteLineWithTab(((FullTimeEmployee)employee2).PrintName());
 
 
 
 
+
+
+        //MethodOverloading();
+        MethodHiding();
         //Interfaces();
         //Abstracts();
         // Delegates();
@@ -179,7 +93,107 @@ internal class Program
         //StructTest();
         //ParamsTest();
 
-        Disposable();
+        //Disposable();
+    }
+
+    private static void MethodHiding()
+    {
+        Helper.WriteLine("/**Polymorphism**/");
+        Helper.WriteLine("/****Method Hiding****/");
+        LetsCSharp.Polymorphism.MethodHiding.Employee employee =
+            new LetsCSharp.Polymorphism.MethodHiding.Employee()
+            //will always call base class method
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
+        Helper.WriteLineWithTab(employee.PrintName());
+
+        LetsCSharp.Polymorphism.MethodHiding.PartTimeEmployee employee4 =
+            new LetsCSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+            //will always call PartTimeEmployee class method
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
+        Helper.WriteLineWithTab(employee4.PrintName());
+
+        LetsCSharp.Polymorphism.MethodHiding.PartTimeEmployee employee5 =
+            new LetsCSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
+        //typecasting will always call Employee class method
+        Helper.WriteLineWithTab(((LetsCSharp.Polymorphism.MethodHiding.Employee)employee5).PrintName());
+
+        LetsCSharp.Polymorphism.MethodHiding.Employee employee1 =
+            new LetsCSharp.Polymorphism.MethodHiding.PartTimeEmployee()
+            //will always call base class method
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
+        Helper.WriteLineWithTab(employee1.PrintName());
+
+        LetsCSharp.Polymorphism.MethodHiding.Employee employee2 =
+            new LetsCSharp.Polymorphism.MethodHiding.FullTimeEmployee()
+            //will always call base class method
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
+        Helper.WriteLineWithTab(employee2.PrintName());
+        //typecasting
+        Helper.WriteLineWithTab(((LetsCSharp.Polymorphism.MethodHiding.FullTimeEmployee)employee2).PrintName());
+    }
+
+    private static void MethodOverloading()
+    {
+        Helper.WriteLine("/**Polymorphism**/");
+        Helper.WriteLine("/****Method Overloading****/");
+        LetsCSharp.Polymorphism.MethodOverriding.Employee employee = new LetsCSharp.Polymorphism.MethodOverriding.Employee()
+        //will always call base class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee.PrintName());
+
+        LetsCSharp.Polymorphism.MethodOverriding.PartTimeEmployee employee4 = new LetsCSharp.Polymorphism.MethodOverriding.PartTimeEmployee()
+        //will always call PartTimeEmployee class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee4.PrintName());
+
+        LetsCSharp.Polymorphism.MethodOverriding.PartTimeEmployee employee5 = new LetsCSharp.Polymorphism.MethodOverriding.PartTimeEmployee()
+        //will always call PartTimeEmployee class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        //typecasting
+        Helper.WriteLineWithTab(((LetsCSharp.Polymorphism.MethodOverriding.Employee)employee5).PrintName());
+
+        LetsCSharp.Polymorphism.MethodOverriding.Employee employee1 = new LetsCSharp.Polymorphism.MethodOverriding.PartTimeEmployee()
+        //will call PartTime class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee1.PrintName());
+
+        LetsCSharp.Polymorphism.MethodOverriding.Employee employee2 = new LetsCSharp.Polymorphism.MethodOverriding.FullTimeEmployee()
+        //will call FullTime class method
+        {
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
+        Helper.WriteLineWithTab(employee2.PrintName());
+        //typecasting
+        Helper.WriteLineWithTab(((LetsCSharp.Polymorphism.MethodOverriding.FullTimeEmployee)employee2).PrintName());
     }
 
     private static void Disposable()
