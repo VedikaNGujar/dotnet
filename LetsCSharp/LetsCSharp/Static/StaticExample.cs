@@ -24,8 +24,8 @@ namespace LetsCSharp.Static
         }
     }
 
-    public class StaticExample2 : StaticExample //error cannot derive from Static
-    {
+    //public class StaticExample2 : StaticExample //error cannot derive from Static
+    //{
 
-    }
+    //}
 }
