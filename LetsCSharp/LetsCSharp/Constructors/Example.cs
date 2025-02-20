@@ -15,6 +15,11 @@ namespace LetsCSharp.Constructors
         {
             Helper.WriteLineWithTab("Parameterized Constructor");
         }
+
+        public Example(Example example)
+        {
+            Helper.WriteLineWithTab("Copy Constructor");
+        }
         ~Example() // access specifiers not allowed
         {
             Helper.WriteLineWithTab("Destructors");
