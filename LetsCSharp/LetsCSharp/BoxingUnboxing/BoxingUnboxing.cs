@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LetsCSharp.Constant
+namespace LetsCSharp.BoxingUnboxing
 {
     internal class BoxingUnboxing
     {

@@ -4,6 +4,7 @@ using CSharp;
 using LetsCSharp.Abstract;
 using LetsCSharp.AccessModifiers;
 using LetsCSharp.AsyncAwait;
+using LetsCSharp.BoxingUnboxing;
 using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Constant;
@@ -65,7 +66,8 @@ internal class Program
         //Abstracts();
         //Static();
         //ReadonlyExample();
-        ConstantExample();
+        //ConstantExample();
+        BoxingUnboxing();
         //Delegates();
         //Generics();
         //Indexers();
@@ -82,6 +84,12 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void BoxingUnboxing()
+    {
+        BoxingUnboxing b = new BoxingUnboxing();
+        b.SetValue();
     }
 
     private static void ConstantExample()
