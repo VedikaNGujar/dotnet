@@ -24,6 +24,7 @@ using LetsCSharp.Polymorphism.MethodOverriding;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.Record;
 using LetsCSharp.ShallowDeepCopy;
+//using LetsCSharp.Static;
 using LetsCSharp.Struct;
 using LetsCSharp.Throw;
 using LetsCSharp.TyepCasting_Conversion_Parsing;
@@ -59,8 +60,9 @@ internal class Program
         //MethodOverloading();
         //MethodHiding();
         //Interfaces();
-        Abstracts();
-        // Delegates();
+        //Abstracts();
+        Static();
+        //Delegates();
         //Generics();
         //Indexers();
         //Comparisions();
@@ -76,6 +78,16 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void Static()
+    {
+        //StaticExample staticExample = new StaticExample();//error
+        LetsCSharp.Static.StaticExample.i = 30;
+        LetsCSharp.Static.StaticExample.j = 20;
+        LetsCSharp.Static.StaticExample.GetName();
+
+
     }
 
     private static void Constructors()
@@ -329,7 +341,7 @@ internal class Program
         o.Getname();
         o.Getname2();
         o.Getname3();
-        
+
 
     }
 
