@@ -26,6 +26,7 @@ using LetsCSharp.Polymorphism.MethodOverriding;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.ReadOnly;
 using LetsCSharp.Record;
+using LetsCSharp.Sealed;
 using LetsCSharp.ShallowDeepCopy;
 //using LetsCSharp.Static;
 using LetsCSharp.Struct;
@@ -67,7 +68,8 @@ internal class Program
         //Static();
         //ReadonlyExample();
         //ConstantExample();
-        BoxingUnboxing();
+        //BoxingUnboxing();
+        SealedExample();
         //Delegates();
         //Generics();
         //Indexers();
@@ -84,6 +86,11 @@ internal class Program
         //ParamsTest();
 
         //Disposable();
+    }
+
+    private static void SealedExample()
+    {
+        Sealed s = new Sealed();
     }
 
     private static void BoxingUnboxing()
