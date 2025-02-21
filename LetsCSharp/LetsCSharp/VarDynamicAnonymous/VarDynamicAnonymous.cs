@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.VarDynamicAnonymous
 {
+
+
+    //var
+    //1. static type
+    //2. type is decided at compile time
+    //3. if variable is not initialised,it will throw error.
+    //4. it cannot be used for properties or returning values from function,
+    //   it can only be used as local varibable in function
+
+
+    //dynamic
+    //1. dynamic type
+    //2. type is decided at runtime time
+    //3. if variable is not initialised,it will NOT throw error.
+    //4. it can be used for properties or returning values from function,
+    //   it can be used as local varibable in function
+
     internal class VarDynamicAnonymous
     {
         //public var i = 10; //var can be used as local variable
