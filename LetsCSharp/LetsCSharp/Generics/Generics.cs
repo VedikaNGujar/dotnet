@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.Generics
 {
+
+    //concept of type parameter in .Net
+    //Code Reuse, performace and Type Safety
+    //Generics on class, methods, interfacess and delegates
     public static class Generic
     {
         public static bool AreEqual<T>(T a, T b)
@@ -29,7 +33,7 @@ namespace LetsCSharp.Generics
         }
     }
 
-    public interface GenericInterface<T> // generic clas
+    public interface GenericInterface<T> // generic interface
     {
         public List<T> List { get; set; }
         public void Add(T input);
