@@ -23,6 +23,10 @@ namespace LetsCSharp.VarDynamicAnonymous
     //4. it can be used for properties or returning values from function,
     //   it can be used as local varibable in function
 
+    //anonymous
+    // they allow us to create new type without defining it
+    //anonymous type provides convenient way to encapsulate a set of readonly properties into single object w/o defining it.
+
     internal class VarDynamicAnonymous
     {
         //public var i = 10; //var can be used as local variable
