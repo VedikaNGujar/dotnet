@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.ShallowDeepCopy
 {
+
+    //Shallow Copy : For value type, when we copy data from one object to another, new place gets allocated ie new object gets created,
+    //but for reference type,, when we copy data from one object to another instead of value, reference gets copied
+
+    //Deep Copy: For value, when we copy data from one object to another, new place gets allocated ie new object gets created,
+    // the also happens with reference type.
     internal class ShallowDeepCopy
     {
         public void Test()
