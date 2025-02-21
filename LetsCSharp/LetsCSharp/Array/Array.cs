@@ -23,7 +23,7 @@ namespace LetsCSharp.Array
 
             int[,] multiArr = new int[4, 2];
             //int[,] multiArr1 = new int[4, ]; // error
-            int[,] multiArr1 = new int[,] { { 1, 2 }, { 3, 4 } };
+            int[,] multiArr1 = new int[,] { { 1, 2 }, { 3, 4 } ,{ 2, 3 } };
             int[,] multiArr2 = new int[1, 2] { { 1, 2 } };
 
             int[][] multiArr3 = new int[2][];

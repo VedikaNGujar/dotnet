@@ -36,17 +36,18 @@ namespace LetsCSharp.ShallowDeepCopy
             public DescriptionShallowDeep Description { get; set; }
 
             public object ShallowCopy() => this.MemberwiseClone();
-            public StudentShallowDeep DeepCopy() => new StudentShallowDeep()
-            {
-                RollNum = this.RollNum,
-                Subject = this.Subject,
-                Description = new DescriptionShallowDeep
+            public StudentShallowDeep DeepCopy() =>
+                new StudentShallowDeep()
                 {
-                    Age = this.Description.Age,
-                    FirstName = this.Description.FirstName,
-                    LastName = this.Description.LastName,
-                }
-            };
+                    RollNum = this.RollNum,
+                    Subject = this.Subject,
+                    Description = new DescriptionShallowDeep
+                    {
+                        Age = this.Description.Age,
+                        FirstName = this.Description.FirstName,
+                        LastName = this.Description.LastName,
+                    }
+                };
         }
 
         public class StudentShallowDeepCheck
@@ -69,15 +70,15 @@ namespace LetsCSharp.ShallowDeepCopy
                 shallowCheck.Description.Age = 35;//will change S's age 
                 shallowCheck.Description.FirstName = "Vedika N";//will change S's age 
                 shallowCheck.Description.LastName = "Gujars";//will change S's age 
-                shallowCheck.RollNum = 35;//will change S's age 
-                shallowCheck.Subject = "Computer";//will change S's age 
+                shallowCheck.RollNum = 35;//will not change S's age 
+                shallowCheck.Subject = "Computer";//will not change S's age 
 
-                var deepCheck = s.DeepCopy();
-                deepCheck.Description.Age = 45;//will change S's age 
-                deepCheck.Description.FirstName = "Vedika 1";//will change S's age 
-                deepCheck.Description.LastName = "Gujar";//will change S's age 
-                deepCheck.RollNum = 55;//will change S's age 
-                deepCheck.Subject = "Computers";//will change S's age 
+                var deepCheck = s.DeepCopy();//completely return new object
+                deepCheck.Description.Age = 45;//will not change S's age 
+                deepCheck.Description.FirstName = "Vedika 1";//will not change S's age 
+                deepCheck.Description.LastName = "Gujar";//will  not change S's age 
+                deepCheck.RollNum = 55;//will not change S's age 
+                deepCheck.Subject = "Computers";//will not change S's age 
             }
         }
     }

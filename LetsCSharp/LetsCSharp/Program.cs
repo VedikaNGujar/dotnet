@@ -68,12 +68,12 @@ internal class Program
         //ReadonlyExample();
         //ConstantExample();
         //BoxingUnboxing();
-        SealedExample();
+        //SealedExample();
         //Delegates();
         //Generics();
         //Indexers();
         //Comparisions();
-        //ShallowDeepCopyCheck();
+        ShallowDeepCopyCheck();
         //ThrowCheck();
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
