@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LetsCSharp.Delegates
+namespace LetsCSharp.ContraAndCovariance
 {
     class Mammals { }
     class Dogs : Mammals { }

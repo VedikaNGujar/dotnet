@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using static LetsCSharp.Delegates.KeyEventArgs;
+using static LetsCSharp.ContraAndCovariance.KeyEventArgs;
 
-namespace LetsCSharp.Delegates
+namespace LetsCSharp.ContraAndCovariance
 {
     public interface EventArgs { }
     public class KeyEventArgs : EventArgs { }
@@ -42,12 +42,12 @@ namespace LetsCSharp.Delegates
             TextBox textBox = new TextBox();
             // You can use a method that has an EventArgs parameter,  
             // although the event expects the KeyEventArgs parameter.  
-            textBox.KeyDown += this.MultiHandler;
+            textBox.KeyDown += MultiHandler;
 
 
             // You can use the same method
             // for an event that expects the MouseEventArgs parameter.  
-            textBox.MouseClick += this.MultiHandler;
+            textBox.MouseClick += MultiHandler;
 
             textBox.PrintText("hey");
             textBox.PrintText("hey1");

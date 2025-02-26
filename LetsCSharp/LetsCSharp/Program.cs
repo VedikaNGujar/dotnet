@@ -9,6 +9,7 @@ using LetsCSharp.CloneAndCopy;
 using LetsCSharp.Comparison;
 using LetsCSharp.Constant;
 using LetsCSharp.Constructors;
+using LetsCSharp.ContraAndCovariance;
 using LetsCSharp.Delegates;
 using LetsCSharp.Disposable;
 using LetsCSharp.Enums;

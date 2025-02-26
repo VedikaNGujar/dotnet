@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.Delegates
 {
+    //Deleggates refer to a method/pointer to a function
+    //Its a type safe pointer to any method
+    //they are used as callback function and events
     internal class DelegateEx
     {
         public delegate void HelloFucntionDelegate(string msg);
@@ -31,6 +34,7 @@ namespace LetsCSharp.Delegates
         {
             HelloFucntionDelegate hfd = new HelloFucntionDelegate(HelloFunction);
             hfd.Invoke("Heyaa");
+            hfd("heyaa");
         }
 
 
