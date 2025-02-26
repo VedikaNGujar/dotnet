@@ -28,10 +28,13 @@ namespace LetsCSharp.Delegates
         }
     }
 
+    //It contains minimum 1 and maximum 16 input parameters and does not contain any output paramter.
+    //It returns void
     internal class ActionTest
     {
         public void PrintFullName(string firstName, string lastName)
             => Console.WriteLine($"{firstName} {lastName}");
+
         public void CheckAction()
         {
             Action<string, string> action = PrintFullName;
@@ -51,6 +54,8 @@ namespace LetsCSharp.Delegates
         }
     }
 
+    //It contains minimum 1 and maximum 16 input parameters and contains 1 output paramter.
+    //output parameter is always in last
     internal class FunctionTest
     {
         public string GetFullName(string firstName, string lastName)
