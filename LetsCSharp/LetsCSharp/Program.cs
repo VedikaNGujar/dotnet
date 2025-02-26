@@ -14,6 +14,7 @@ using LetsCSharp.Delegates;
 using LetsCSharp.Disposable;
 using LetsCSharp.Enums;
 using LetsCSharp.EqualityComparer;
+using LetsCSharp.Events;
 using LetsCSharp.Generics;
 using LetsCSharp.Indexer;
 using LetsCSharp.Interface;
@@ -46,7 +47,7 @@ internal class Program
         //Console.WriteLine(shifted);
 
         //CompareRecordAndClass.Compare();
-      
+
         //PropertyExample.Execute();
         //IsAndAs.CheckIsKeyword();
         //IsAndAs.CheckAsKeyword();
@@ -59,7 +60,7 @@ internal class Program
 
         //List.ListTest();
 
-        Enums();
+        //Enums();
         //Constructors();
         //MethodOverloading();
         //MethodHiding();
@@ -74,7 +75,7 @@ internal class Program
         //Generics();
         //Indexers();
         //Comparisions();
-        ShallowDeepCopyCheck();
+        //ShallowDeepCopyCheck();
         //ThrowCheck();
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
@@ -84,8 +85,18 @@ internal class Program
         //NameOfTest();
         //StructTest();
         //ParamsTest();
-
+        EventsTest();
         //Disposable();
+    }
+
+    private static void EventsTest()
+    {
+        Investors.Raise();
+    }
+
+    private static string Obj1_MyEvent(string str)
+    {
+        throw new NotImplementedException();
     }
 
     private static void Enums()
