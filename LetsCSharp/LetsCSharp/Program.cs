@@ -25,6 +25,7 @@ using LetsCSharp.NameOf;
 using LetsCSharp.Params;
 using LetsCSharp.Polymorphism.MethodHiding;
 using LetsCSharp.Polymorphism.MethodOverriding;
+using LetsCSharp.Polymorphism.OperatorOverloading;
 using LetsCSharp.PropertiesExample;
 using LetsCSharp.ReadOnly;
 using LetsCSharp.Record;
@@ -32,6 +33,7 @@ using LetsCSharp.Sealed;
 using LetsCSharp.ShallowDeepCopy;
 //using LetsCSharp.Static;
 using LetsCSharp.Struct;
+using LetsCSharp.ThreadTutorial;
 using LetsCSharp.Throw;
 using LetsCSharp.TyepCasting_Conversion_Parsing;
 using static LetsCSharp.ShallowDeepCopy.ShallowDeepCopy;
@@ -64,6 +66,7 @@ internal class Program
         //Constructors();
         //MethodOverloading();
         //MethodHiding();
+        //OperatorOverloadingTest();
         //Interfaces();
         //Abstracts();
         //Static();
@@ -79,14 +82,31 @@ internal class Program
         //ThrowCheck();
         //CloneAndCopyCheck();
         //GenericDelegateCheck();
-        //LinqTest();
+        LinqTest();
         //EqualityComparerTest();
         //AsyncAwaitTest();
         //NameOfTest();
         //StructTest();
         //ParamsTest();
-        EventsTest();
+        //EventsTest();
         //Disposable();
+        //ThreadTutorialTest();
+    }
+
+    private static void OperatorOverloadingTest()
+    {
+        OperatorOverloading.Test();
+    }
+
+    private static void ThreadTutorialTest()
+    {
+        ThreadTutorial t = new();
+        //t.ThreadTutorial1();
+        //t.MultipleThreadTutorial();
+        //t.ParameterizedThreadTutorial();
+        //t.ParameterizedTypeSafeThreadTutorial();
+        //t.ParameterizedTypeSafeWithReturnValueThreadTutorial();
+        t.ThreadJoinAndIsAlive();
     }
 
     private static void EventsTest()
@@ -306,7 +326,7 @@ internal class Program
     {
         //Aggregate.Test();
         //Restriction.Test();
-        //Projection.Test();
+        Projection.Test();
         //Ordering.Test();
         //Partitioning.Test();
         //DictionaryAndLookupAndGroupBy.Test();
@@ -394,6 +414,12 @@ internal class Program
 
     private static void Interfaces()
     {
+        InterfaceWithDefinition interfaceWithDefinition = new ClassInterfaceWithDefinition();
+
+        interfaceWithDefinition.GetSalary();
+        interfaceWithDefinition.GetSalaryVersion2();// default definition
+        interfaceWithDefinition.GetName();
+
         ClassInterface1 classInterface1 = new ClassInterface1();
         classInterface1.GetName();
 

@@ -113,11 +113,11 @@ namespace LetsCSharp.LinQ
                 {
                     Department = dep,
                     Employees = emp
-                }).SelectMany(x => x.Employees.DefaultIfEmpty(),
-                (a, b) => new
+                })
+                .SelectMany(x => x.Employees.DefaultIfEmpty(), (dept, emp) => new
                 {
-                    Department = a.Department.Name,
-                    Employee = b?.Name ?? "No Employee"
+                    Department = dept.Department.Name,
+                    Employee = emp?.Name ?? "No Employee"
                 });
 
             foreach (var data in ljoins)

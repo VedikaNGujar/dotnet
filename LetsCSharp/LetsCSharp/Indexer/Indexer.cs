@@ -24,12 +24,12 @@ namespace LetsCSharp.Indexer
 
         public string this[int i]
         {
-            get { return Emp.FirstOrDefault(x => x.EmpId == i).Name; }
+            get { return Emp.FirstOrDefault(x => x.EmpId == i)?.Name!; }
             set { Emp.FirstOrDefault(x => x.EmpId == i).Name = value; }
         }
         public int this[string i] // multiple indexers
         {
-            get { return Emp.FirstOrDefault(x => x.Name.Equals(i)).EmpId; }
+            get { return Emp.FirstOrDefault(x => x.Name.Equals(i)).EmpId!; }
             set { Emp.FirstOrDefault(x => x.Name.Equals(i)).EmpId = value; }
         }
 
@@ -38,7 +38,7 @@ namespace LetsCSharp.Indexer
             get
             {
                 return Emp.FirstOrDefault(x => x.Name.Equals(name)
-                                            && x.EmpId.Equals(empId)).Address;
+                                            && x.EmpId.Equals(empId))?.Address!;
             }
             set
             {

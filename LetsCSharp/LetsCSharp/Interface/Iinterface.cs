@@ -27,6 +27,34 @@ namespace LetsCSharp.Interface
     }
 
 
+
+    internal interface InterfaceWithDefinition
+    {
+        public string GetName();
+
+        public string GetSalary() { return ""; } //allowed after c# 8.0
+        public string GetSalaryVersion2()
+        {
+            Console.WriteLine("Salary  v2 is");
+            return "Salary v2 is";
+        } //allowed after c# 8.0
+    }
+
+    public class ClassInterfaceWithDefinition : InterfaceWithDefinition
+    {
+        public string GetName()
+        {
+            Console.WriteLine("Name");
+            return "Name";
+        }
+        public string GetSalary()
+        {
+            Console.WriteLine("Salary is");
+            return "Salary is";
+        }
+    }
+
+
     internal interface I1
     {
         public string GetName();
@@ -49,7 +77,7 @@ namespace LetsCSharp.Interface
 
     public class ClassInterfaceExplicit : I1, I2
     {
-        string I1.GetName()
+        string I1.GetName() //this will throw error if added access modifier
         {
             Console.WriteLine("I1 Getname called");
             return "Getname called";
@@ -60,6 +88,7 @@ namespace LetsCSharp.Interface
             Console.WriteLine("I2 Getname called");
             return "Getname called";
         }
+
     }
 
     public class ClassInterfaceExplicit1 : I1, I2
