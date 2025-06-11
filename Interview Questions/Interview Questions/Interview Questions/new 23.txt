@@ -1,0 +1,31 @@
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Accruent.CodingChallenges;
+
+public class IntegerOperations
+{
+    /// <summary>
+    /// Given a list of numbers, return a list of all triplets that sum to a given value.
+    /// </summary>
+    /// <param name="numberList">The list of numbers to check for triplets</param>
+    /// <param name="sum">The expected sum</param>
+    /// <returns>List of triplets</returns>
+    /// 
+    /// <example>
+    /// <code>
+    /// var numberList = new List<int> { 0, -1, 2, -3, 1 };
+    /// var sum = -2;
+    /// var result = GetTripletsEqualingSum(numberList, sum);
+    /// // Expected result: [(0, -3, 1), (-1, 2, -3)]
+    /// </code>
+    /// </example>
+    public static IEnumerable<(int, int, int)> GetTripletsEqualingSum(IEnumerable<int> numberList, int sum)
+    {
+        // Write code here
+        throw new NotImplementedException();
+    }
+}

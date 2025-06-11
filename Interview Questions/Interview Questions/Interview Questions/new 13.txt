@@ -1,0 +1,34 @@
+try
+{
+	var x = 5/0;
+}
+catch (DivideByZeroException ex)
+{
+	print("Exception DivideByZero");
+}
+catch (Exception ex)
+{
+	print("Exception of type Exception");
+}
+
+str = "book";
+
+var strArray = str.ToArray();
+
+for (int i = 0; i<strArray.Length;i++)
+{
+	var count = 1;
+	for (int j=0; j<strArray.Length;j++)
+	{
+		
+		if(i==j)
+		{
+			continue;
+		}
+		if(strArray[i] == strArray[j])
+		{
+			count++;
+		}
+		}
+	Console.WriteLine("Alphabet = " + strArray[i] + "Count = "+ count);
+}

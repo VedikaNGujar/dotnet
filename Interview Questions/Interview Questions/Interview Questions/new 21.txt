@@ -1,0 +1,33 @@
+using System;
+using System.Linq;
+					
+public class Program
+{
+	public static void Main()
+	{
+		int size = 3;
+		int[] array2 = [1, 2, 3, 4, 5, 6];
+		int[][] jaggedArray =  new int[size][];
+		for(int i=0;i<array2.Length;i++)
+		{
+			for (var j = 0; j < size; j++)
+			{
+				Console.WriteLine(array2.Skip(i * size).Take(array2.Length/3).ToArray()[i]);
+            	jaggedArray[j]=array2.Skip(i * size).Take(array2.Length/3).ToArray();
+			}
+		}
+		for (int n = 0; n < jaggedArray.Length; n++) {
+
+            // Print the row number
+            Console.Write("Row({0}): ", n);
+
+            for (int k = 0; k < jaggedArray[n].Length; k++) {
+
+                // Print the elements in the row
+                System.Console.Write("{0} ",
+                                     jaggedArray[n][k]);
+            }
+            System.Console.WriteLine();
+        }
+	}
+}

@@ -1,0 +1,40 @@
+[1,2,3,4,5,6,7,8,9,10].forEach((item)=>   item < 5 )
+
+[1,2,3,4,5,6,7,8,9,10].map((item)=>   item < 5 )
+
+[1,2,3,4,5,6,7,8,9,10].filter((item)=>   item < 5 )
+
+
+import "./styles.css";
+import { useState} from "react";
+
+export default function App() {
+  [timeValue, SetTimeValue] = useState(0);
+  [interval, SetInterval] = useState(0);
+  const startTimer =()=>
+  { 
+    const interval = setInterval(() => {
+      let newTime = timeValue + 1;
+      SetTimeValue(newTime);
+    }, 1000);
+    SetInterval(interval);
+  }
+  const stopTimer =()=>
+  {
+    clearInterval(interval);
+    SetTimeValue(timeValue);
+  }
+  const clearTimer =()=>
+  {
+    clearInterval(interval);
+    SetTimeValue(0);
+  } 
+  return (
+    <div className="App">
+      <div>{timeValue}</div>
+      <button onClick={()=>startTimer()}>Start</button>
+      <button onClick={()=>stopTimer()}>Stop</button>
+      <button onClick={()=>clearTimer()}>Clear</button>
+    </div>
+  );
+}

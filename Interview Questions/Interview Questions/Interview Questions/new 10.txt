@@ -1,0 +1,32 @@
+public class Program
+    {
+        static void Main(string[] args)
+        {
+            MyClassB b = new MyClassB();
+            MyClassA a = b;
+            a.abc();
+            Console.ReadLine();
+        }
+    }
+public class MyClassA
+    {
+        public MyClassA()
+        {
+            Console.WriteLine("constructor A");
+        }
+        public void abc()
+        {
+            Console.WriteLine("A");
+        }
+    }
+public class MyClassB:MyClassA
+    {
+        public MyClassB()
+        {
+            Console.WriteLine("constructor B");
+        }
+        public void abc()
+        {
+            Console.WriteLine("B");
+        }
+    }

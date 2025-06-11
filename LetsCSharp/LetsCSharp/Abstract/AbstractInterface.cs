@@ -29,14 +29,17 @@ namespace LetsCSharp.Abstract
     }
 
 
-    internal abstract class Abstract3 : Abstract2
+    internal abstract class Abstract3 : Abstract2 //its abstract class
     {
         public override void Getname()
         {
             Console.WriteLine("getname");
         }
 
+
     }
+
+
 
     internal abstract class Abstract1
     {

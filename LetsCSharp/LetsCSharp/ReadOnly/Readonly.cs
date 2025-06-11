@@ -6,6 +6,22 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.ReadOnly
 {
+
+    public class ListTest
+    {
+        public readonly List<string> _productNames;
+
+        public ListTest()
+        {
+            _productNames = new List<string>();
+        }
+
+        public void Test()
+        {
+            //_productNames = new List<string>(); // this will throw error
+            _productNames.Add("Hey"); // this is allowed
+        }
+    }
     internal class Readonly
     {
         public readonly string String1;

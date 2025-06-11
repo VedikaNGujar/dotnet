@@ -1,0 +1,15 @@
+WIth CTE_EMP AS
+
+(Select Name, Dense_Rank() over (Partition By Salary oder by Desc) As Rank
+from Employee)
+
+Select Name from CTE_EMP where Rank == 3;
+
+emplyeeList.skip(2).Take(1).select(x=>x.Name).orderByDescending(x=>x.Salary).Distinct();
+
+1) Requirement Analysis
+2) Designing the database - Books, Customer, BookCategory, Rent, Costing
+3) Project Architecture - FrontEnd - React, BackEnd:- Api, BusinessLayer, DalLayer
+4) Dev/QA Testing 
+5) Production Deployment
+6) SignOff

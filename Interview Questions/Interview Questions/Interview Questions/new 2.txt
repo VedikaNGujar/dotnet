@@ -1,0 +1,88 @@
+Access Modifiers in C#
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Modifier					|	Description																																																																						|
+public						|	There are no restrictions on accessing public members.																																																				|
+private						|	Access is limited to within the class definition. This is the default access modifier type if none is formally specified.																													|
+protected				|	Access is limited to within the class definition and any class that inherits from the class.																																								|
+internal					|	Access is limited exclusively to classes defined within the current project assembly.																																									|
+protected internal	|	Access is limited to the current assembly and types derived from the containing class. All members in current project and all members in derived class can access the variables.					|
+private protected	|	Access is limited to the containing class or types derived from the containing class within the current assembly.																														|
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Which element in the web.config file is used to run code using the permissions of a specific :- identity
+
+Which tool is used to manage the Global assemblies? :- Gacutil.exe
+
+In C#.NET if we do not catch the exception thrown at runtime what will catch it? :- Linker
+
+How many enumerators will exist if four threads are simultaneously working on an ArrayList object? - 4
+
+The string built using the String class are immutable (unchangeable), whereas, the ones built- using the StringBuilder class are mutable - True
+
+The [Serializable()] attribute gets inspected at ________ :- Runtime
+
+Code that targets the Common Language Runtime is known as __________ :- Managed Code
+
+Garbage collection automatically reclaims memory occupied by unreachable unused objects. :- True
+
+Can we obtain the array index using foreach loop in C#? :- No
+
+Is overriding of a function possible in the same class in C#? :- No
+
+What does the access modifier do in C#? :- Determines the accessibility of the function or class in the application.
+
+Does C# support multiple inheritance? :- With classes no, With Interfaces Yes
+
+In C#, the default interface methods are ____________ :- Virtual
+
+In C#, the objects created using new operator are stored in _____________ :- Heap
+
+How many catch blocks can be used with a single try block in C#? :- No limit
+
+In C#, a namespace is the collection of classes? :- True
+
+Is the use of return statement necessary in every function in C#? :- No
+
+---------- Delete duplicate values except one value ----------
+DELETE FROM students WHERE id IN
+(SELECT id FROM (SELECT id, ROW_NUMBER() over (Partition By name order by id asc) as Row_Num
+FROM students)result where Row_Num > 1);
+
+---------- Delete all duplicate values from array ----------
+int i = 0, j = 0;
+        int[] arr1 = new int[]{ 7, 7, 8, 8, 9, 1, 1, 4, 2, 2 };
+        for (i = 0; i < arr1.Length; i++)
+        {
+         for (j = 0; j < arr1.Length; j++)
+         {
+             if (i == j)
+             continue;
+             if (arr1[j] == arr1[i])
+             break;
+         }
+         if (arr1.Length == j)
+         {
+             Console.Write (arr1[i] + " ");
+         }
+        }
+		
+---------- Third highest salary using Dense_rank ----------
+with EmpSalary AS
+(
+ Select Salary, Dense_rank() over (order by salary desc) as rank
+ From tblEmployee
+)
+select salary from EmpSalary where rank = 3
+
+
+How to debug stored procedure in SQL Server?
+Types of transactions
+
+Routing in Web API
+
+Static and Non Static
+
+Exception Filter at global level.
+
+delegates
+

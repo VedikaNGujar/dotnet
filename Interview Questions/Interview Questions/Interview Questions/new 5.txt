@@ -1,0 +1,9 @@
+List<Int> a = new List<Int>();
+var result1 = a.FirstOrDefault();
+ 
+List<Car> b = new List<Car>();
+var result2 = b.FirstOrDefault();
+
+select Name from TableA
+UnionAll
+select NameAlias from TableB

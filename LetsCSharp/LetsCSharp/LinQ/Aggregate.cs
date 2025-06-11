@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace LetsCSharp.LinQ
 {
+
+    
     internal static class Aggregate
     {
         //min, max, sum, count, average

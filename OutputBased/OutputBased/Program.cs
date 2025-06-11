@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using OutputBased;
+using OutputBased.GitHubOutputBased;
 
 //OutputBasedQuestion1.Ex1();
 //OutputBasedQuestion1.Ex2();
@@ -35,20 +36,43 @@ using OutputBased;
 //Duplicates.Approach1(new int[] { 1, 2, 3, 3, 4, 4, 5, 6, 7, 1, 2 });
 //#endregion
 
-#region StringManipulations
+//#region StringManipulations
 
-//StringManipulations.StringOccurence("Hello");
-//StringManipulations.ReverseWordsInSentence("Hello how are you doiing");
+////StringManipulations.StringOccurence("Hello");
+////StringManipulations.ReverseWordsInSentence("Hello how are you doiing");
+//#endregion
+
+
+//#region Maths
+////Console.WriteLine(Mathematical.Factorial(5));
+//int[] a = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//Mathematical.AddOneToOddPosition(ref a);
+//#endregion
+
+//#region DataStructures
+////DataStructures.StackCheck(new int[] { 1, 2, 3, 4, 5, 67, 7, 8 });
+////DataStructures.QueueCheck(new int[] { 1, 2, 3, 4, 5, 67, 7, 8 });
+//#endregion
+
+#region
+
+//Triplets.Main();
+
+//SplitArrays.Main();
+//Inheritence1.Test();
+//Duplicates.Approach2("veedika");
+//LinqOperations.Approach1();
+//Duplicates.Approach3();
+Linq.Display();
 #endregion
 
+#region GitHubOutputBased
 
-#region Maths
-//Console.WriteLine(Mathematical.Factorial(5));
-int[] a = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-Mathematical.AddOneToOddPosition(ref a);
-#endregion
+//_14File _14File = new _14File();
+//_14File.Test();
 
-#region DataStructures
-//DataStructures.StackCheck(new int[] { 1, 2, 3, 4, 5, 67, 7, 8 });
-//DataStructures.QueueCheck(new int[] { 1, 2, 3, 4, 5, 67, 7, 8 });
+
+//_4File.Main();
+//_6File.Main();
+//_7File.Main();
 #endregion

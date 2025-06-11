@@ -1,0 +1,54 @@
+public class TestStatic
+    {
+        public static int TestValue;
+        public TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 5;
+            }
+        }
+        static TestStatic()
+        {
+            if (TestValue == 0)
+            {
+                TestValue = 10;
+            }
+        }
+        public void Print()
+        {
+            if (TestValue == 5)
+            {
+                TestValue = 6;                
+            }
+            Console.WriteLine("TestValue : " + TestValue);
+        } 
+    }
+
+public void Main(string[] args)
+        {
+            TestStatic t = new TestStatic();
+            t.Print();
+        }
+		
+		
+public bool IsEmployeeExists(int employeeId, out string employeeName)
+{
+	var emp=listEmployee.Where(x=>x.Id == employeeId).FirstOrDefault();
+	if(emp is not null)
+	{
+		employeeName == emp.EmployeeName;
+	}
+	return emp == null ? false : true;
+}
+
+public class StringLenght
+{
+	public StringLenght(base String)
+	{
+	}
+	public static int ToLength(this string strInput)
+	{
+	return strInput.Length;
+	}
+}
