@@ -63,7 +63,7 @@ using OutputBased.GitHubOutputBased;
 //Duplicates.Approach2("veedika");
 //LinqOperations.Approach1();
 //Duplicates.Approach3();
-Linq.Display();
+//Linq.Display();
 #endregion
 
 #region GitHubOutputBased
@@ -76,3 +76,8 @@ Linq.Display();
 //_6File.Main();
 //_7File.Main();
 #endregion
+
+
+Console.WriteLine(Words.RearrangeWord("baca"));   // Output: bcaa
+Console.WriteLine(Words.RearrangeWord("dcba"));   // Output: no answer
+Console.WriteLine(Words.RearrangeWord("ab"));     // Output: ba

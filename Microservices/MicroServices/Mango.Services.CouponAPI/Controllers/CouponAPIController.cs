@@ -13,9 +13,9 @@ namespace Mango.Services.CouponAPI.Controllers
     {
 
         [HttpGet]
-        public ResponseDto<IEnumerable<CouponDto>> Get()
+        public ResponseDto Get()
         {
-            var response = new ResponseDto<IEnumerable<CouponDto>>();
+            var response = new ResponseDto();
             try
             {
                 response.Result = _mapper
@@ -32,9 +32,9 @@ namespace Mango.Services.CouponAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        public ResponseDto<CouponDto> Get(int id)
+        public ResponseDto Get(int id)
         {
-            var response = new ResponseDto<CouponDto>();
+            var response = new ResponseDto();
 
             try
             {
@@ -51,9 +51,9 @@ namespace Mango.Services.CouponAPI.Controllers
 
         [HttpGet]
         [Route("GetByCode/{code}")]
-        public ResponseDto<CouponDto> GetByCode(string code)
+        public ResponseDto GetByCode(string code)
         {
-            var response = new ResponseDto<CouponDto>();
+            var response = new ResponseDto();
 
             try
             {
@@ -70,9 +70,9 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpPost]
-        public ResponseDto<CouponDto> Post([FromBody] CouponDto couponDto)
+        public ResponseDto Post([FromBody] CouponDto couponDto)
         {
-            var response = new ResponseDto<CouponDto>();
+            var response = new ResponseDto();
 
             try
             {
@@ -91,9 +91,9 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpPut]
-        public ResponseDto<CouponDto> Update([FromBody] CouponDto couponDto)
+        public ResponseDto Update([FromBody] CouponDto couponDto)
         {
-            var response = new ResponseDto<CouponDto>();
+            var response = new ResponseDto();
 
             try
             {
@@ -112,9 +112,9 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpDelete]
-        public ResponseDto<string> Delete(int id)
+        public ResponseDto Delete(int id)
         {
-            var response = new ResponseDto<string>();
+            var response = new ResponseDto();
 
             try
             {
