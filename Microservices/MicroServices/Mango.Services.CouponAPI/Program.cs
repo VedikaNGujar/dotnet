@@ -1,4 +1,6 @@
+using AutoMapper;
 using Mango.Services.CouponAPI.Data;
+using Mango.Services.CouponAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -12,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
 
+
+
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
