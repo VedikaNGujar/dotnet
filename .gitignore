@@ -13,3 +13,5 @@
 /Microservices/MicroServices/.vs
 /Microservices/MicroServices/Mango.Services.CouponAPI/bin
 /Microservices/MicroServices/Mango.Services.CouponAPI/obj
+/Microservices/MicroServices/Mango.Web/obj
+/Microservices/MicroServices/Mango.Web/bin
