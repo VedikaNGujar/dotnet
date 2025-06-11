@@ -48,5 +48,88 @@ namespace Mango.Services.CouponAPI.Controllers
             return response;
 
         }
+
+        [HttpGet]
+        [Route("GetByCode/{code}")]
+        public ResponseDto<CouponDto> GetByCode(string code)
+        {
+            var response = new ResponseDto<CouponDto>();
+
+            try
+            {
+                var coupon = _appDbContext.Coupons.First(x => x.CouponCode.ToLower().Equals(code.ToLower()));
+                response.Result = _mapper.Map<CouponDto>(coupon);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+
+        }
+
+        [HttpPost]
+        public ResponseDto<CouponDto> Post([FromBody] CouponDto couponDto)
+        {
+            var response = new ResponseDto<CouponDto>();
+
+            try
+            {
+                var coupon = _mapper.Map<Coupon>(couponDto);
+                _appDbContext.Coupons.Add(coupon);
+                _appDbContext.SaveChanges();
+                response.Result = _mapper.Map<CouponDto>(coupon);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+
+        }
+
+        [HttpPut]
+        public ResponseDto<CouponDto> Update([FromBody] CouponDto couponDto)
+        {
+            var response = new ResponseDto<CouponDto>();
+
+            try
+            {
+                var coupon = _mapper.Map<Coupon>(couponDto);
+                _appDbContext.Coupons.Update(coupon);
+                _appDbContext.SaveChanges();
+                response.Result = _mapper.Map<CouponDto>(coupon);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+
+        }
+
+        [HttpDelete]
+        public ResponseDto<string> Delete(int id)
+        {
+            var response = new ResponseDto<string>();
+
+            try
+            {
+                var coupon = _appDbContext.Coupons.Find(id);
+                if (coupon == null) throw new Exception("CouponId invalid");
+                _appDbContext.Coupons.Remove(coupon);
+                response.Result = "Deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+
+        }
     }
 }

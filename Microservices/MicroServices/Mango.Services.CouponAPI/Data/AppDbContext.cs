@@ -11,6 +11,12 @@ namespace Mango.Services.CouponAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Coupon>(c =>
+            {
+                c.HasKey(c => c.CouponId);
+                c.Property(c => c.CouponId).ValueGeneratedOnAdd();
+            });
+
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
                 CouponId = 1,
