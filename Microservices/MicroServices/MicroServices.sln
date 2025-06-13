@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{E8A64881-0F35-4DE8-BDA6-65B5AE4ACFA2}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.CouponAPI", "Mango.Services.CouponAPI\Mango.Services.CouponAPI.csproj", "{CDDEEAB4-13FB-4D34-BF39-CCB7B3A2D4BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Web", "Mango.Web\Mango.Web.csproj", "{B73BA46E-A68E-4BAA-90D1-BD1B7ABA83F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.AuthAPI", "Mango.Services.AuthAPI\Mango.Services.AuthAPI.csproj", "{7511A62D-54C8-4402-98A6-EA44C9D2DFBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{B73BA46E-A68E-4BAA-90D1-BD1B7ABA83F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73BA46E-A68E-4BAA-90D1-BD1B7ABA83F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B73BA46E-A68E-4BAA-90D1-BD1B7ABA83F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7511A62D-54C8-4402-98A6-EA44C9D2DFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7511A62D-54C8-4402-98A6-EA44C9D2DFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7511A62D-54C8-4402-98A6-EA44C9D2DFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7511A62D-54C8-4402-98A6-EA44C9D2DFBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CDDEEAB4-13FB-4D34-BF39-CCB7B3A2D4BA} = {E62C07A8-5674-4087-9E3F-7483185EDC85}
 		{B73BA46E-A68E-4BAA-90D1-BD1B7ABA83F4} = {E8A64881-0F35-4DE8-BDA6-65B5AE4ACFA2}
+		{7511A62D-54C8-4402-98A6-EA44C9D2DFBE} = {E62C07A8-5674-4087-9E3F-7483185EDC85}
 	EndGlobalSection
 EndGlobal
