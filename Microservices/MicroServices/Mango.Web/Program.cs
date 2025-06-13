@@ -9,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 SD.CouponAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:CouponApi");
 
 //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
-builder.Services.AddScoped<IBaseService, BaseService>();
-
-builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
+
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 
 
 builder.Services.AddControllersWithViews();

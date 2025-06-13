@@ -22,10 +22,10 @@ namespace Mango.Web.Service
             message.Headers.Add("Accept", "application/json");
 
             message.RequestUri = new Uri(requestDto.URL);
-            if (requestDto != null)
+            if (requestDto.Data != null)
             {
 
-                message.Content = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.UTF8, "application/json");
+                message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, "application/json");
             }
 
             HttpResponseMessage response = new();
@@ -61,11 +61,9 @@ namespace Mango.Web.Service
                         return new() { IsSuccess = false, Message = "Internal Server Error" };
                     default:
                         var result = await response.Content.ReadAsStringAsync();
-                        return new()
-                        {
-                            IsSuccess = true,
-                            Result = JsonConvert.DeserializeObject<ResponseDto>(result)
-                        };
+                        if (result != null)
+                            return JsonConvert.DeserializeObject<ResponseDto>(result);
+                        else return new() { IsSuccess = false };
 
                 }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mango.Services.CouponAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/coupon")]
     [ApiController]
     public class CouponAPIController(AppDbContext _appDbContext, IMapper _mapper) : ControllerBase
     {
@@ -111,7 +111,7 @@ namespace Mango.Services.CouponAPI.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ResponseDto Delete(int id)
         {
             var response = new ResponseDto();
@@ -121,6 +121,7 @@ namespace Mango.Services.CouponAPI.Controllers
                 var coupon = _appDbContext.Coupons.Find(id);
                 if (coupon == null) throw new Exception("CouponId invalid");
                 _appDbContext.Coupons.Remove(coupon);
+                _appDbContext.SaveChanges();
                 response.Result = "Deleted successfully";
             }
             catch (Exception ex)
