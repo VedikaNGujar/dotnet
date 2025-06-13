@@ -1,4 +1,6 @@
-﻿using Mango.Services.AuthAPI.Models.Dto;
+﻿using Azure;
+using Mango.Services.AuthAPI.Models.Dto;
+using Mango.Services.AuthAPI.Services;
 using Mango.Services.AuthAPI.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +39,22 @@ namespace Mango.Services.AuthAPI.Controllers
                 return BadRequest(responseDto);
             }
 
+            return Ok(responseDto);
+
+        }
+
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
+        {
+            var responseDto = new ResponseDto();
+
+            var assignRoleSuccessful = await authService.AssignRole(model.Email, model.Role.ToUpper());
+            if (!assignRoleSuccessful)
+            {
+                responseDto.IsSuccess = false;
+                responseDto.Message = "Error encountered";
+                return BadRequest(responseDto);
+            }
             return Ok(responseDto);
 
         }

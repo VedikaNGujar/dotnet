@@ -8,15 +8,32 @@ namespace Mango.Services.AuthAPI.Services
 {
     public class AuthService(AppDbContext appDbContext,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager) : IAuthService
+        RoleManager<IdentityRole> roleManager,
+        IJwtTokenGenerator jwtTokenGenerator) : IAuthService
     {
         private readonly AppDbContext appDbContext = appDbContext;
         private readonly UserManager<ApplicationUser> userManager = userManager;
         private readonly RoleManager<IdentityRole> roleManager = roleManager;
 
-        public Task<bool> AssignRole(string email, string roleName)
+        public async Task<bool> AssignRole(string email, string roleName)
         {
-            throw new NotImplementedException();
+
+            var user = appDbContext
+                .ApplicationUsers
+                .FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()));
+
+            if (user != null)
+            {
+
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole { Name = roleName });
+                }
+
+                await userManager.AddToRoleAsync(user, roleName);
+                return true;
+            }
+            return false;
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
@@ -39,7 +56,7 @@ namespace Mango.Services.AuthAPI.Services
                     Name = user.Name,
                     PhoneNumber = user.PhoneNumber
                 },
-                Token = ""
+                Token = jwtTokenGenerator.GenerateToken(user, null)
             };
 
         }
