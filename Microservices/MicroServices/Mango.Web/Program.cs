@@ -7,11 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 SD.CouponAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:CouponApi");
+SD.AuthAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:AuthApi");
 
 //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddHttpClient<ICouponService, CouponService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 
 
