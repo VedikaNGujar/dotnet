@@ -47,6 +47,9 @@ namespace Mango.Services.AuthAPI.Services
                 return null;
             }
 
+
+            var roles = await userManager.GetRolesAsync(user);
+
             return new LoginResponseDto()
             {
                 User = new UserDto()
@@ -56,7 +59,7 @@ namespace Mango.Services.AuthAPI.Services
                     Name = user.Name,
                     PhoneNumber = user.PhoneNumber
                 },
-                Token = jwtTokenGenerator.GenerateToken(user, null)
+                Token = jwtTokenGenerator.GenerateToken(user, roles)
             };
 
         }

@@ -24,7 +24,7 @@ namespace Mango.Services.AuthAPI.Controllers
                 return BadRequest(responseDto);
             }
             responseDto.Result = response;
-            return Ok(response);
+            return Ok(responseDto);
         }
 
         [HttpPost("register")]
