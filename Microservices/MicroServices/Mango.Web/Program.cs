@@ -7,20 +7,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-SD.CouponAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:CouponApi");
-SD.AuthAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:AuthApi");
-SD.ProductAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:ProductApi");
+SD.CouponAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:CouponAPI");
+SD.AuthAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:AuthAPI");
+SD.ProductAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:ProductAPI");
+SD.ShoppingCartAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:ShoppingCartAPI");
 
 //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
 builder.Services.AddHttpClient<IProductService, ProductService>();
+builder.Services.AddHttpClient<ICartService, CartService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
