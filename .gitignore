@@ -17,3 +17,7 @@
 /Microservices/MicroServices/Mango.Web/bin
 /Microservices/MicroServices/Mango.Services.AuthAPI/bin
 /Microservices/MicroServices/Mango.Services.AuthAPI/obj
+/Microservices/MicroServices/Mango.Services.ProductAPI/obj
+/Microservices/MicroServices/Mango.Services.ProductAPI/bin
+/Microservices/MicroServices/Mango.Services.ShoppingCartAPI/obj
+/Microservices/MicroServices/Mango.Services.ShoppingCartAPI/bin

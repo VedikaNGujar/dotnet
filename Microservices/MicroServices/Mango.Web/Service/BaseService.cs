@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Mime;
+using System.Text;
 using Mango.Web.Helper;
 using Mango.Web.Models;
 using Mango.Web.Service.IService;
@@ -21,7 +22,18 @@ namespace Mango.Web.Service
         {
             HttpClient client = _httpClientFactory.CreateClient("MangoAPI");
             HttpRequestMessage message = new();
-            message.Headers.Add("Accept", "application/json");
+
+            if (requestDto.ContentType == SD.ContentType.MultipartFormData)
+            {
+                message.Headers.Add("Accept", "*/*");
+            }
+            else
+            {
+                message.Headers.Add("Accept", "application/json");
+            }
+
+
+            //message.Headers.Add("Accept", "application/json");
 
             message.RequestUri = new Uri(requestDto.URL);
 

@@ -1,5 +1,7 @@
-﻿using Mango.Web.Helper;
+﻿using System.Net.Mime;
+using Mango.Web.Helper;
 using static Mango.Web.Helper.SD;
+using ContentType = Mango.Web.Helper.SD.ContentType;
 
 namespace Mango.Web.Models
 {
@@ -9,5 +11,7 @@ namespace Mango.Web.Models
         public string URL { get; set; }
         public object Data { get; set; }
         public string AccessToken { get; set; } = string.Empty;
+
+        public ContentType ContentType { get; set; } = ContentType.Json;
     }
 }
