@@ -29,6 +29,10 @@
       {
         "Path": "Mango.Services.OrderAPI\\Mango.Services.OrderAPI.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "Mango.Services.RewardAPI\\Mango.Services.RewardAPI.csproj",
+        "Action": "Start"
       }
     ]
   }
