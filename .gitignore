@@ -25,3 +25,5 @@
 /Microservices/MicroServices/Mango.MessageBus/bin
 /Microservices/MicroServices/Mango.Services.EmailAPI/obj
 /Microservices/MicroServices/Mango.Services.EmailAPI/bin
+/Microservices/MicroServices/Mango.Services.OrderAPI/obj
+/Microservices/MicroServices/Mango.Services.OrderAPI/bin
