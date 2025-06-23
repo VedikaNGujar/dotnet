@@ -1,6 +1,8 @@
 using AutoMapper;
-using Mango.Services.CouponAPI.Helpers;
+using Mango.Services.OrderAPI.Helpers;
 using Mango.Services.OrderAPI.Data;
+using Mango.Services.OrderAPI.Service;
+using Mango.Services.OrderAPI.Service.IService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
