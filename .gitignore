@@ -21,3 +21,5 @@
 /Microservices/MicroServices/Mango.Services.ProductAPI/bin
 /Microservices/MicroServices/Mango.Services.ShoppingCartAPI/obj
 /Microservices/MicroServices/Mango.Services.ShoppingCartAPI/bin
+/Microservices/MicroServices/Mango.MessageBus/obj
+/Microservices/MicroServices/Mango.MessageBus/bin

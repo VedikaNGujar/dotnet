@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Mango.Services.ShoppingCartAPI.Service.IService;
 using Mango.Services.ShoppingCartAPI.Service;
+using Mango.Services.ShoppingCartAPI.Utility;
+using Mango.MessageBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,16 +22,21 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 
 
 builder.Services.AddHttpClient("Product",
-    u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]));//.AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+    u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]))
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+
 builder.Services.AddHttpClient("Coupon",
-    u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]));//.AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+    u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]))
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
 
 builder.AddAppAuthetication();
