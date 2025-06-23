@@ -82,7 +82,20 @@ namespace Mango.Services.CouponAPI.Controllers
                 var coupon = _mapper.Map<Coupon>(couponDto);
                 _appDbContext.Coupons.Add(coupon);
                 _appDbContext.SaveChanges();
+
+                var options = new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "usd",
+                    Id = couponDto.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                service.Create(options);
+
                 response.Result = _mapper.Map<CouponDto>(coupon);
+
+
             }
             catch (Exception ex)
             {
@@ -127,6 +140,10 @@ namespace Mango.Services.CouponAPI.Controllers
                 if (coupon == null) throw new Exception("CouponId invalid");
                 _appDbContext.Coupons.Remove(coupon);
                 _appDbContext.SaveChanges();
+
+                var service = new Stripe.CouponService();
+                service.Delete(coupon.CouponCode);
+
                 response.Result = "Deleted successfully";
             }
             catch (Exception ex)

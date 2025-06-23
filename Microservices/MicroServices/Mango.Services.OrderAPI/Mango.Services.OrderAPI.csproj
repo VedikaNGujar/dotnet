@@ -18,10 +18,7 @@
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Scalar.AspNetCore" Version="2.4.13" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
+		<PackageReference Include="Stripe.net" Version="48.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

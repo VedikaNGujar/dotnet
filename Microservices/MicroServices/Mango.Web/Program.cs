@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 SD.CouponAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:CouponAPI");
 SD.AuthAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:AuthAPI");
 SD.ProductAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:ProductAPI");
+SD.OrderAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:OrderAPI");
 SD.ShoppingCartAPIBase = builder.Configuration.GetValue<string>("ServiceUrls:ShoppingCartAPI");
 
 //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
