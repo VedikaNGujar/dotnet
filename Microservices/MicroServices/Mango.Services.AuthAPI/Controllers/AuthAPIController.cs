@@ -1,17 +1,18 @@
 ﻿using Azure;
+using Mango.MessageBus;
 using Mango.Services.AuthAPI.Models.Dto;
 using Mango.Services.AuthAPI.Services;
 using Mango.Services.AuthAPI.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Mango.Services.AuthAPI.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthAPIController(IAuthService authService) : ControllerBase
+    public class AuthAPIController(IAuthService authService, IMessageBus _messageBus, IConfiguration _configuration) : ControllerBase
     {
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequestDto)
         {
@@ -38,6 +39,8 @@ namespace Mango.Services.AuthAPI.Controllers
                 responseDto.IsSuccess = false;
                 return BadRequest(responseDto);
             }
+
+            await _messageBus.PublishMessage(requestDto.Email, _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue"));
 
             return Ok(responseDto);
 

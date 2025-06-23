@@ -11,13 +11,12 @@ namespace Mango.Web.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
-        //private readonly IOrderService _orderService;
+        private readonly IOrderService _orderService;
 
-        public CartController(ICartService cartService)
-        //, IOrderService orderService)
+        public CartController(ICartService cartService, IOrderService orderService)
         {
             _cartService = cartService;
-            //_orderService = orderService;
+            _orderService = orderService;
         }
 
         [Authorize]
@@ -31,43 +30,44 @@ namespace Mango.Web.Controllers
         {
             return View(await LoadCartDtoBasedOnLoggedInUser());
         }
-        //[HttpPost]
-        //[ActionName("Checkout")]
-        //public async Task<IActionResult> Checkout(CartDto cartDto)
-        //{
 
-        //    CartDto cart = await LoadCartDtoBasedOnLoggedInUser();
-        //    cart.CartHeader.Phone = cartDto.CartHeader.Phone;
-        //    cart.CartHeader.Email = cartDto.CartHeader.Email;
-        //    cart.CartHeader.Name = cartDto.CartHeader.Name;
+        [HttpPost]
+        [ActionName("Checkout")]
+        public async Task<IActionResult> Checkout(CartDto cartDto)
+        {
 
-        //    var response = await _orderService.CreateOrder(cart);
-        //    OrderHeaderDto orderHeaderDto = JsonConvert.DeserializeObject<OrderHeaderDto>(Convert.ToString(response.Result));
+            CartDto cart = await LoadCartDtoBasedOnLoggedInUser();
+            cart.CartHeader.Phone = cartDto.CartHeader.Phone;
+            cart.CartHeader.Email = cartDto.CartHeader.Email;
+            cart.CartHeader.Name = cartDto.CartHeader.Name;
 
-        //    if (response != null && response.IsSuccess)
-        //    {
-        //        //get stripe session and redirect to stripe to place order
-        //        //
-        //        var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+            var response = await _orderService.CreateOrder(cart);
+            OrderHeaderDto orderHeaderDto = JsonConvert.DeserializeObject<OrderHeaderDto>(Convert.ToString(response.Result));
 
-        //        StripeRequestDto stripeRequestDto = new()
-        //        {
-        //            ApprovedUrl = domain + "cart/Confirmation?orderId=" + orderHeaderDto.OrderHeaderId,
-        //            CancelUrl = domain + "cart/checkout",
-        //            OrderHeader = orderHeaderDto
-        //        };
+            if (response != null && response.IsSuccess)
+            {
+                //get stripe session and redirect to stripe to place order
+                //
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
 
-        //        var stripeResponse = await _orderService.CreateStripeSession(stripeRequestDto);
-        //        StripeRequestDto stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDto>
-        //                                    (Convert.ToString(stripeResponse.Result));
-        //        Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
-        //        return new StatusCodeResult(303);
+                StripeRequestDto stripeRequestDto = new()
+                {
+                    ApprovedUrl = domain + "cart/Confirmation?orderId=" + orderHeaderDto.OrderHeaderId,
+                    CancelUrl = domain + "cart/checkout",
+                    OrderHeader = orderHeaderDto
+                };
+
+                var stripeResponse = await _orderService.CreateStripeSession(stripeRequestDto);
+                StripeRequestDto stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDto>
+                                            (Convert.ToString(stripeResponse.Result));
+                Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
+                return new StatusCodeResult(303);
 
 
 
-        //    }
-        //    return View();
-        //}
+            }
+            return View();
+        }
 
         //public async Task<IActionResult> Confirmation(int orderId)
         //{
