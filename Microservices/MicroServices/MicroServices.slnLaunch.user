@@ -33,6 +33,10 @@
       {
         "Path": "Mango.Services.RewardAPI\\Mango.Services.RewardAPI.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "Mango.GatewaySolution\\Mango.GatewaySolution.csproj",
+        "Action": "Start"
       }
     ]
   }

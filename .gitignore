@@ -29,5 +29,7 @@
 /Microservices/MicroServices/Mango.Services.OrderAPI/bin
 /Microservices/MicroServices/Mango.Services.RewardAPI/bin
 /Microservices/MicroServices/Mango.Services.RewardAPI/obj
+/Microservices/MicroServices/Mango.GatewaySolution/bin
+/Microservices/MicroServices/Mango.GatewaySolution/obj
 /Microservices/MicroServices/Mango.Services.ProductAPI/wwwroot/ProductImages
 
